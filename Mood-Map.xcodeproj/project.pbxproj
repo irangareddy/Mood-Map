@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1D55AE1F2A23C3C4008DEDB8 /* DesignSystem in Frameworks */ = {isa = PBXBuildFile; productRef = 1D55AE1E2A23C3C4008DEDB8 /* DesignSystem */; };
 		1D6206DC2A232B140034C0A6 /* Mood_MapApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6206DB2A232B140034C0A6 /* Mood_MapApp.swift */; };
 		1D6206DE2A232B140034C0A6 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6206DD2A232B140034C0A6 /* ContentView.swift */; };
 		1D6206E02A232B150034C0A6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1D6206DF2A232B150034C0A6 /* Assets.xcassets */; };
@@ -34,6 +35,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1D55AE172A239719008DEDB8 /* DesignSystem */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = DesignSystem; sourceTree = "<group>"; };
+		1D55AE192A23C010008DEDB8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		1D55AE1D2A23C3A3008DEDB8 /* DesignSystem */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = DesignSystem; sourceTree = "<group>"; };
 		1D6206D82A232B140034C0A6 /* Mood-Map.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Mood-Map.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1D6206DB2A232B140034C0A6 /* Mood_MapApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mood_MapApp.swift; sourceTree = "<group>"; };
 		1D6206DD2A232B140034C0A6 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -52,6 +56,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1D55AE1F2A23C3C4008DEDB8 /* DesignSystem in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -72,13 +77,31 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1D55AE182A23C00B008DEDB8 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		1D55AE1C2A23C3A3008DEDB8 /* Packages */ = {
+			isa = PBXGroup;
+			children = (
+				1D55AE1D2A23C3A3008DEDB8 /* DesignSystem */,
+			);
+			name = Packages;
+			sourceTree = "<group>";
+		};
 		1D6206CF2A232B140034C0A6 = {
 			isa = PBXGroup;
 			children = (
+				1D55AE1C2A23C3A3008DEDB8 /* Packages */,
+				1D55AE172A239719008DEDB8 /* DesignSystem */,
 				1D6206DA2A232B140034C0A6 /* Mood-Map */,
 				1D6206EC2A232B150034C0A6 /* Mood-MapTests */,
 				1D6206F62A232B150034C0A6 /* Mood-MapUITests */,
 				1D6206D92A232B140034C0A6 /* Products */,
+				1D55AE182A23C00B008DEDB8 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -95,6 +118,7 @@
 		1D6206DA2A232B140034C0A6 /* Mood-Map */ = {
 			isa = PBXGroup;
 			children = (
+				1D55AE192A23C010008DEDB8 /* Info.plist */,
 				1D6206DB2A232B140034C0A6 /* Mood_MapApp.swift */,
 				1D6206DD2A232B140034C0A6 /* ContentView.swift */,
 				1D6206DF2A232B150034C0A6 /* Assets.xcassets */,
@@ -145,6 +169,9 @@
 			dependencies = (
 			);
 			name = "Mood-Map";
+			packageProductDependencies = (
+				1D55AE1E2A23C3C4008DEDB8 /* DesignSystem */,
+			);
 			productName = "Mood-Map";
 			productReference = 1D6206D82A232B140034C0A6 /* Mood-Map.app */;
 			productType = "com.apple.product-type.application";
@@ -417,6 +444,7 @@
 				DEVELOPMENT_ASSET_PATHS = "\"Mood-Map/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Mood-Map/Info.plist";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -453,6 +481,7 @@
 				DEVELOPMENT_ASSET_PATHS = "\"Mood-Map/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Mood-Map/Info.plist";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -604,6 +633,13 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		1D55AE1E2A23C3C4008DEDB8 /* DesignSystem */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = DesignSystem;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 1D6206D02A232B140034C0A6 /* Project object */;
 }

@@ -6,9 +6,15 @@
 //
 
 import SwiftUI
+import DesignSystem
 
 @main
 struct Mood_MapApp: App {
+    
+    init() {
+      DesignSystem.registerFonts()
+    }
+    
     var body: some Scene {
         WindowGroup {
             ContentView()
