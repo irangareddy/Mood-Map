@@ -1,0 +1,324 @@
+{
+  "moods": [
+    {
+      "name": "Excited",
+      "category": "High Energy Pleasant",
+      "happiness_index": 8.5,
+      "intensity_level": 9,
+      "emoji": "😃",
+      "description": "Feeling enthusiastic and thrilled about something."
+    },
+    {
+      "name": "Energetic",
+      "category": "High Energy Pleasant",
+      "happiness_index": 8.2,
+      "intensity_level": 8,
+      "emoji": "💪",
+      "description": "Full of energy and vitality."
+    },
+    {
+      "name": "Enthusiastic",
+      "category": "High Energy Pleasant",
+      "happiness_index": 8.7,
+      "intensity_level": 9,
+      "emoji": "🌟",
+      "description": "Showing great excitement and interest in something."
+    },
+    {
+      "name": "Joyful",
+      "category": "High Energy Pleasant",
+      "happiness_index": 9.0,
+      "intensity_level": 9,
+      "emoji": "😄",
+      "description": "Experiencing great happiness and delight."
+    },
+    {
+      "name": "Happy",
+      "category": "High Energy Pleasant",
+      "happiness_index": 9.3,
+      "intensity_level": 8,
+      "emoji": "😊",
+      "description": "Feeling content and satisfied with life."
+    },
+    {
+      "name": "Content",
+      "category": "High Energy Pleasant",
+      "happiness_index": 8.8,
+      "intensity_level": 7,
+      "emoji": "😌",
+      "description": "Experiencing a sense of peaceful satisfaction."
+    },
+    {
+      "name": "Optimistic",
+      "category": "High Energy Pleasant",
+      "happiness_index": 8.6,
+      "intensity_level": 7,
+      "emoji": "🌞",
+      "description": "Having a positive outlook on life and future events."
+    },
+    {
+      "name": "Inspired",
+      "category": "High Energy Pleasant",
+      "happiness_index": 8.9,
+      "intensity_level": 8,
+      "emoji": "💡",
+      "description": "Feeling motivated and creatively stimulated."
+    },
+    {
+      "name": "Elated",
+      "category": "High Energy Pleasant",
+      "happiness_index": 9.2,
+      "intensity_level": 9,
+      "emoji": "🥳",
+      "description": "Overjoyed and ecstatic about something."
+    },
+    {
+      "name": "Ecstatic",
+      "category": "High Energy Pleasant",
+      "happiness_index": 9.5,
+      "intensity_level": 10,
+      "emoji": "🎉",
+      "description": "Experiencing extreme happiness and excitement."
+    },
+    {
+      "name": "Agitated",
+      "category": "High Energy Unpleasant",
+      "happiness_index": 3.5,
+      "intensity_level": 7,
+      "emoji": "😠",
+      "description": "Feeling annoyed and irritated."
+    },
+    {
+      "name": "Irritated",
+      "category": "High Energy Unpleasant",
+      "happiness_index": 3.7,
+      "intensity_level": 6,
+      "emoji": "😖",
+      "description": "Experiencing annoyance and frustration."
+    },
+    {
+      "name": "Anxious",
+      "category": "High Energy Unpleasant",
+      "happiness_index": 4.2,
+      "intensity_level": 8,
+      "emoji": "😰",
+      "description": "Feeling nervous and worried about something."
+    },
+    {
+      "name": "Restless",
+      "category": "High Energy Unpleasant",
+      "happiness_index": 4.0,
+      "intensity_level": 7,
+      "emoji": "😫",
+      "description": "Unable to relax or be still, often due to anxiety or stress."
+    },
+    {
+      "name": "Frustrated",
+      "category": "High Energy Unpleasant",
+      "happiness_index": 4.1,
+      "intensity_level": 7,
+      "emoji": "😣",
+      "description": "Feeling annoyed and discouraged due to obstacles or difficulties."
+    },
+    {
+      "name": "Overwhelmed",
+      "category": "High Energy Unpleasant",
+      "happiness_index": 3.8,
+      "intensity_level": 8,
+      "emoji": "😩",
+      "description": "Feeling intensely burdened or swamped by emotions or tasks."
+    },
+    {
+      "name": "Stressed",
+      "category": "High Energy Unpleasant",
+      "happiness_index": 3.3,
+      "intensity_level": 8,
+      "emoji": "😫",
+      "description": "Experiencing mental or emotional strain and tension."
+    },
+    {
+      "name": "Angry",
+      "category": "High Energy Unpleasant",
+      "happiness_index": 2.7,
+      "intensity_level": 9,
+      "emoji": "😡",
+      "description": "Feeling intense displeasure and resentment."
+    },
+    {
+      "name": "Tense",
+      "category": "High Energy Unpleasant",
+      "happiness_index": 3.0,
+      "intensity_level": 6,
+      "emoji": "😣",
+      "description": "Experiencing mental or muscle strain and uneasiness."
+    },
+    {
+      "name": "Nervous",
+      "category": "High Energy Unpleasant",
+      "happiness_index": 3.6,
+      "intensity_level": 7,
+      "emoji": "😬",
+      "description": "Feeling uneasy and apprehensive about something."
+    },
+    {
+      "name": "Relaxed",
+      "category": "Low Energy Pleasant",
+      "happiness_index": 7.8,
+      "intensity_level": 4,
+      "emoji": "😌",
+      "description": "Feeling calm and free from stress or tension."
+    },
+    {
+      "name": "Calm",
+      "category": "Low Energy Pleasant",
+      "happiness_index": 7.5,
+      "intensity_level": 3,
+      "emoji": "🧘",
+      "description": "Experiencing a state of tranquility and peace."
+    },
+    {
+      "name": "Serene",
+      "category": "Low Energy Pleasant",
+      "happiness_index": 7.9,
+      "intensity_level": 4,
+      "emoji": "🌅",
+      "description": "Feeling calm, untroubled, and at ease."
+    },
+    {
+      "name": "Peaceful",
+      "category": "Low Energy Pleasant",
+      "happiness_index": 8.1,
+      "intensity_level": 3,
+      "emoji": "☮️",
+      "description": "Experiencing a state of harmony and tranquility."
+    },
+    {
+      "name": "Tranquil",
+      "category": "Low Energy Pleasant",
+      "happiness_index": 8.0,
+      "intensity_level": 3,
+      "emoji": "🏞️",
+      "description": "Feeling calm and peaceful like a serene landscape."
+    },
+    {
+      "name": "Contented",
+      "category": "Low Energy Pleasant",
+      "happiness_index": 7.7,
+      "intensity_level": 4,
+      "emoji": "😊",
+      "description": "Experiencing a sense of satisfaction and happiness."
+    },
+    {
+      "name": "Meditative",
+      "category": "Low Energy Pleasant",
+      "happiness_index": 8.3,
+      "intensity_level": 5,
+      "emoji": "🧘‍♀️",
+      "description": "Engaged in deep contemplation and self-reflection."
+    },
+    {
+      "name": "Reflective",
+      "category": "Low Energy Pleasant",
+      "happiness_index": 8.2,
+      "intensity_level": 4,
+      "emoji": "🤔",
+      "description": "Thoughtful and contemplative about one's experiences and feelings."
+    },
+    {
+      "name": "Satisfied",
+      "category": "Low Energy Pleasant",
+      "happiness_index": 7.6,
+      "intensity_level": 4,
+      "emoji": "😌",
+      "description": "Feeling content and fulfilled with one's current state."
+    },
+    {
+      "name": "Grateful",
+      "category": "Low Energy Pleasant",
+      "happiness_index": 8.4,
+      "intensity_level": 3,
+      "emoji": "🙏",
+      "description": "Feeling thankful and appreciative for what one has."
+    },
+    {
+      "name": "Sad",
+      "category": "Low Energy Unpleasant",
+      "happiness_index": 2.5,
+      "intensity_level": 7,
+      "emoji": "😔",
+      "description": "Feeling unhappy and sorrowful."
+    },
+    {
+      "name": "Depressed",
+      "category": "Low Energy Unpleasant",
+      "happiness_index": 2.7,
+      "intensity_level": 8,
+      "emoji": "😞",
+      "description": "Experiencing a state of severe sadness and hopelessness."
+    },
+    {
+      "name": "Melancholic",
+      "category": "Low Energy Unpleasant",
+      "happiness_index": 2.3,
+      "intensity_level": 7,
+      "emoji": "😢",
+      "description": "Feeling a deep and prolonged sadness."
+    },
+    {
+      "name": "Lonely",
+      "category": "Low Energy Unpleasant",
+      "happiness_index": 2.6,
+      "intensity_level": 6,
+      "emoji": "😥",
+      "description": "Feeling isolated and lacking companionship."
+    },
+    {
+      "name": "Bored",
+      "category": "Low Energy Unpleasant",
+      "happiness_index": 3.1,
+      "intensity_level": 5,
+      "emoji": "😑",
+      "description": "Experiencing a lack of interest or excitement."
+    },
+    {
+      "name": "Apathetic",
+      "category": "Low Energy Unpleasant",
+      "happiness_index": 3.0,
+      "intensity_level": 4,
+      "emoji": "😐",
+      "description": "Feeling indifferent and lacking enthusiasm."
+    },
+    {
+      "name": "Disappointed",
+      "category": "Low Energy Unpleasant",
+      "happiness_index": 2.8,
+      "intensity_level": 5,
+      "emoji": "😞",
+      "description": "Feeling let down and unsatisfied."
+    },
+    {
+      "name": "Dull",
+      "category": "Low Energy Unpleasant",
+      "happiness_index": 3.2,
+      "intensity_level": 3,
+      "emoji": "😴",
+      "description": "Lacking interest and excitement, feeling boring."
+    },
+    {
+      "name": "Tired",
+      "category": "Low Energy Unpleasant",
+      "happiness_index": 3.3,
+      "intensity_level": 6,
+      "emoji": "😫",
+      "description": "Feeling exhausted and lacking energy."
+    },
+    {
+      "name": "Unmotivated",
+      "category": "Low Energy Unpleasant",
+      "happiness_index": 2.9,
+      "intensity_level": 4,
+      "emoji": "😒",
+      "description": "Lacking motivation and enthusiasm."
+    }
+  ]
+}
