@@ -24,7 +24,7 @@ public struct SplashView: View {
                 }
             }
             .fullScreenCover(isPresented: $showHome, content: {
-                HomeView()
+                TabbedView()
             })
     }
 }
