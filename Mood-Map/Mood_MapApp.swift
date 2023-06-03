@@ -6,18 +6,26 @@
 //
 
 import SwiftUI
-import DesignSystem
+import MoodMapKit
 
 @main
 struct Mood_MapApp: App {
-    
+    @ObservedObject var emoozee = Emoozee()
+
     init() {
-      DesignSystem.registerFonts()
+        DesignSystem.registerFonts()
+        #if os(iOS)
+        DesignSystem.registerAppaerance()
+        #endif
     }
-    
+
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .environmentObject(emoozee)
         }
+        #if os(macOS)
+        .defaultSize(width: 1000, height: 650)
+        #endif
     }
 }

@@ -6,13 +6,17 @@
 //
 
 import SwiftUI
+import MoodMapKit
 
 struct ContentView: View {
+    @EnvironmentObject var emoozee: Emoozee
+
     var body: some View {
-        VStack {
-            TypographyView()
-        }
-        .padding()
+        //        NavigationStack {
+        //            TabbedView()
+        //        }
+        SplashView()
+
     }
 }
 
@@ -21,7 +25,6 @@ struct ContentView_Previews: PreviewProvider {
         ContentView()
     }
 }
-
 
 struct TypographyView: View {
     var body: some View {
@@ -32,13 +35,13 @@ struct TypographyView: View {
                 .font(.appHeadline)
             Text("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit.")
                 .font(.appSmallSubheadline)
-  
+
             Text("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec congue nulla. Aliquam erat volutpat. Fusce quis sem tincidunt, mattis felis a, elementum sapien.")
                 .font(.appBody)
-            
+
             Text("Lorem ipsum dolor sit amet, consectetur adipiscing elit.")
                 .font(.appLargeFootnote)
-            
+
             Text("Lorem ipsum dolor sit amet, consectetur adipiscing elit.")
                 .font(.appCaption)
         }
