@@ -127,11 +127,12 @@ struct MoodCheckInView: View {
     }
 }
 
-// struct MoodCheckInView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        MoodCheckInView(selectedMood: .constant())
-//    }
-// }
+ struct MoodCheckInView_Previews: PreviewProvider {
+    static var previews: some View {
+        MoodView()
+    }
+ }
+
 #if os(iOS)
 enum PhotoActions: String, CaseIterable, Identifiable {
     case remove

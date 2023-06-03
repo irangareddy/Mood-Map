@@ -206,7 +206,6 @@ struct NotificationsScreen_Previews: PreviewProvider {
 
             // Dark Mode Preview
             NotificationsScreen(reminders: placeholderReminders)
-                .preferredColorScheme(.dark)
         }
     }
 }

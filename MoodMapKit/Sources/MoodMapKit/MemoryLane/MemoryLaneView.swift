@@ -71,7 +71,7 @@ public struct MemoryLaneView: View {
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) {
                 dateElevation()
             }
-        }.preferredColorScheme(.dark)
+        }
     }
 
     private func updateGroupedMoodEntries() {

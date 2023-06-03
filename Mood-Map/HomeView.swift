@@ -9,7 +9,19 @@ import SwiftUI
 
 struct HomeView: View {
     var body: some View {
-        Text("Home")
+        VStack {
+            Text("Home")
+            Text("Home")
+            Text("Home")
+            Text("Home")
+            Text("Home")
+            Text("Home")
+            Text("Home")
+            Text("Home")
+            Text("Home")
+            Text("Home")
+        }
+
     }
 }
 
