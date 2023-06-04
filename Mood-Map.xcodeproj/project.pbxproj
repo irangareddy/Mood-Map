@@ -34,6 +34,7 @@
 		1DC461022A2B9D23004BF432 /* spa-flower.json in Resources */ = {isa = PBXBuildFile; fileRef = 1DC460F82A2B9D23004BF432 /* spa-flower.json */; };
 		1DC461032A2B9D23004BF432 /* chart.json in Resources */ = {isa = PBXBuildFile; fileRef = 1DC460F92A2B9D23004BF432 /* chart.json */; };
 		1DC461042A2B9D23004BF432 /* home.json in Resources */ = {isa = PBXBuildFile; fileRef = 1DC460FA2A2B9D23004BF432 /* home.json */; };
+		1DC461062A2B9E96004BF432 /* CheckInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DC461052A2B9E96004BF432 /* CheckInView.swift */; };
 		1DF0B4A72A2AFF910031CB48 /* SplashView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DF0B4A62A2AFF910031CB48 /* SplashView.swift */; };
 		1DF0B4AA2A2B29D10031CB48 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 1DF0B4A92A2B29D10031CB48 /* Lottie */; };
 /* End PBXBuildFile section */
@@ -88,6 +89,7 @@
 		1DC460F82A2B9D23004BF432 /* spa-flower.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "spa-flower.json"; sourceTree = "<group>"; };
 		1DC460F92A2B9D23004BF432 /* chart.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = chart.json; sourceTree = "<group>"; };
 		1DC460FA2A2B9D23004BF432 /* home.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = home.json; sourceTree = "<group>"; };
+		1DC461052A2B9E96004BF432 /* CheckInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckInView.swift; sourceTree = "<group>"; };
 		1DF0B4A62A2AFF910031CB48 /* SplashView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -175,6 +177,7 @@
 				1DC460EC2A2B9336004BF432 /* TabbedView+Extensions.swift */,
 				1D5B94322A26096200CB7039 /* SettingsView.swift */,
 				1D39F33B2A278D8C00C2AC90 /* PlaceholderData.swift */,
+				1DC461052A2B9E96004BF432 /* CheckInView.swift */,
 			);
 			path = "Mood-Map";
 			sourceTree = "<group>";
@@ -377,6 +380,7 @@
 				1DA7C0842A24CBDE00A50A5F /* MemoryLaneView.swift in Sources */,
 				1D5B94332A26096200CB7039 /* SettingsView.swift in Sources */,
 				1D39F33C2A278D8C00C2AC90 /* PlaceholderData.swift in Sources */,
+				1DC461062A2B9E96004BF432 /* CheckInView.swift in Sources */,
 				1DB6E1D42A24EE8D00279B6E /* TabbedView.swift in Sources */,
 				1D6206DE2A232B140034C0A6 /* ContentView.swift in Sources */,
 				1D6206DC2A232B140034C0A6 /* Mood_MapApp.swift in Sources */,

@@ -42,7 +42,7 @@ struct TabbedView: View {
             Group {
                 switch selectedTab {
                 case .checkIn:
-                    HomeView()
+                    CheckInView()
                 case .memoryLane:
                     MemoryLaneViewWrapper(moodEntries: $moodEntries)
                 case .moodInsights:
