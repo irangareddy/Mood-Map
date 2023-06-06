@@ -10,10 +10,10 @@ import MoodMapKit
 import Lottie
 
 struct CheckInView: View {
-    
+
     @State private var doesPreviousEntriesExists = true
     @Environment(\.colorScheme) var scheme
-    
+
     var body: some View {
         GeometryReader { proxy in
             VStack {
@@ -28,7 +28,7 @@ struct CheckInView: View {
                             RingAnimationView()
                                 .rotationEffect(.init(degrees: 270))
                         }                    .padding(8)
-                        
+
                         VStack(spacing: 8) {
                             Image(systemName: "plus")
                                 .font(.title)
@@ -38,33 +38,27 @@ struct CheckInView: View {
                                         .fill(scheme == .dark ? Color.white : Color.black)
                                 )
                                 .foregroundColor(scheme == .dark ? Color.black : Color.white)
-                            
+
                             Text("Check In")
                                 .font(.appHeadline)
                         }
-                        
-                        
-                        
-                        
-                        
+
                     }.background(RoundedRectangle(cornerRadius: 16).foregroundColor(Color.clear))
-                        .frame(maxWidth: .infinity, maxHeight: proxy.size.height / 3)
-                    
+                    .frame(maxWidth: .infinity, maxHeight: proxy.size.height / 3)
+
                 }.padding(8)
-                
-                
+
                 VStack(alignment: .leading) {
                     if doesPreviousEntriesExists {
-                        
+
                         // TODO: Show Last 3 Activities
-                        
-                    }  else
-                    {
+
+                    } else {
                         Divider()
                             .frame(height: 2)
                             .foregroundColor(.secondary)
                             .padding(.vertical, 20)
-                            .padding(.horizontal,8)
+                            .padding(.horizontal, 8)
                         Text(NO_EMOTIONS_MESSAGES.randomElement()!)
                             .font(.appSubheadline)
                             .multilineTextAlignment(.center)
@@ -72,10 +66,9 @@ struct CheckInView: View {
                             .padding(16)
                     }
                 }
-                
-                
+
             }.navigationTitle("Check In")
-                .padding()
+            .padding()
         }
     }
 }
@@ -90,10 +83,9 @@ struct CheckInView_Previews: PreviewProvider {
     }
 }
 
-
 struct RingAnimationView: View {
     @State private var progress: CGFloat = 0.0
-    
+
     var body: some View {
         ZStack {
             Circle()
@@ -108,9 +100,9 @@ struct RingAnimationView: View {
                 )
                 .rotationEffect(.degrees(-90))
                 .opacity(fadeValue(for: progress))
-            
+
             Circle()
-            
+
                 .trim(from: progress, to: progress + 0.01) // Use a small increment
                 .stroke(style: StrokeStyle(lineWidth: 25, lineCap: .round))
                 .fill(
@@ -127,13 +119,13 @@ struct RingAnimationView: View {
             animateProgress()
         }
     }
-    
+
     private func animateProgress() {
         withAnimation(Animation.linear(duration: 4).repeatForever(autoreverses: true)) {
             progress = 1.0
         }
     }
-    
+
     private func fadeValue(for progress: CGFloat) -> Double {
         let fadeThreshold: CGFloat = 0.8
         if progress <= fadeThreshold {

@@ -12,15 +12,15 @@ import SwiftUI
 // MARK: - TabbedView
 
 struct TabbedView: View {
-    
+
     init() {
         UITabBar.appearance().isHidden = true
     }
-    
+
     // MARK: View Properties
-    
+
     @State var selectedTab: Tab = .checkIn
-    
+
     @State var animatedIcons: [AnimatedIcon] = {
         var tabs: [AnimatedIcon] = []
         for tab in Tab.allCases {
@@ -28,17 +28,16 @@ struct TabbedView: View {
         }
         return tabs
     }()
-    
+
     @Environment(\.colorScheme) var scheme
-    
-    
+
     /// Other Properties
     @ObservedObject var placeholder = PlaceholderData()
     @State private var moodEntries: [MoodEntry] = []
-    
+
     var body: some View {
         ZStack(alignment: .bottom) {
-            
+
             Group {
                 switch selectedTab {
                 case .checkIn:
@@ -50,22 +49,21 @@ struct TabbedView: View {
                 case .settings:
                     SettingsView()
                 }
-            }.frame(maxWidth: .infinity,maxHeight: .infinity)
-            
+            }.frame(maxWidth: .infinity, maxHeight: .infinity)
+
             if #available(iOS 16, *) {
                 TabBar()
                     .toolbar(.hidden, for: .tabBar)
             } else {
                 TabBar()
             }
-            
+
         } .onAppear {
             moodEntries = placeholder.moodEntries
         }
     }
 
 }
-
 
 struct TabbedView_Previews: PreviewProvider {
     static var previews: some View {
@@ -97,7 +95,7 @@ extension TabbedView {
             if selectedTab == .memoryLane { Spacer() }
             if selectedTab == .moodInsights { Spacer()
                 Spacer() }
-            Circle().fill(.pink).frame(width: 80)
+            Circle().fill(Color(hex: "#734f96")).frame(width: 80)
             if selectedTab == .checkIn { Spacer() }
             if selectedTab == .memoryLane { Spacer()
                 Spacer() }
@@ -109,7 +107,7 @@ extension TabbedView {
             if selectedTab == .moodInsights { Spacer()
                 Spacer() }
             RoundedRectangle(cornerRadius: 3)
-                .fill(.pink).frame(width: 28, height: 5)
+                .fill(Color(hex: "#734f96")).frame(width: 28, height: 5)
                 .frame(width: 88)
                 .frame(maxHeight: .infinity, alignment: .top)
             if selectedTab == .checkIn { Spacer() }
@@ -132,7 +130,7 @@ extension TabbedView {
     /// - Returns: A view representing the tab item.
     private func TabBarItem(icon: AnimatedIcon) -> some View {
         let tabColor: SwiftUI.Color = selectedTab == icon.tab ? .primary : .secondary
-        
+
         return VStack(spacing: 0) {
             ResizableLottieView(lottieView: icon.lottieView, color: tabColor)
                 .aspectRatio(contentMode: .fit)
@@ -152,4 +150,3 @@ extension TabbedView {
         }
     }
 }
-

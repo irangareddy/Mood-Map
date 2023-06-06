@@ -10,74 +10,61 @@ import MoodMapKit
 
 // MARK: - InsightsCategory
 
+let monthlyData: [[Double]] = [
+    [0.2, 0.3, 0.5, 0.7, 0.9, 0.4, 0.2, 0.1, 0.3, 0.6, 0.8, 0.9],
+    [0.1, 0.5, 0.2, 0.8, 0.6, 0.4, 0.7, 0.3, 0.5, 0.9, 0.2, 0.1],
+    [0.7, 0.3, 0.4, 0.9, 0.6, 0.8, 0.5, 0.2, 0.1, 0.3, 0.5, 0.7],
+    [0.5, 0.9, 0.2, 0.4, 0.1, 0.7, 0.6, 0.8, 0.3, 0.5, 0.9, 0.2],
+    [0.6, 0.3, 0.9, 0.5, 0.7, 0.2, 0.8, 0.1, 0.3, 0.5, 0.9, 0.4],
+    [0.8, 0.4, 0.5, 0.1, 0.9, 0.3, 0.2, 0.5, 0.7, 0.6, 0.8, 0.1]
+]
+
 enum InsightsCategory {
     case heatMap
-    case trends
-    case activity
-    case patterns
-    
+    case analysis
+
     var cardName: String {
         switch self {
         case .heatMap:
             return "Heat Map"
-        case .trends:
-            return "Mood Distribution"
-        case .activity:
-            return "Mood Correlation"
-        case .patterns:
+        case .analysis:
             return "Mood Analysis"
         }
     }
-    
+
     var title: String {
         switch self {
         case .heatMap:
             return "Heat Map"
-        case .trends:
-            return "Mood Distribution"
-        case .activity:
-            return "Mood Correlation"
-        case .patterns:
+        case .analysis:
             return "Mood Analysis"
         }
     }
-    
+
     var description: String {
         switch self {
         case .heatMap:
             return "Gain Insight into Your Check-in History and Activity Consistency Over Time"
-        case .trends:
-            return "Explore Trends and Patterns in Your Emotions"
-        case .activity:
-            return "Track and Monitor Your Mood-related Activities"
-        case .patterns:
+        case .analysis:
             return "Discover Patterns and Correlations in Your Emotions"
         }
     }
-    
+
     var randomStreakString: String {
         switch self {
         case .heatMap:
             return getRandomStreakString(days: 11)
-        case .trends:
-            return getRandomStreakString(days: nil)
-        case .activity:
-            return getRandomStreakString(days: 56)
-        case .patterns:
+        case .analysis:
             return getRandomStreakString(days: nil)
         }
     }
-    
+
     var destination: AnyView {
         switch self {
         case .heatMap:
-            return AnyView(DetailedView(title: self.cardName))
-        case .trends:
-            return AnyView(DetailedView(title: self.cardName))
-        case .activity:
-            return AnyView(DetailedView(title: self.cardName))
-        case .patterns:
-            return AnyView(DetailedView(title: self.cardName))
+            return AnyView(HeatMapView(grid: HeatMapGrid(rows: monthlyData.count, columns: monthlyData[0].count, data: monthlyData)))
+        case .analysis:
+            return AnyView(ScatterPlotView(moodEntries: []))
         }
     }
 }
@@ -85,31 +72,29 @@ enum InsightsCategory {
 // MARK: - MoodInsightsView
 
 struct MoodInsightsView: View {
-    let cardInfos: [InsightsCategory] = [.heatMap, .trends, .activity, .patterns]
+    let cardInfos: [InsightsCategory] = [.heatMap, .analysis]
 
     var body: some View {
-        NavigationView {
-            ScrollView {
-                VStack(spacing: 16) {
-                    ForEach(cardInfos, id: \.self) { cardInfo in
-                        MoodInsightsCard(
-                            title: cardInfo.title,
-                            description: cardInfo.description,
-                            randomStreakString: cardInfo.randomStreakString,
-                            content: {
-                                // Additional content for the component
-                                // Add any views you want to include here
-                                // For example:
-                                // Text("Card: \(cardInfo.cardName)")
-                            },
-                            destination: { cardInfo.destination }
-                        )
-                    }
-                    .padding(.top)
+        ScrollView {
+            VStack(spacing: 16) {
+                ForEach(cardInfos, id: \.self) { cardInfo in
+                    MoodInsightsCard(
+                        title: cardInfo.title,
+                        description: cardInfo.description,
+                        randomStreakString: cardInfo.randomStreakString,
+                        content: {
+                            // Additional content for the component
+                            // Add any views you want to include here
+                            // For example:
+                            // Text("Card: \(cardInfo.cardName)")
+                        },
+                        destination: { cardInfo.destination }
+                    )
                 }
-                .frame(maxWidth: .infinity)
-                .navigationTitle("Mood Insights")
+                .padding(.top)
             }
+            .frame(maxWidth: .infinity)
+            .navigationTitle("Mood Insights")
         }
     }
 }
@@ -140,7 +125,7 @@ struct MoodInsightsCard<Content: View>: View {
                         VStack(alignment: .leading, spacing: 0) {
                             Text(title)
                                 .font(.appTitle3)
-                            .padding(.bottom, 8)
+                                .padding(.bottom, 8)
                             Text(description)
                                 .font(.caption)
                                 .foregroundColor(.primary)
@@ -152,8 +137,6 @@ struct MoodInsightsCard<Content: View>: View {
                             .padding(.trailing, 4)
                     }
                 })
-
-
 
             Text(randomStreakString)
                 .padding(.vertical)
@@ -167,7 +150,6 @@ struct MoodInsightsCard<Content: View>: View {
         .padding(.horizontal)
     }
 }
-
 
 // MARK: - DetailedView
 

@@ -45,93 +45,92 @@ struct MoodCheckInView: View {
     @ObservedObject var emoozee = Emoozee()
 
     var body: some View {
-        NavigationStack {
 
-            Form {
-                Section(header: Text("Mood"), footer: Text("Choose your current mood").font(.appCaption)) {
-                    Picker(selection: $selectedMood, label: Text("Feeling")) {
-                        ForEach(emoozee.moodData.moods) { mood in
-                            Text(mood.title)
-                                .tag(mood)
-                        }
-                    }
-                    .pickerStyle(.menu)
-                }
-
-                Section(header: Text("Add a note"), footer: Text("Write down any additional notes about your mood").font(.appCaption)) {
-                    TextEditor(text: $notes)
-                        .frame(height: 100)
-                }
-
-                Section(header: Text("Media"), footer: Text("Add a touch of magic to your mood with media").font(.appCaption)) {
-                    #if os(iOS)
-                    PhotoPickerView()
-                    #endif
-                    HStack {
-                        Text("Add a voice note")
-                            .font(.appBody)
-                        Spacer()
-                        Image(systemName: "mic")
-                    }
-
-                }
-
-                Section(header: Text("Place"), footer: Text("Select your current location or environment").font(.appCaption)) {
-                    Picker(selection: $place, label: Text("Feeling")) {
-                        ForEach(Place.allCases) { place in
-                            Text(place.rawValue.capitalized)
-                                .tag(place)
-                        }
-                    }
-                    .pickerStyle(.menu)
-                }
-
-                Section(header: Text("Well-being"), footer: Text("Track your exercise and sleep hours").font(.appCaption)) {
-                    HStack {
-                        Text("Exercise")
-                        Spacer()
-                        TextField("Hours", text: $exerciseHours)
-                            .keyboardType(.numberPad)
-                            .frame(width: 100)
-                            .multilineTextAlignment(.trailing)
-                    }
-
-                    HStack {
-                        Text("Sleep")
-                        Spacer()
-                        TextField("Hours", text: $sleepHours)
-                            .keyboardType(.numberPad)
-                            .frame(width: 100)
-                            .multilineTextAlignment(.trailing)
+        Form {
+            Section(header: Text("Mood"), footer: Text("Choose your current mood").font(.appCaption)) {
+                Picker(selection: $selectedMood, label: Text("Feeling")) {
+                    ForEach(emoozee.moodData.moods) { mood in
+                        Text(mood.title)
+                            .tag(mood)
                     }
                 }
-
-                Section(header: Text("Weather"), footer: Text("Select the weather condition").font(.appCaption)) {
-                    Picker(selection: $weather, label: Text("Feeling")) {
-                        ForEach(Weather.allCases) { weather in
-                            Text(weather.rawValue.capitalized)
-                                .tag(weather)
-                        }
-                    }
-                    .pickerStyle(.menu)
-                }
-
-            }.safeAreaInset(edge: .bottom) {
-                FloatingButton(action: {
-                    // Perform some action here...
-                }, icon: "plus")
+                .pickerStyle(.menu)
             }
 
-            .navigationTitle("Mood Check-In")
+            Section(header: Text("Add a note"), footer: Text("Write down any additional notes about your mood").font(.appCaption)) {
+                TextEditor(text: $notes)
+                    .frame(height: 100)
+            }
+
+            Section(header: Text("Media"), footer: Text("Add a touch of magic to your mood with media").font(.appCaption)) {
+                #if os(iOS)
+                PhotoPickerView()
+                #endif
+                HStack {
+                    Text("Add a voice note")
+                        .font(.appBody)
+                    Spacer()
+                    Image(systemName: "mic")
+                }
+
+            }
+
+            Section(header: Text("Place"), footer: Text("Select your current location or environment").font(.appCaption)) {
+                Picker(selection: $place, label: Text("Feeling")) {
+                    ForEach(Place.allCases) { place in
+                        Text(place.rawValue.capitalized)
+                            .tag(place)
+                    }
+                }
+                .pickerStyle(.menu)
+            }
+
+            Section(header: Text("Well-being"), footer: Text("Track your exercise and sleep hours").font(.appCaption)) {
+                HStack {
+                    Text("Exercise")
+                    Spacer()
+                    TextField("Hours", text: $exerciseHours)
+                        .keyboardType(.numberPad)
+                        .frame(width: 100)
+                        .multilineTextAlignment(.trailing)
+                }
+
+                HStack {
+                    Text("Sleep")
+                    Spacer()
+                    TextField("Hours", text: $sleepHours)
+                        .keyboardType(.numberPad)
+                        .frame(width: 100)
+                        .multilineTextAlignment(.trailing)
+                }
+            }
+
+            Section(header: Text("Weather"), footer: Text("Select the weather condition").font(.appCaption)) {
+                Picker(selection: $weather, label: Text("Feeling")) {
+                    ForEach(Weather.allCases) { weather in
+                        Text(weather.rawValue.capitalized)
+                            .tag(weather)
+                    }
+                }
+                .pickerStyle(.menu)
+            }
+
+        }.safeAreaInset(edge: .bottom) {
+            FloatingButton(action: {
+                // Perform some action here...
+            }, icon: "plus")
         }
+
+        .navigationTitle("Mood Check-In")
     }
+
 }
 
- struct MoodCheckInView_Previews: PreviewProvider {
+struct MoodCheckInView_Previews: PreviewProvider {
     static var previews: some View {
         MoodView()
     }
- }
+}
 
 #if os(iOS)
 enum PhotoActions: String, CaseIterable, Identifiable {

@@ -12,7 +12,7 @@ import Foundation
 /// The `MoodCategory` enum provides options to categorize moods based on their energy level and pleasantness. Each category represents a specific combination of energy and pleasantness, allowing for a more detailed classification of moods. The enum is designed to be used in conjunction with mood-related data and can help organize and analyze mood-related information effectively.
 ///
 /// - Note: For more information about mood categories, you can refer to [Google's Mood Categories](https://www.google.com).
-public enum MoodCategory: String, Codable {
+public enum MoodCategory: String, Codable, CaseIterable {
     /// The high energy pleasant category.
     case highEnergyPleasant = "High Energy Pleasant"
 

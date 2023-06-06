@@ -30,34 +30,34 @@ public struct MemoryLaneView: View {
     }
 
     public var body: some View {
-        NavigationStack {
-            ScrollViewReader { proxy in
-                ScrollView(.vertical, showsIndicators: false) {
-                    VStack {
-                        ForEach(groupedMoodEntries) { scrollMood in
-                            MoodEntryCardView(scrollMood: scrollMood)
-                                .id(scrollMood.id)
-                                .onAppear {
-                                    if scrollMood.isCurrent {
-                                        DispatchQueue.main.async {
-                                            currentActiveIndex = scrollMood.index
-                                            proxy.scrollTo(scrollMood.id, anchor: .top)
-                                        }
+
+        ScrollViewReader { proxy in
+            ScrollView(.vertical, showsIndicators: false) {
+                VStack {
+                    ForEach(groupedMoodEntries) { scrollMood in
+                        MoodEntryCardView(scrollMood: scrollMood)
+                            .id(scrollMood.id)
+                            .onAppear {
+                                if scrollMood.isCurrent {
+                                    DispatchQueue.main.async {
+                                        currentActiveIndex = scrollMood.index
+                                        proxy.scrollTo(scrollMood.id, anchor: .top)
                                     }
                                 }
+                            }
 
-                        }
-                    }
-                    .padding(.top, 15)
-                    .padding(.trailing, 120)
-                }
-                .onChange(of: currentActiveIndex) { newValue in
-                    withAnimation(.easeInOut(duration: 0.15)) {
-                        proxy.scrollTo(groupedMoodEntries[newValue].id, anchor: .top)
                     }
                 }
-            }.navigationTitle("Memory Lane")
-        }
+                .padding(.top, 15)
+                .padding(.trailing, 120)
+            }
+            .onChange(of: currentActiveIndex) { newValue in
+                withAnimation(.easeInOut(duration: 0.15)) {
+                    proxy.scrollTo(groupedMoodEntries[newValue].id, anchor: .top)
+                }
+            }
+        }.navigationTitle("Memory Lane")
+
         .overlay(alignment: .trailing) {
             VStack(alignment: .trailing) {
                 Text("2023")

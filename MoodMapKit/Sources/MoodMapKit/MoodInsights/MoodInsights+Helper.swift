@@ -1,6 +1,6 @@
 //
 //  MoodInsights+Helper.swift
-//  
+//
 //
 //  Created by Ranga Reddy Nukala on 04/06/23.
 //
@@ -59,4 +59,159 @@ public func getRandomStreakString(days: Int?) -> String {
     } else {
         return messages[index]
     }
+}
+
+/// A utility class for generating a list of weeks within a specified range of years.
+public class WeekListGenerator {
+    /// Generates a list of weeks from the start year to the current date.
+    ///
+    /// - Parameters:
+    ///   - startYear: The start year for generating the week list.
+    /// - Returns: An array of strings representing the weeks.
+    public static func generateWeekList(startYear: Int) -> [String] {
+        let dateFormatterWithYear = DateFormatter()
+        dateFormatterWithYear.dateFormat = "MMM d, yyyy"
+
+        let dateFormatterWithoutYear = DateFormatter()
+        dateFormatterWithoutYear.dateFormat = "MMM d"
+
+        var weekList: [String] = []
+
+        let calendar = Calendar.current
+        let currentDate = Date()
+
+        var startDateComponents = DateComponents()
+        startDateComponents.year = startYear
+        startDateComponents.weekOfYear = 1
+
+        guard let startDate = calendar.date(from: startDateComponents) else {
+            return weekList
+        }
+
+        var currentDateValue = startDate
+        while currentDateValue <= currentDate {
+            let weekStartDate = calendar.date(from: calendar.dateComponents([.yearForWeekOfYear, .weekOfYear], from: currentDateValue))
+
+            let weekEndDateComponents = DateComponents(weekday: 7)
+            let weekEndDate = calendar.nextDate(after: weekStartDate!, matching: weekEndDateComponents, matchingPolicy: .nextTime)
+
+            if let weekStartDate = weekStartDate, let weekEndDate = weekEndDate {
+                let formattedStartDate = dateFormatterWithoutYear.string(from: weekStartDate)
+                let formattedEndDate = dateFormatterWithYear.string(from: weekEndDate)
+
+                let weekString = "\(formattedStartDate) - \(formattedEndDate)"
+                weekList.append(weekString)
+            }
+
+            currentDateValue = calendar.date(byAdding: .weekOfYear, value: 1, to: currentDateValue)!
+        }
+
+        if let currentDateInWeek = calendar.date(from: calendar.dateComponents([.yearForWeekOfYear, .weekOfYear], from: currentDate)) {
+            let formattedCurrentWeek = dateFormatterWithYear.string(from: currentDateInWeek)
+            weekList.append(formattedCurrentWeek)
+        }
+
+        return weekList.reversed()
+    }
+
+    /// Check if the given date string represents the current week.
+    /// - Parameter dateString: The date string to check.
+    /// - Returns: `true` if the date string represents the current week, `false` otherwise.
+    public static func isCurrentWeek(dateString: String) -> Bool {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MMM d, yyyy"
+
+        let currentDate = Date()
+
+        let trimmedDateString = dateString.trimmingCharacters(in: .whitespacesAndNewlines)
+
+        // Check if the date string contains a date range
+        if trimmedDateString.contains("-") {
+            dateFormatter.dateFormat = "MMM d - MMM d, yyyy"
+
+            guard let startDateRange = trimmedDateString.range(of: "-"),
+                  startDateRange.lowerBound > trimmedDateString.startIndex && startDateRange.upperBound < trimmedDateString.endIndex else {
+                return false
+            }
+
+            let startDateString = trimmedDateString[..<startDateRange.lowerBound].trimmingCharacters(in: .whitespacesAndNewlines)
+            let endDateString = trimmedDateString[startDateRange.upperBound...].trimmingCharacters(in: .whitespacesAndNewlines)
+
+            guard let startDate = dateFormatter.date(from: String(startDateString)),
+                  let endDate = dateFormatter.date(from: String(endDateString)) else {
+                return false
+            }
+
+            let calendar = Calendar.current
+
+            let currentWeekStartDate = calendar.date(from: calendar.dateComponents([.yearForWeekOfYear, .weekOfYear], from: currentDate))
+            let currentWeekEndDate = calendar.date(byAdding: .weekOfYear, value: 1, to: currentWeekStartDate!)
+
+            return startDate >= currentWeekStartDate! && endDate <= currentWeekEndDate!
+        }
+        // Check if the date string is in the format "MMM d, yyyy"
+        else {
+            guard let date = dateFormatter.date(from: trimmedDateString) else {
+                return false
+            }
+
+            let calendar = Calendar.current
+
+            let currentWeekStartDate = calendar.date(from: calendar.dateComponents([.yearForWeekOfYear, .weekOfYear], from: currentDate))
+            let currentWeekEndDate = calendar.date(byAdding: .weekOfYear, value: 1, to: currentWeekStartDate!)
+
+            return date >= currentWeekStartDate! && date <= currentWeekEndDate!
+        }
+    }
+
+    /// Check if the given date string represents the last week.
+    /// - Parameter dateString: The date string to check.
+    /// - Returns: `true` if the date string represents the last week, `false` otherwise.
+    public static func isLastWeek(dateString: String) -> Bool {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MMM d, yyyy"
+
+        let currentDate = Date()
+
+        let trimmedDateString = dateString.trimmingCharacters(in: .whitespacesAndNewlines)
+
+        // Check if the date string contains a date range
+        if trimmedDateString.contains("-") {
+            dateFormatter.dateFormat = "MMM d - MMM d, yyyy"
+
+            guard let startDateRange = trimmedDateString.range(of: "-"),
+                  startDateRange.lowerBound > trimmedDateString.startIndex && startDateRange.upperBound < trimmedDateString.endIndex else {
+                return false
+            }
+
+            let startDateString = trimmedDateString[..<startDateRange.lowerBound].trimmingCharacters(in: .whitespacesAndNewlines)
+            let endDateString = trimmedDateString[startDateRange.upperBound...].trimmingCharacters(in: .whitespacesAndNewlines)
+
+            guard let startDate = dateFormatter.date(from: String(startDateString)),
+                  let endDate = dateFormatter.date(from: String(endDateString)) else {
+                return false
+            }
+
+            let calendar = Calendar.current
+
+            let lastWeekStartDate = calendar.date(byAdding: .weekOfYear, value: -1, to: currentDate)
+            let lastWeekEndDate = calendar.date(from: calendar.dateComponents([.yearForWeekOfYear, .weekOfYear], from: lastWeekStartDate!))
+
+            return startDate >= lastWeekStartDate! && endDate <= lastWeekEndDate!
+        }
+        // Check if the date string is in the format "MMM d, yyyy"
+        else {
+            guard let date = dateFormatter.date(from: trimmedDateString) else {
+                return false
+            }
+
+            let calendar = Calendar.current
+
+            let lastWeekStartDate = calendar.date(byAdding: .weekOfYear, value: -1, to: currentDate)
+            let lastWeekEndDate = calendar.date(from: calendar.dateComponents([.yearForWeekOfYear, .weekOfYear], from: lastWeekStartDate!))
+
+            return date >= lastWeekStartDate! && date <= lastWeekEndDate!
+        }
+    }
+
 }

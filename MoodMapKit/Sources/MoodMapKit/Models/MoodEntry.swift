@@ -78,6 +78,23 @@ public struct MoodEntry: Equatable, Codable, Hashable, Identifiable {
         }
     }
 
+    /// The weekday associated with the mood entry.
+    public var weekday: String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSSSS"
+
+        if let date = formatter.date(from: timestamp) {
+            let calendar = Calendar.current
+            let weekdayNumber = calendar.component(.weekday, from: date)
+
+            let weekdaySymbol = calendar.weekdaySymbols[weekdayNumber - 1].capitalizedFirstLetter()
+
+            return weekdaySymbol ?? "Unknown"
+        }
+
+        return "Unknown"
+    }
+
     /// The user-friendly representation of the date in short format.
     public var userFriendlyDate: String {
         let formatter = DateFormatter()
@@ -85,5 +102,15 @@ public struct MoodEntry: Equatable, Codable, Hashable, Identifiable {
         formatter.timeStyle = .none
 
         return formatter.string(from: date)
+    }
+}
+
+// Helper extension to capitalize the first letter of a string
+extension String {
+    func capitalizedFirstLetter() -> String {
+        guard let firstLetter = self.first else {
+            return self
+        }
+        return firstLetter.uppercased() + self.dropFirst()
     }
 }

@@ -29,7 +29,7 @@ class PlaceholderData: ObservableObject {
 
         do {
             let moodEntries = try decoder.decode([MoodEntry].self, from: data)
-            self.moodEntries = moodEntries
+            self.moodEntries = moodEntries.reversed()
             print("Loaded placeholder data successfully.")
         } catch {
             print("Error decoding placeholder data: \(error)")

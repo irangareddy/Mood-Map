@@ -53,65 +53,64 @@ struct SettingsView: View {
     }
 
     var body: some View {
-        NavigationView {
-            VStack(alignment: .leading, spacing: 0) {
-                WaveDividerView()
-                VStack(alignment: .leading) {
-                    Text("Appearence".capitalized)
-                        .font(.appSmallSubheadline)
-                    // Color Picker
-                    Picker(selection: $chosenColorScheme, label: Text("Choose scheme")) {
-                        ForEach(ColorSchemeSetting.allCases, id: \.self) { colorScheme in
-                            Text(colorScheme.rawValue.capitalized)
-                                .font(.appCaption)
-                        }
+        VStack(alignment: .leading, spacing: 0) {
+            WaveDividerView()
+            VStack(alignment: .leading) {
+                Text("Appearence".capitalized)
+                    .font(.appSmallSubheadline)
+                // Color Picker
+                Picker(selection: $chosenColorScheme, label: Text("Choose scheme")) {
+                    ForEach(ColorSchemeSetting.allCases, id: \.self) { colorScheme in
+                        Text(colorScheme.rawValue.capitalized)
+                            .font(.appCaption)
                     }
-                    .pickerStyle(.segmented)
+                }
+                .pickerStyle(.segmented)
 
-                    // Footer
-                    Text("Select a color scheme for your app")
-                        .font(.appCaption)
-                        .foregroundColor(.secondary)
+                // Footer
+                Text("Select a color scheme for your app")
+                    .font(.appCaption)
+                    .foregroundColor(.secondary)
 
-                    ColorPicker("Select an accent color", selection: $selectedColor)
-                        .font(.appSmallSubheadline)
-                        .onChange(of: selectedColor) { newValue in
-                            saveAccentColor(newValue)
-                            #if os(iOS)
-                            updateAppAccentColor(newValue)
-                            #endif
-                        }
-                    Text("Select a accent color for your app")
-                        .font(.appCaption)
-                        .foregroundColor(.secondary)
-                }.padding()
-                WaveDividerView()
-                Group {
-                    VStack(alignment: .leading) {
-                        Text("General")
-                            .font(.appSmallSubheadline)
-                            .padding()
-                        //                        NavigationButton(destination: AccountSettingsView(), label: "Account Settings", systemImage: "person")
-                        //                        NavigationButton(destination: NotificationsScreen(reminders: []), label: "Notifications", systemImage: "bell")
-                        //                        NavigationButton(destination: AboutView(), label: "About", systemImage: "info.bubble")
+                ColorPicker("Select an accent color", selection: $selectedColor)
+                    .font(.appSmallSubheadline)
+                    .onChange(of: selectedColor) { newValue in
+                        saveAccentColor(newValue)
                         #if os(iOS)
-                        MailButton()
+                        updateAppAccentColor(newValue)
                         #endif
                     }
+                Text("Select a accent color for your app")
+                    .font(.appCaption)
+                    .foregroundColor(.secondary)
+            }.padding()
+            WaveDividerView()
+            Group {
+                VStack(alignment: .leading) {
+                    Text("General")
+                        .font(.appSmallSubheadline)
+                        .padding()
+                    //                        NavigationButton(destination: AccountSettingsView(), label: "Account Settings", systemImage: "person")
+                    //                        NavigationButton(destination: NotificationsScreen(reminders: []), label: "Notifications", systemImage: "bell")
+                    //                        NavigationButton(destination: AboutView(), label: "About", systemImage: "info.bubble")
+                    #if os(iOS)
+                    MailButton()
+                    #endif
+                }
 
-                }.padding(.top, 4)
+            }.padding(.top, 4)
 
-                Spacer()
-            }
-            .navigationTitle("Settings")
-            .preferredColorScheme(selectedColorScheme)
-            .onAppear {
-                loadAccentColor()
-                #if os(iOS)
-                updateAppAccentColor(selectedColor)
-                #endif
-            }
+            Spacer()
         }
+        .navigationTitle("Settings")
+        .preferredColorScheme(selectedColorScheme)
+        .onAppear {
+            loadAccentColor()
+            #if os(iOS)
+            updateAppAccentColor(selectedColor)
+            #endif
+        }
+
     }
 
     private func saveAccentColor(_ color: Color) {
