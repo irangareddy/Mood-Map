@@ -14,15 +14,18 @@ import Lottie
 public struct ResizableLottieView: UIViewRepresentable {
     var lottieView: LottieAnimationView!
     var color: SwiftUI.Color = Color.black
+    var loopMode: LottieLoopMode
 
-    public init(lottieView: LottieAnimationView!, color: SwiftUI.Color) {
+    public init(lottieView: LottieAnimationView!, color: SwiftUI.Color, loopMode: LottieLoopMode = .loop) {
         self.lottieView = lottieView
         self.color = color
+        self.loopMode = loopMode
     }
 
     public func makeUIView(context: Context) -> LottieAnimationView {
         let view = LottieAnimationView()
         view.backgroundColor = .clear
+        view.loopMode = loopMode
         addLottieView(to: view)
         return view
     }

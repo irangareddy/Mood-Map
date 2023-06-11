@@ -47,3 +47,32 @@ public enum Tab: String, CaseIterable, Identifiable {
         }
     }
 }
+
+public enum MoodMapAnimatedIcons: String, CaseIterable, Identifiable {
+    /// The unique identifier for the tab.
+    public var id: String {
+        return rawValue
+    }
+
+    case microphoneRecording
+    case memoryLane
+    case moodInsights
+    case settings
+    case speaker
+
+    /// The name of the Lottie animation file associated with the tab.
+    public var fileName: String {
+        switch self {
+        case .speaker:
+            return "speaker"
+        case .microphoneRecording:
+            return "microphone-recording"
+        case .memoryLane:
+            return "spa-flower"
+        case .moodInsights:
+            return "chart"
+        case .settings:
+            return "avatar"
+        }
+    }
+}

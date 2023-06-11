@@ -12,9 +12,10 @@ struct ContentView: View {
     @EnvironmentObject var emoozee: Emoozee
 
     var body: some View {
-        NavigationStack {
-            TabbedView()
-        }
+        //        NavigationStack {
+        //            TabbedView()
+        //        }
+        VoiceNoteIntentView()
 
     }
 }
