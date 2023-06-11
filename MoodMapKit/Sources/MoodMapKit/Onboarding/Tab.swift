@@ -59,6 +59,13 @@ public enum MoodMapAnimatedIcons: String, CaseIterable, Identifiable {
     case moodInsights
     case settings
     case speaker
+    case camera
+    case document
+    case edit
+    case exercise
+    case location
+    case sleep
+    case weather
 
     /// The name of the Lottie animation file associated with the tab.
     public var fileName: String {
@@ -73,6 +80,20 @@ public enum MoodMapAnimatedIcons: String, CaseIterable, Identifiable {
             return "chart"
         case .settings:
             return "avatar"
+        case .camera:
+            return "camera"
+        case .document:
+            return "document"
+        case .edit:
+            return "edit"
+        case .exercise:
+            return "exercise"
+        case .location:
+            return "location"
+        case .sleep:
+            return "sleep"
+        case .weather:
+            return "weather"
         }
     }
 }

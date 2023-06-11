@@ -82,6 +82,9 @@ public class Emoozee: ObservableObject {
     public func placeholderMoods() -> [Mood] {
         let shuffledMoods = moodData.moods.shuffled()
         let endIndex = min(40, shuffledMoods.count)
+        if let firstMood = shuffledMoods.first {
+            self.placeholderMood = firstMood
+        }
         return Array(shuffledMoods[0..<endIndex])
     }
 }

@@ -8,129 +8,241 @@
 import SwiftUI
 import MoodMapKit
 import PhotosUI
+import Lottie
+
+// MARK: - MoodView
 
 struct MoodView: View {
     @ObservedObject var emoozee = Emoozee()
     @State private var moodSelected: Mood?
 
     var body: some View {
-        VStack(alignment: .leading) {
-            if moodSelected != nil {
+        MoodGridView(moodSelected: $moodSelected,
+                     moods: emoozee.moodData.moods,
+                     closeView: {
+                        NavigationController.popView()
+                     },
+                     circleTappedAction: {
+                        NavigationController.pushController(UIHostingController(rootView: MoodCheckInView(selectedMood: $moodSelected)))
 
-                Text("Feeling \(moodSelected?.name ?? "")")
-                    .font(.appTitle2)
-                    .transition(.slide)
-            } else {
-                Text("How are you feeling?")
-                    .font(.appTitle2)
-                    .transition(.slide)
-            }
-
-            MoodGridView(moodSelected: $moodSelected, moods: emoozee.moodData.moods)
-
-        }
-        .padding()
+                     })
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 }
 
+public func lottieView(for icon: MoodMapAnimatedIcons) -> LottieAnimationView {
+    return LottieAnimationView(name: icon.fileName, bundle: .main)
+}
+
+// MARK: - MoodCheckInView
+
 struct MoodCheckInView: View {
-    @Binding var selectedMood: Mood
+    @Binding var selectedMood: Mood?
+    @State private var date: Date = .now
     @State private var picture: Image?
     @State private var audio: Data?
     @State private var notes: String = ""
-    @State private var place: Place?
+    @State private var place: String = ""
     @State private var exerciseHours: String = ""
     @State private var sleepHours: String = ""
-    @State private var weather: Weather?
-    @ObservedObject var emoozee = Emoozee()
+    @State private var weather: String = ""
+    @Environment(\.presentationMode) var presentationMode
 
     var body: some View {
-
-        Form {
-            Section(header: Text("Mood"), footer: Text("Choose your current mood").font(.appCaption)) {
-                Picker(selection: $selectedMood, label: Text("Feeling")) {
-                    ForEach(emoozee.moodData.moods) { mood in
-                        Text(mood.title)
-                            .tag(mood)
+        GeometryReader { geometry in
+            ScrollView {
+                VStack(alignment: .leading) {
+                    // Top
+                    VStack(alignment: .leading) {
+                        Text("I'm feeling")
+                        Text(selectedMood!.name)
+                            .foregroundColor(backgroundForCategory(MoodCategory(rawValue: (selectedMood?.category)!.rawValue) ?? MoodCategory.highEnergyPleasant))
                     }
+                    .font(.appTitle2)
+                    .multilineTextAlignment(.leading)
+
+                    DateLabel(selectedDate: $date, lottieView: lottieView(for: .edit))
+
+                    // Photo Picker
+                    PhotoPickerView()
+
+                    // Voice Note
+                    VoiceNoteView(lottieView: lottieView(for: .microphoneRecording))
+
+                    // Note
+                    NoteView(notes: $notes, geometry: geometry)
+
+                    // Tags
+                    TagsView(title: "Where are you?", cases: getAllRawValues(ofEnum: Place.self), lottieIcon: MoodMapAnimatedIcons.location, geometry: geometry, size: 5, selectedValue: $place)
+
+                    TagsView(title: "Weather", cases: getAllRawValues(ofEnum: Weather.self), lottieIcon: MoodMapAnimatedIcons.weather, geometry: geometry, size: 5, selectedValue: $weather)
+                        .padding(.top, 8)
+
+                    // Exercise
+                    ExerciseView(lottieView: lottieView(for: .exercise), exerciseHours: $exerciseHours)
+
+                    // Sleep
+                    SleepView(lottieView: lottieView(for: .sleep), sleepHours: $sleepHours)
+
                 }
-                .pickerStyle(.menu)
+                .padding()
             }
-
-            Section(header: Text("Add a note"), footer: Text("Write down any additional notes about your mood").font(.appCaption)) {
-                TextEditor(text: $notes)
-                    .frame(height: 100)
+            .redacted(reason: selectedMood == nil ? .placeholder : [])
+            .safeAreaInset(edge: .bottom) {
+                FloatingButton(action: {
+                    // Perform some action here...
+                    createEntry()
+                    NavigationController.popToRootView()
+                }, icon: "plus")
             }
+        }
+    }
 
-            Section(header: Text("Media"), footer: Text("Add a touch of magic to your mood with media").font(.appCaption)) {
-                #if os(iOS)
-                PhotoPickerView()
-                #endif
-                HStack {
-                    Text("Add a voice note")
-                        .font(.appBody)
-                    Spacer()
-                    Image(systemName: "mic")
-                }
-
-            }
-
-            Section(header: Text("Place"), footer: Text("Select your current location or environment").font(.appCaption)) {
-                Picker(selection: $place, label: Text("Feeling")) {
-                    ForEach(Place.allCases) { place in
-                        Text(place.rawValue.capitalized)
-                            .tag(place)
-                    }
-                }
-                .pickerStyle(.menu)
-            }
-
-            Section(header: Text("Well-being"), footer: Text("Track your exercise and sleep hours").font(.appCaption)) {
-                HStack {
-                    Text("Exercise")
-                    Spacer()
-                    TextField("Hours", text: $exerciseHours)
-                        .keyboardType(.numberPad)
-                        .frame(width: 100)
-                        .multilineTextAlignment(.trailing)
-                }
-
-                HStack {
-                    Text("Sleep")
-                    Spacer()
-                    TextField("Hours", text: $sleepHours)
-                        .keyboardType(.numberPad)
-                        .frame(width: 100)
-                        .multilineTextAlignment(.trailing)
-                }
-            }
-
-            Section(header: Text("Weather"), footer: Text("Select the weather condition").font(.appCaption)) {
-                Picker(selection: $weather, label: Text("Feeling")) {
-                    ForEach(Weather.allCases) { weather in
-                        Text(weather.rawValue.capitalized)
-                            .tag(weather)
-                    }
-                }
-                .pickerStyle(.menu)
-            }
-
-        }.safeAreaInset(edge: .bottom) {
-            FloatingButton(action: {
-                // Perform some action here...
-            }, icon: "plus")
+    private func createEntry() {
+        guard let selectedMood = selectedMood else {
+            print("No selected mood")
+            return
         }
 
-        .navigationTitle("Mood Check-In")
+        let weatherEnum = Weather.allCases.first { $0.rawValue == weather.lowercased() }
+        let placeEnum = Place.allCases.first { $0.rawValue == place.lowercased() }
+
+        print("Selected Mood: \(selectedMood)")
+        print("Date: \(date)")
+        print("Notes: \(notes)")
+        print("Audio: \(String(describing: audio))")
+        print("Picture: \(String(describing: picture))")
+        print("Weather: \(weatherEnum?.rawValue ?? "Unknown")")
+        print("Place: \(placeEnum?.rawValue ?? "Unknown")")
+        print("Sleep Hours: \(sleepHours)")
+        print("Exercise Hours: \(exerciseHours)")
     }
 
 }
+
+// MARK: - VoiceNoteView
+
+struct VoiceNoteView: View {
+    let lottieView: LottieAnimationView
+
+    var body: some View {
+        VStack {
+            HStack(spacing: 10) {
+                Text("Add a voice note")
+                    .font(.appBody)
+                Spacer()
+                ResizableLottieView(lottieView: lottieView, color: Color.accentColor)
+                    .frame(width: 30, height: 30)
+                    .onAppear {
+                        lottieView.play { _ in
+                        }
+                    }
+                    .blendMode(.normal)
+            }.padding(.vertical, 2)
+            Divider()
+        }
+    }
+}
+
+// MARK: - NOTE VIEW
+
+struct NoteView: View {
+    @Binding var notes: String
+    var geometry: GeometryProxy
+
+    var body: some View {
+        VStack {
+            HStack(alignment: .center) {
+                Text("Add a note")
+                    .font(.appBody)
+                Spacer()
+                ResizableLottieView(lottieView: LottieAnimationView(name: MoodMapAnimatedIcons.document.fileName, bundle: .main), color: Color.accentColor)
+                    .frame(width: 30, height: 30)
+                    .blendMode(.normal)
+            }
+            TextEditor(text: $notes)
+                .foregroundColor(Color.gray)
+                .frame(height: geometry.size.height/10)
+            Divider()
+        }
+        .padding(.vertical, 2)
+    }
+}
+
+// MARK: - EXERCISE VIEW
+
+struct ExerciseView: View {
+    let lottieView: LottieAnimationView
+    @Binding var exerciseHours: String
+
+    var body: some View {
+        VStack {
+            HStack {
+                ResizableLottieView(lottieView: lottieView, color: Color.accentColor)
+                    .frame(width: 30, height: 30)
+                    .onAppear {
+                        lottieView.play { _ in
+                        }
+                    }
+                    .blendMode(.normal)
+                Text("Exercise")
+                Spacer()
+                TextField("Hours", text: $exerciseHours)
+                    .keyboardType(.numberPad)
+                    .frame(width: 100)
+                    .multilineTextAlignment(.trailing)
+            }
+            .padding(.top, 8)
+            Divider()
+        }
+    }
+}
+
+// MARK: - SLEEP VIEW
+
+struct SleepView: View {
+    let lottieView: LottieAnimationView
+    @Binding var sleepHours: String
+
+    var body: some View {
+        VStack {
+            HStack {
+                ResizableLottieView(lottieView: lottieView, color: Color.accentColor)
+                    .frame(width: 30, height: 30)
+                    .onAppear {
+                        lottieView.play { _ in
+                        }
+                    }
+                    .blendMode(.normal)
+                Text("Sleep")
+                Spacer()
+                TextField("Hours", text: $sleepHours)
+                    .keyboardType(.numberPad)
+                    .frame(width: 100)
+                    .multilineTextAlignment(.trailing)
+            }
+            .padding(.top, 8)
+        }
+    }
+}
+
+// MARK: - MoodCheckInView Previews
 
 struct MoodCheckInView_Previews: PreviewProvider {
     static var previews: some View {
-        MoodView()
+        let emoozee = Emoozee()
+        let placeholderMood = emoozee.placeholderMoods().first
+        return MoodCheckInView(selectedMood: .constant(placeholderMood))
     }
 }
+
+// struct MoodCheckInView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        MoodView()
+//    }
+// }
+
+// MARK: - PhotoActions
 
 #if os(iOS)
 enum PhotoActions: String, CaseIterable, Identifiable {
@@ -147,11 +259,14 @@ enum PhotoActions: String, CaseIterable, Identifiable {
     }
 }
 
+// MARK: - PhotoPickerView
+
 struct PhotoPickerView: View {
     @State private var selectedItem: PhotosPickerItem?
     @State private var selectedImageData: Data?
     @State private var showActionSheet = false
     @State private var selectedOption: PhotoActions?
+    let lottieView = LottieAnimationView(name: MoodMapAnimatedIcons.camera.fileName, bundle: .main)
 
     var body: some View {
         VStack {
@@ -175,31 +290,40 @@ struct PhotoPickerView: View {
                         }
                     }
             } else {
-                HStack {
-                    // Placeholder text and photo picker button
-                    Text("Add a photo")
-                        .font(.appBody)
-                    Spacer()
-                    PhotosPicker(
-                        selection: $selectedItem,
-                        matching: .images,
-                        photoLibrary: .shared()) {
-                        Image(systemName: "camera.macro")
-                    }
-                    .onChange(of: selectedItem) { newItem in
-                        if selectedItem == nil {
-                            // Do nothing
-                        } else {
-                            Task {
-                                // Retrieve selected asset in the form of Data
-                                if let data = try? await newItem?.loadTransferable(type: Data.self) {
-                                    selectedImageData = data
+                VStack {
+                    HStack {
+                        // Placeholder text and photo picker button
+                        Text("Add a photo")
+                            .font(.appBody)
+                        Spacer()
+                        PhotosPicker(
+                            selection: $selectedItem,
+                            matching: .images,
+                            photoLibrary: .shared()) {
+                            ResizableLottieView(lottieView: lottieView, color: Color.accentColor, loopMode: .loop)
+                                .frame(width: 30, height: 30)
+                                .onAppear {
+                                    lottieView.play { _ in
+                                        // Animation completion handler
+                                    }
+                                }
+                        }
+                        .onChange(of: selectedItem) { newItem in
+                            if selectedItem == nil {
+                                // Do nothing
+                            } else {
+                                Task {
+                                    // Retrieve selected asset in the form of Data
+                                    if let data = try? await newItem?.loadTransferable(type: Data.self) {
+                                        selectedImageData = data
+                                    }
                                 }
                             }
                         }
                     }
+                    .padding(2)
+                    Divider()
                 }
-                .padding(2)
             }
         }
     }
@@ -219,6 +343,8 @@ struct PhotoPickerView: View {
 
 #endif
 
+// MARK: - FloatingButton
+
 struct FloatingButton: View {
     let action: () -> Void
     let icon: String
@@ -230,13 +356,66 @@ struct FloatingButton: View {
                         .font(.appCallout)
                         .fontWeight(.bold)
                         .foregroundColor(.white)
+                        .frame(width: 300, height: 60)
+                        .background(Color.red)
+                        .cornerRadius(30)
+                        .shadow(radius: 10)
+                        .padding()
                 }
-                .frame(width: 300, height: 60)
-                .background(Color.red)
-                .cornerRadius(30)
-                .shadow(radius: 10)
-                .padding()
+
             }
+        }
+    }
+}
+
+// MARK: - DateLabel
+
+struct DateLabel: View {
+    @State private var isDatePickerVisible = false
+    @Binding var selectedDate: Date
+    @State private var text: String = ""
+    let lottieView: LottieAnimationView
+
+    var body: some View {
+        VStack {
+            HStack(alignment: .center) {
+                Text(text)
+                    .font(.appBody)
+                Spacer()
+                ResizableLottieView(lottieView: lottieView, color: Color.accentColor)
+                    .frame(width: 30, height: 30)
+                    .onAppear {
+                        lottieView.play { _ in
+                            // Animation completion handler
+                        }
+                    }
+                    .blendMode(.normal)
+                    .onTapGesture {
+                        isDatePickerVisible.toggle()
+                    }
+            }
+            .onTapGesture {
+                isDatePickerVisible.toggle()
+            }
+
+            if isDatePickerVisible {
+                DatePicker("", selection: $selectedDate, displayedComponents: [.date, .hourAndMinute])
+                    .datePickerStyle(.automatic)
+                    .labelsHidden()
+                    .onChange(of: selectedDate) { newValue in
+                        let dateFormatter = DateFormatter()
+                        dateFormatter.dateStyle = .medium
+                        dateFormatter.timeStyle = .short
+                        text = dateFormatter.string(from: newValue)
+                        isDatePickerVisible = false
+                    }
+            }
+        }
+        .onAppear {
+            lottieView.play { _ in
+                // Animation completion handler
+            }
+            text = DateFormatter.localizedString(from: selectedDate, dateStyle: .medium, timeStyle: .short)
         }
     }
 }

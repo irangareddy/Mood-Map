@@ -59,6 +59,9 @@ public extension Font {
     /// The body font style with DMSans.
     static let appBody: Font = .custom(AppFont.DMSans.rawValue, size: Font.TextStyle.body.size)
 
+    /// The body font style with DMSans.
+    static let appSmallBody: Font = .custom(AppFont.DMSans.rawValue, size: Font.TextStyle.body.size * 0.8)
+
     /// The callout font style with DMSans.
     static let appCallout: Font = .custom(AppFont.DMSans.rawValue, size: Font.TextStyle.callout.size)
 

@@ -21,13 +21,15 @@ struct CheckInView: View {
                     Text("How are you feeling this evening?")
                         .font(.appTitle2)
                         .multilineTextAlignment(.center)
+
                     ZStack {
                         ZStack {
                             RingAnimationView()
                                 .rotationEffect(.init(degrees: 90))
                             RingAnimationView()
                                 .rotationEffect(.init(degrees: 270))
-                        }                    .padding(8)
+                        }
+                        .padding(8)
 
                         VStack(spacing: 8) {
                             Image(systemName: "plus")
@@ -41,13 +43,14 @@ struct CheckInView: View {
 
                             Text("Check In")
                                 .font(.appHeadline)
-                        }
 
-                    }.background(RoundedRectangle(cornerRadius: 16).foregroundColor(Color.clear))
-                    .frame(maxWidth: .infinity, maxHeight: proxy.size.height / 3)
+                        }.background(RoundedRectangle(cornerRadius: 16).foregroundColor(Color.clear))
+                        .onTapGesture {
+                            NavigationController.pushController(UIHostingController(rootView: MoodView()))
+                        }
+                    }.frame(maxWidth: .infinity, maxHeight: proxy.size.height / 3)
 
                 }.padding(8)
-
                 VStack(alignment: .leading) {
                     if doesPreviousEntriesExists {
 
@@ -67,7 +70,7 @@ struct CheckInView: View {
                     }
                 }
 
-            }.navigationTitle("Check In")
+            }
             .padding()
         }
     }
@@ -116,7 +119,7 @@ struct RingAnimationView: View {
                 .opacity(0.0) // Hide the chasing cap
         }
         .onAppear {
-            animateProgress()
+            //            animateProgress()
         }
     }
 
@@ -133,5 +136,11 @@ struct RingAnimationView: View {
         } else {
             return Double((1.2 * progress) / (1.0 + fadeThreshold))
         }
+    }
+}
+
+extension NavigationController {
+    static func onLogout() {
+        UIApplication.shared.keyWindow?.rootViewController = UIHostingController(rootView: ContentView())
     }
 }
