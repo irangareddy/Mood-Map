@@ -73,7 +73,7 @@ struct AudioContentView: View {
         }
         .onAppear(perform: {
             Task {
-                await serverPlayer.getAudio()
+                await serverPlayer.getVoiceNote(of: "")
             }
 
         })

@@ -94,30 +94,32 @@ class MoodViewModel: BaseViewModel {
         return nil
     }
 
-    func getImage() async {
+    // MARK: GET IMAGE
+    
+    func getImage(of id: String) async -> Image? {
         do {
-            if let buffer = try await networkManager.preview(fileId: "6484ab098571cb9f0bb6") {
-                DispatchQueue.main.async {
-                    self.image = Image(uiImage: UIImage(data: Data(buffer: buffer))!)
-                }
+            if let buffer = try await networkManager.preview(fileId: id) {
+                let image = Image(uiImage: UIImage(data: Data(buffer: buffer))!)
+                return image
             }
         } catch {
             print("On get Image")
         }
+        return nil
     }
-
-    func getAudio() async {
+    
+    // MARK: GET AUDIO
+    func getVoiceNote(of id: String) async -> Recording? {
         do {
-            if let buffer = try await networkManager.previewAudio(fileId: "6484c8fe4c6a06c8b237") {
-                DispatchQueue.main.async {
+            if let buffer = try await networkManager.previewAudio(fileId: id) {
                     let location = fileLocationWithByteBuffer(buffer)
-                    print(location)
-                    self.recording = Recording(name: "Ranga Now", location: location)
-                }
+                    let recording = Recording(name: "Now Playing", location: location)
+                    return recording
             }
         } catch {
             print("On get Image")
         }
+        return nil
     }
 
     func saveAudioRecording(fileURL: URL) async {

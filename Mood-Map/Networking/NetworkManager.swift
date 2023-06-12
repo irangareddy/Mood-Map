@@ -273,7 +273,7 @@ class NetworkManager {
 
         do {
             let file = try await storage.createFile(
-                bucketId: "647751475c51d1e48b5d",
+                bucketId: K.VOICE_NOTES_BUCKET_ID,
                 fileId: id,
                 file: file,
                 onProgress: { progress in

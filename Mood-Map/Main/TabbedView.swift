@@ -47,7 +47,7 @@ struct TabbedView: View {
                 case .moodInsights:
                     MoodInsightsView()
                 case .settings:
-                    SettingsView()
+                    AudioContentView()
                 }
             }.frame(maxWidth: .infinity, maxHeight: .infinity)
 

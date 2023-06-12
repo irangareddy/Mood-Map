@@ -176,6 +176,65 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1D0467EB2A36BE8C00AC17D5 /* CheckIn */ = {
+			isa = PBXGroup;
+			children = (
+				1DC461052A2B9E96004BF432 /* CheckInView.swift */,
+				1DDF117C2A36369E00A6B49E /* AudioContentView.swift */,
+				1DA7C07A2A24B74700A50A5F /* MoodCheckInView.swift */,
+				1DB7B9C62A350442004BC710 /* VoiceNoteIntentView.swift */,
+				1D600C142A35F1C300084D15 /* CheckInLabel.swift */,
+				1D600C162A35FB5000084D15 /* TagsView.swift */,
+			);
+			path = CheckIn;
+			sourceTree = "<group>";
+		};
+		1D0467EC2A36BEDB00AC17D5 /* MemoryLane */ = {
+			isa = PBXGroup;
+			children = (
+				1DA7C0832A24CBDE00A50A5F /* MemoryLaneView.swift */,
+			);
+			path = MemoryLane;
+			sourceTree = "<group>";
+		};
+		1D0467ED2A36BEF000AC17D5 /* Insights */ = {
+			isa = PBXGroup;
+			children = (
+				1D61AC062A2C61BC0033C4FC /* SwiftHeatMap.swift */,
+				1DA7C0852A24CBF800A50A5F /* MoodInsightsView.swift */,
+				1D61AC0A2A2CE9CE0033C4FC /* MoodOverviewView.swift */,
+				1D0D1B462A2ECFBA0086BED8 /* ScatterPlotView.swift */,
+			);
+			path = Insights;
+			sourceTree = "<group>";
+		};
+		1D0467EE2A36BEFE00AC17D5 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				1D5B94322A26096200CB7039 /* SettingsView.swift */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
+		1D0467EF2A36BF0700AC17D5 /* Networking */ = {
+			isa = PBXGroup;
+			children = (
+				1DDF11612A36361F00A6B49E /* NetworkManager.swift */,
+				1D600C122A35D46200084D15 /* NavigationController.swift */,
+			);
+			path = Networking;
+			sourceTree = "<group>";
+		};
+		1D0467F12A36BF7800AC17D5 /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				1DA7C0812A24CBCF00A50A5F /* HomeView.swift */,
+				1DB6E1D32A24EE8D00279B6E /* TabbedView.swift */,
+				1DC460EC2A2B9336004BF432 /* TabbedView+Extensions.swift */,
+			);
+			path = Main;
+			sourceTree = "<group>";
+		};
 		1D55AE182A23C00B008DEDB8 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -218,35 +277,21 @@
 		1D6206DA2A232B140034C0A6 /* Mood-Map */ = {
 			isa = PBXGroup;
 			children = (
-				1DDF117C2A36369E00A6B49E /* AudioContentView.swift */,
+				1D0467F12A36BF7800AC17D5 /* Main */,
+				1D0467EF2A36BF0700AC17D5 /* Networking */,
+				1D0467EE2A36BEFE00AC17D5 /* Settings */,
+				1D0467ED2A36BEF000AC17D5 /* Insights */,
+				1D0467EC2A36BEDB00AC17D5 /* MemoryLane */,
+				1D0467EB2A36BE8C00AC17D5 /* CheckIn */,
 				1DDF11752A36368100A6B49E /* ViewModels */,
 				1DDF116E2A36367000A6B49E /* Onboarding */,
 				1DDF11652A36365F00A6B49E /* Helpers */,
-				1DDF11612A36361F00A6B49E /* NetworkManager.swift */,
-				1D600C122A35D46200084D15 /* NavigationController.swift */,
-				1D61AC082A2C98560033C4FC /* ResizableLottieView.swift */,
-				1D0D1B462A2ECFBA0086BED8 /* ScatterPlotView.swift */,
-				1DF0B4A62A2AFF910031CB48 /* SplashView.swift */,
 				1D55AE192A23C010008DEDB8 /* Info.plist */,
 				1D6206DB2A232B140034C0A6 /* Mood_MapApp.swift */,
 				1D6206DD2A232B140034C0A6 /* ContentView.swift */,
-				1DB7B9C62A350442004BC710 /* VoiceNoteIntentView.swift */,
-				1DA7C07A2A24B74700A50A5F /* MoodCheckInView.swift */,
-				1DA7C0812A24CBCF00A50A5F /* HomeView.swift */,
-				1DA7C0832A24CBDE00A50A5F /* MemoryLaneView.swift */,
-				1DA7C0852A24CBF800A50A5F /* MoodInsightsView.swift */,
-				1D61AC0A2A2CE9CE0033C4FC /* MoodOverviewView.swift */,
-				1D61AC062A2C61BC0033C4FC /* SwiftHeatMap.swift */,
-				1D600C142A35F1C300084D15 /* CheckInLabel.swift */,
-				1D600C162A35FB5000084D15 /* TagsView.swift */,
 				1D6206DF2A232B150034C0A6 /* Assets.xcassets */,
 				1D6206E12A232B150034C0A6 /* Mood_Map.entitlements */,
 				1D6206E22A232B150034C0A6 /* Preview Content */,
-				1DB6E1D32A24EE8D00279B6E /* TabbedView.swift */,
-				1DC460EC2A2B9336004BF432 /* TabbedView+Extensions.swift */,
-				1D5B94322A26096200CB7039 /* SettingsView.swift */,
-				1D39F33B2A278D8C00C2AC90 /* PlaceholderData.swift */,
-				1DC461052A2B9E96004BF432 /* CheckInView.swift */,
 			);
 			path = "Mood-Map";
 			sourceTree = "<group>";
@@ -304,6 +349,8 @@
 		1DDF11652A36365F00A6B49E /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				1D39F33B2A278D8C00C2AC90 /* PlaceholderData.swift */,
+				1D61AC082A2C98560033C4FC /* ResizableLottieView.swift */,
 				1DDF11662A36365F00A6B49E /* Constants.swift */,
 				1DDF11672A36365F00A6B49E /* AppStorage+Extension.swift */,
 				1DDF11682A36365F00A6B49E /* ErrorHandling.swift */,
@@ -315,6 +362,7 @@
 		1DDF116E2A36367000A6B49E /* Onboarding */ = {
 			isa = PBXGroup;
 			children = (
+				1DF0B4A62A2AFF910031CB48 /* SplashView.swift */,
 				1DDF11702A36367000A6B49E /* AuthenticationView.swift */,
 				1DDF11712A36367000A6B49E /* SplashScreen.swift */,
 			);
