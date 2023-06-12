@@ -67,8 +67,8 @@ class MoodViewModel: BaseViewModel {
 
     }
 
-    func saveImage() async {
-        if let image = UIImage(named: "beta") {
+    func saveImage(loaded: UIImage?) async -> String? {
+        if let image = loaded {
             if let processedImage = processImage(image: image, maxSizeInMB: 3.0) {
                 let imageData = processedImage.data
                 let fileExtension = processedImage.extension
@@ -76,7 +76,13 @@ class MoodViewModel: BaseViewModel {
                 // Process the image data and file extension as needed
                 print("Processed image data size: \(Double(imageData.count) / (1024 * 1024)) MB")
                 print("File extension: \(fileExtension.rawValue) mimetype: image/\(fileExtension.rawValue) ")
-                await networkManager.saveImageInStorage(imageData, fileName: "football.\(fileExtension.rawValue)", mime: "\(fileExtension.rawValue)")
+                do {
+                    let response = try await networkManager.saveImageInStorage(imageData, fileName: "football.\(fileExtension.rawValue)", mime: "\(fileExtension.rawValue)")
+                    return response.id
+                } catch {
+                    handleAppError(error)
+                }
+
             } else {
                 // Failed to process the image
                 print("Failed to convert image to data")
@@ -85,7 +91,7 @@ class MoodViewModel: BaseViewModel {
             // Failed to load the image
             print("Failed to load the image")
         }
-
+        return nil
     }
 
     func getImage() async {

@@ -41,13 +41,14 @@ struct MoodCheckInView: View {
     let moodVM = MoodViewModel.shared
     @Binding var selectedMood: Mood?
     @State private var date: Date = .now
-    @State private var picture: Image?
+    @State private var picture: UIImage?
     @State private var audio: Data?
     @State private var notes: String = ""
     @State private var place: String = ""
     @State private var exerciseHours: String = ""
     @State private var sleepHours: String = ""
     @State private var weather: String = ""
+    @State private var imageId: String = ""
     @Environment(\.presentationMode) var presentationMode
     
     var body: some View {
@@ -66,7 +67,7 @@ struct MoodCheckInView: View {
                     DateLabel(selectedDate: $date, lottieView: lottieView(for: .edit))
                     
                     // Photo Picker
-                    PhotoPickerView()
+                    PhotoPickerView(selectedUIImage: $picture)
                     
                     // Voice Note
                     VoiceNoteView(lottieView: lottieView(for: .microphoneRecording))
@@ -104,6 +105,15 @@ struct MoodCheckInView: View {
 
                 }
             }
+            .onChange(of: picture) { newImage in
+                Task {
+                    do {
+                        if let pictureId = await moodVM.saveImage(loaded: newImage) {
+                            self.imageId = pictureId
+                        }
+                    }
+                }
+            }
         }
     }
     
@@ -120,7 +130,7 @@ struct MoodCheckInView: View {
         print("Date: \(date)")
         print("Notes: \(notes)")
         print("Audio: \(String(describing: audio))")
-        print("Picture: \(String(describing: picture))")
+        print("Picture: \(String(describing: imageId))")
         print("Weather: \(weatherEnum?.rawValue ?? "Unknown")")
         print("Place: \(placeEnum?.rawValue ?? "Unknown")")
         print("Sleep Hours: \(sleepHours)")
@@ -137,7 +147,7 @@ struct MoodCheckInView: View {
         // Assuming moodVM is an instance of the MoodViewModel class
 
         // Create a new MoodEntry instance
-        let moodEntry: MoodEntry = MoodEntry(moods: [selectedMood], timestamp: Date(), imageId: nil, voiceNoteId: nil, notes: notes, place: placeEnum, exerciseHours: exerciseHoursInt, sleepHours: sleepHoursInt, weather: weatherEnum)
+        let moodEntry: MoodEntry = MoodEntry(moods: [selectedMood], timestamp: Date(), imageId: imageId, voiceNoteId: nil, notes: notes, place: placeEnum, exerciseHours: exerciseHoursInt, sleepHours: sleepHoursInt, weather: weatherEnum)
 
 
         
@@ -291,18 +301,97 @@ enum PhotoActions: String, CaseIterable, Identifiable {
 
 // MARK: - PhotoPickerView
 
+//struct PhotoPickerView: View {
+//    @State private var selectedItem: PhotosPickerItem?
+//    @State private var selectedImageData: Data?
+//    @State private var showActionSheet = false
+//    @State private var selectedOption: PhotoActions?
+//    let lottieView = LottieAnimationView(name: MoodMapAnimatedIcons.camera.fileName, bundle: .main)
+//
+//    var body: some View {
+//        VStack {
+//            if let selectedImageData = selectedImageData,
+//
+//               let uiImage = UIImage(data: selectedImageData) {
+//                // Display the selected image
+//                Image(uiImage: uiImage)
+//                    .resizable()
+//                    .scaledToFill()
+//                    .onTapGesture {
+//                        showActionSheet.toggle()
+//                    }
+//                    .confirmationDialog("Photo Actions", isPresented: $showActionSheet, titleVisibility: .visible) {
+//                        ForEach(PhotoActions.allCases, id: \.self) { option in
+//                            // Action buttons for each option
+//                            Button(option.rawValue.capitalized) {
+//                                selectedOption = option
+//                                handleOptionSelected(option)
+//                            }
+//                        }
+//                    }
+//            } else {
+//                VStack {
+//                    HStack {
+//                        // Placeholder text and photo picker button
+//                        Text("Add a photo")
+//                            .font(.appBody)
+//                        Spacer()
+//                        PhotosPicker(
+//                            selection: $selectedItem,
+//                            matching: .images,
+//                            photoLibrary: .shared()) {
+//                            ResizableLottieView(lottieView: lottieView, color: Color.accentColor, loopMode: .loop)
+//                                .frame(width: 30, height: 30)
+//                                .onAppear {
+//                                    lottieView.play { _ in
+//                                        // Animation completion handler
+//                                    }
+//                                }
+//                        }
+//                        .onChange(of: selectedItem) { newItem in
+//                            if selectedItem == nil {
+//                                // Do nothing
+//                            } else {
+//                                Task {
+//                                    // Retrieve selected asset in the form of Data
+//                                    if let data = try? await newItem?.loadTransferable(type: Data.self) {
+//                                        selectedImageData = data
+//                                    }
+//                                }
+//                            }
+//                        }
+//                    }
+//                    .padding(2)
+//                    Divider()
+//                }
+//            }
+//        }
+//    }
+//
+//    func removePicture() {
+//        selectedItem = nil
+//        selectedImageData = nil
+//    }
+//
+//    func handleOptionSelected(_ option: PhotoActions) {
+//        switch option {
+//        case .remove:
+//            removePicture()
+//        }
+//    }
+//}
+
+
 struct PhotoPickerView: View {
     @State private var selectedItem: PhotosPickerItem?
-    @State private var selectedImageData: Data?
+    @Binding var selectedUIImage: UIImage?
     @State private var showActionSheet = false
     @State private var selectedOption: PhotoActions?
     let lottieView = LottieAnimationView(name: MoodMapAnimatedIcons.camera.fileName, bundle: .main)
 
     var body: some View {
         VStack {
-            if let selectedImageData = selectedImageData,
-
-               let uiImage = UIImage(data: selectedImageData) {
+            if let uiImage = selectedUIImage {
                 // Display the selected image
                 Image(uiImage: uiImage)
                     .resizable()
@@ -343,10 +432,13 @@ struct PhotoPickerView: View {
                                 // Do nothing
                             } else {
                                 Task {
+                                    
                                     // Retrieve selected asset in the form of Data
-                                    if let data = try? await newItem?.loadTransferable(type: Data.self) {
-                                        selectedImageData = data
-                                    }
+                                                          if let data = try? await newItem?.loadTransferable(type: Data.self) {
+                                                              let selectedImageData = data
+                                                              selectedUIImage = UIImage(data: selectedImageData)
+                                                          }
+                                    
                                 }
                             }
                         }
@@ -360,7 +452,7 @@ struct PhotoPickerView: View {
 
     func removePicture() {
         selectedItem = nil
-        selectedImageData = nil
+        selectedUIImage = nil
     }
 
     func handleOptionSelected(_ option: PhotoActions) {

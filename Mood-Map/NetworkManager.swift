@@ -236,7 +236,7 @@ class NetworkManager {
 
     // MARK: - STORAGE
 
-    func saveImageInStorage(_ fileData: Data, fileName: String, mime: String) async {
+    func saveImageInStorage(_ fileData: Data, fileName: String, mime: String) async throws -> File {
         let file = InputFile.fromData(
             fileData,
             filename: fileName,
@@ -245,7 +245,7 @@ class NetworkManager {
 
         do {
             let file = try await storage.createFile(
-                bucketId: "647751475c51d1e48b5d",
+                bucketId: K.IMAGES_BUCKET_ID,
                 fileId: ID.unique(),
                 file: file,
                 onProgress: { progress in
@@ -256,8 +256,10 @@ class NetworkManager {
             print("File ID: \(file.id)")
             print("File URL: \(file.mimeType)")
             print("File Details: \(dump(file))")
+            return file
         } catch {
             print("Error while uploading file: \(error)")
+            throw error
         }
     }
 
