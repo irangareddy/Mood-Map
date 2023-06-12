@@ -68,10 +68,10 @@ class AuthViewModel: BaseViewModel {
         }
     }
 
-    func signUp(email: String, password: String) {
+    func signUp(name: String, email: String, password: String) {
         Task {
             do {
-                try await networkManager.createAccount(email: email, password: password)
+                try await networkManager.createAccount(name: name, email: email, password: password)
                 self.validateCurrentSession()
             } catch {
                 debugPrint("On Sign Up")
@@ -83,7 +83,7 @@ class AuthViewModel: BaseViewModel {
     func login(email: String, password: String) throws {
         Task {
             do {
-                _ = try await networkManager.account.createEmailSession(email: email, password: password)
+                let result = try await networkManager.account.createEmailSession(email: email, password: password)
                 self.validateCurrentSession()
             } catch {
                 handleAppError(error)

@@ -26,6 +26,11 @@ public struct NotificationsScreen: View {
     /// A boolean value indicating whether to show the add reminder sheet.
     @State private var showAddReminderSheet = false
 
+    // Public initializer
+    public init(reminders: [Reminder]) {
+        self._reminders = State(initialValue: reminders)
+    }
+
     public var body: some View {
         VStack {
             List {

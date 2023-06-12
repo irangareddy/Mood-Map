@@ -13,6 +13,9 @@ import SwiftUI
 /// It uses the `LinkButton` component to create clickable buttons with titles, URLs, and system images.
 public struct AboutView: View {
     /// The body view of the AboutView.
+    ///
+    public init() {}
+
     public var body: some View {
         VStack(spacing: 16) {
             LinkButton(title: "Learn More", url: URL(string: "https://your-learn-more-url.com")!, systemImage: "arrow.up.right.square")

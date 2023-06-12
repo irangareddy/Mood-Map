@@ -61,13 +61,13 @@ class NetworkManager {
 
     // MARK: Create Account
 
-    func createAccount(email: String = "", password: String = "") async throws {
+    func createAccount(name: String, email: String = "", password: String = "") async throws {
         do {
             let user = try await account.create(
                 userId: ID.unique(),
                 email: email,
                 password: password,
-                name: "Ranga"
+                name: name
             ) as AppwriteModels.User
 
             // Save the user object in UserDefaults

@@ -90,9 +90,10 @@ struct SettingsView: View {
                     Text("General")
                         .font(.appSmallSubheadline)
                         .padding()
-                    //                        NavigationButton(destination: AccountSettingsView(), label: "Account Settings", systemImage: "person")
-                    //                        NavigationButton(destination: NotificationsScreen(reminders: []), label: "Notifications", systemImage: "bell")
-                    //                        NavigationButton(destination: AboutView(), label: "About", systemImage: "info.bubble")
+                    NavigationButton(destination: HomeView(), label: "Profile", systemImage: "person")
+                    NavigationButton(destination: AccountSettingsView(), label: "Account Settings", systemImage: "person")
+                    NavigationButton(destination: NotificationsScreen(reminders: []), label: "Notifications", systemImage: "bell")
+                    NavigationButton(destination: AboutView(), label: "About", systemImage: "info.bubble")
                     #if os(iOS)
                     MailButton()
                     #endif

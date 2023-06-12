@@ -32,28 +32,30 @@ struct TabbedView: View {
     @Environment(\.colorScheme) var scheme
 
     var body: some View {
-        ZStack(alignment: .bottom) {
+        NavigationView {
+            ZStack(alignment: .bottom) {
 
-            Group {
-                switch selectedTab {
-                case .checkIn:
-                    CheckInView()
-                case .memoryLane:
-                    MemoryLaneViewWrapper()
-                case .moodInsights:
-                    MoodInsightsView()
-                case .settings:
-                    AudioContentView()
+                Group {
+                    switch selectedTab {
+                    case .checkIn:
+                        CheckInView()
+                    case .memoryLane:
+                        MemoryLaneViewWrapper()
+                    case .moodInsights:
+                        MoodInsightsView()
+                    case .settings:
+                        SettingsView()
+                    }
+                }.frame(maxWidth: .infinity, maxHeight: .infinity)
+
+                if #available(iOS 16, *) {
+                    TabBar()
+                        .toolbar(.hidden, for: .tabBar)
+                } else {
+                    TabBar()
                 }
-            }.frame(maxWidth: .infinity, maxHeight: .infinity)
 
-            if #available(iOS 16, *) {
-                TabBar()
-                    .toolbar(.hidden, for: .tabBar)
-            } else {
-                TabBar()
             }
-
         }
     }
 

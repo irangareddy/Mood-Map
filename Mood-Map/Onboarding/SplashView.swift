@@ -11,6 +11,8 @@ import SwiftUI
 
 /// A view that represents the splash screen.
 public struct SplashView: View {
+    @ObservedObject private var authManager = AuthViewModel.shared
+    @State private var isActive = false
     @State private var showHome = false
 
     /// The body view that constructs the UI hierarchy.
@@ -24,8 +26,20 @@ public struct SplashView: View {
                 }
             }
             .fullScreenCover(isPresented: $showHome, content: {
-                TabbedView()
+                if authManager.isUserLoggedIn {
+                    TabbedView()
+                } else {
+                    SignInView()
+                }
             })
+            .onAppear {
+                authManager.validateCurrentSession()
+                withAnimation {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                        self.isActive = true
+                    }
+                }
+            }
     }
 }
 

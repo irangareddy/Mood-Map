@@ -36,7 +36,7 @@ struct MoodEntryDetailView: View {
                     Text(notes)
                 }
 
-                Image("lavender")
+                Image("step-two")
                     .resizable()
                     .scaledToFill()
                     .shadow(radius: 5)

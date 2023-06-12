@@ -9,12 +9,24 @@ import SwiftUI
 import MoodMapKit
 
 struct ContentView: View {
+    @AppStorage("isFirstTimeUser") var isFirstTimeUser: Bool = true
     @EnvironmentObject var emoozee: Emoozee
 
     var body: some View {
-        SplashScreen()
-            .withErrorHandling()
-            .environmentObject(emoozee)
+        NavigationStack {
+            if isFirstTimeUser {
+                OnboardingView()
+                    .withErrorHandling()
+                    .environmentObject(emoozee)
+                    .onAppear {
+                        isFirstTimeUser = false
+                    }
+            } else {
+                SplashView()
+                    .withErrorHandling()
+                    .environmentObject(emoozee)
+            }
+        }
     }
 }
 

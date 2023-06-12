@@ -7,6 +7,12 @@
 
 import SwiftUI
 
+func clearStoredValues() {
+    UserDefaults.standard.removePersistentDomain(forName: Bundle.main.bundleIdentifier!)
+    UserDefaults.standard.synchronize()
+
+}
+
 struct SplashScreen: View {
     @ObservedObject private var authManager = AuthViewModel.shared
     @State private var isActive = false
@@ -17,8 +23,9 @@ struct SplashScreen: View {
                 if isActive {
                     if authManager.isUserLoggedIn {
                         TabbedView()
+                            .onAppear(perform: clearStoredValues)
                     } else {
-                        AuthenticationView()
+                        SignInView()
                     }
                 } else {
                     Text("Appwrite CRUD")
