@@ -12,9 +12,8 @@ struct ContentView: View {
     @EnvironmentObject var emoozee: Emoozee
 
     var body: some View {
-        NavigationStack {
-            TabbedView()
-        }
+        SplashScreen()
+            .withErrorHandling()
     }
 }
 

@@ -11,7 +11,7 @@ import Foundation
 ///
 /// `Weather` is an enumeration that includes various weather conditions such as sunny, cloudy, rainy, snowy, windy, foggy, stormy, etc.
 /// It conforms to `CaseIterable` and `Identifiable` protocols.
-public enum Weather: String, CaseIterable, Identifiable {
+public enum Weather: String, CaseIterable, Identifiable, Codable {
     /// The identifier of the weather condition.
     public var id: String { self.rawValue }
 

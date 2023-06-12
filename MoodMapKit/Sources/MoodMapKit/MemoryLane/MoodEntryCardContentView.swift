@@ -16,7 +16,7 @@ struct MoodEntryCardContentView: View {
             // Card content
             VStack(spacing: 10) {
                 HStack {
-                    Text("\(moodEntry.mood.name)")
+                    Text(moodEntry.moods.first ?? "No Mood")
                         .font(.title3)
                         .padding(.vertical, 4)
                         .padding(.horizontal, 10)
@@ -58,7 +58,7 @@ struct MoodEntryCardContentView: View {
                 }
             }
             .padding()
-            .background(getCategoryColor(for: moodEntry.mood.category))
+//            .background(getCategoryColor(for: moodEntry.moods.first.category))
             .cornerRadius(10)
             .shadow(radius: 5)
         }

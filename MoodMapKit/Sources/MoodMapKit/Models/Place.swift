@@ -11,7 +11,7 @@ import Foundation
 ///
 /// The `Place` enumeration provides a set of predefined place types such as home, work, school, park, restaurant, gym, and other.
 /// It conforms to `String`, `CaseIterable`, and `Identifiable` protocols.
-public enum Place: String, CaseIterable, Identifiable {
+public enum Place: String, CaseIterable, Identifiable, Codable {
     /// The unique identifier of the place.
     public var id: String { self.rawValue }
 

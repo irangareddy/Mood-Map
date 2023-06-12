@@ -37,6 +37,8 @@ public func lottieView(for icon: MoodMapAnimatedIcons) -> LottieAnimationView {
 // MARK: - MoodCheckInView
 
 struct MoodCheckInView: View {
+    @EnvironmentObject var errorHandling: ErrorHandling
+    let moodVM = MoodViewModel.shared
     @Binding var selectedMood: Mood?
     @State private var date: Date = .now
     @State private var picture: Image?
@@ -47,7 +49,7 @@ struct MoodCheckInView: View {
     @State private var sleepHours: String = ""
     @State private var weather: String = ""
     @Environment(\.presentationMode) var presentationMode
-
+    
     var body: some View {
         GeometryReader { geometry in
             ScrollView {
@@ -60,30 +62,30 @@ struct MoodCheckInView: View {
                     }
                     .font(.appTitle2)
                     .multilineTextAlignment(.leading)
-
+                    
                     DateLabel(selectedDate: $date, lottieView: lottieView(for: .edit))
-
+                    
                     // Photo Picker
                     PhotoPickerView()
-
+                    
                     // Voice Note
                     VoiceNoteView(lottieView: lottieView(for: .microphoneRecording))
-
+                    
                     // Note
                     NoteView(notes: $notes, geometry: geometry)
-
+                    
                     // Tags
                     TagsView(title: "Where are you?", cases: getAllRawValues(ofEnum: Place.self), lottieIcon: MoodMapAnimatedIcons.location, geometry: geometry, size: 5, selectedValue: $place)
-
+                    
                     TagsView(title: "Weather", cases: getAllRawValues(ofEnum: Weather.self), lottieIcon: MoodMapAnimatedIcons.weather, geometry: geometry, size: 5, selectedValue: $weather)
                         .padding(.top, 8)
-
+                    
                     // Exercise
                     ExerciseView(lottieView: lottieView(for: .exercise), exerciseHours: $exerciseHours)
-
+                    
                     // Sleep
                     SleepView(lottieView: lottieView(for: .sleep), sleepHours: $sleepHours)
-
+                    
                 }
                 .padding()
             }
@@ -95,19 +97,26 @@ struct MoodCheckInView: View {
                     NavigationController.popToRootView()
                 }, icon: "plus")
             }
+            .onReceive(moodVM.$appError) { error in
+                if let localizedError = error {
+                    print("\(localizedError) from the view")
+                    errorHandling.handle(error: localizedError)
+
+                }
+            }
         }
     }
-
+    
     private func createEntry() {
         guard let selectedMood = selectedMood else {
             print("No selected mood")
             return
         }
-
-        let weatherEnum = Weather.allCases.first { $0.rawValue == weather.lowercased() }
-        let placeEnum = Place.allCases.first { $0.rawValue == place.lowercased() }
-
-        print("Selected Mood: \(selectedMood)")
+        
+        let weatherEnum: Weather? = Weather.allCases.first { $0.rawValue == weather.lowercased() }
+        let placeEnum: Place? = Place.allCases.first { $0.rawValue == place.lowercased() }
+        
+        print("Selected Mood: \(selectedMood.name)")
         print("Date: \(date)")
         print("Notes: \(notes)")
         print("Audio: \(String(describing: audio))")
@@ -116,8 +125,29 @@ struct MoodCheckInView: View {
         print("Place: \(placeEnum?.rawValue ?? "Unknown")")
         print("Sleep Hours: \(sleepHours)")
         print("Exercise Hours: \(exerciseHours)")
-    }
+        
+        // Assuming moodVM is an instance of the MoodViewModel class
+        
+        // Convert exerciseHours string to an Int
+        let exerciseHoursInt = Double(exerciseHours)
+        let sleepHoursInt = Double(sleepHours)
+        
 
+        // Create a new MoodEntry instance
+        // Assuming moodVM is an instance of the MoodViewModel class
+
+        // Create a new MoodEntry instance
+        let moodEntry: MoodEntry = MoodEntry(moods: [selectedMood], timestamp: Date(), imageId: nil, voiceNoteId: nil, notes: notes, place: placeEnum, exerciseHours: exerciseHoursInt, sleepHours: sleepHoursInt, weather: weatherEnum)
+
+
+        
+        // Use the moodVM to append the moodEntry
+        moodVM.append(mood: moodEntry) {
+            // Completion handler called after appending the moodEntry
+            // Handle any necessary actions or UI updates
+        }
+    }
+    
 }
 
 // MARK: - VoiceNoteView
