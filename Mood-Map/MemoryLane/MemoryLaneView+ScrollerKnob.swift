@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftUI
+import MoodMapKit
 
 extension MemoryLaneView {
     /// A knob view used for scrolling through the memory lane.

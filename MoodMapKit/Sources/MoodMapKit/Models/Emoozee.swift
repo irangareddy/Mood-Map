@@ -6,6 +6,8 @@ import SwiftUI
 /// `Emoozee` is an `ObservableObject` class that holds the `moodData` and `placeholderMood` properties.
 /// It provides methods to load mood data from JSON and retrieve moods.
 public class Emoozee: ObservableObject {
+
+    public static let shared = Emoozee()
     /// The mood data managed by Emoozee.
     @Published public var moodData: MoodData
 

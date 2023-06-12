@@ -7,6 +7,8 @@
 
 import Foundation
 import SwiftUI
+import AppwriteModels
+import MoodMapKit
 
 /// A struct representing a scrollable mood entry.
 ///
@@ -23,7 +25,7 @@ public struct ScrollMood: Identifiable {
     public var date: Date
 
     /// An array of mood entries.
-    public var moods: [MoodEntry]
+    public var moods: [AppwriteModels.Document<MoodEntry>]
 
     /// The index value associated with the mood entry.
     public var index: Int = 0
@@ -41,12 +43,12 @@ public struct ScrollMood: Identifiable {
     public var color: Color = .clear
 
     /// Initializes a `ScrollMood` instance with the provided parameters.
-    ///
+    /// [AppwriteModels.Document<MoodEntry>]
     /// - Parameters:
     ///   - id: The unique identifier for the mood entry.
     ///   - date: The date associated with the mood entry.
     ///   - moods: An array of mood entries.
-    public init(id: UUID, date: Date, moods: [MoodEntry], index: Int) {
+    public init(id: UUID, date: Date, moods: [AppwriteModels.Document<MoodEntry>], index: Int) {
         self.id = id
         self.date = date
         self.moods = moods

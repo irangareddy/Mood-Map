@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftUI
+import MoodMapKit
 
 extension MemoryLaneView {
     /// Adjusts the elevation and appearance of the dates in the memory lane based on the current offset.

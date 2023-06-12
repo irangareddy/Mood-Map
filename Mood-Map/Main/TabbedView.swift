@@ -31,10 +31,6 @@ struct TabbedView: View {
 
     @Environment(\.colorScheme) var scheme
 
-    /// Other Properties
-    @ObservedObject var placeholder = PlaceholderData()
-    @State private var moodEntries: [MoodEntry] = []
-
     var body: some View {
         ZStack(alignment: .bottom) {
 
@@ -43,7 +39,7 @@ struct TabbedView: View {
                 case .checkIn:
                     CheckInView()
                 case .memoryLane:
-                    MemoryLaneViewWrapper(moodEntries: $moodEntries)
+                    MemoryLaneViewWrapper()
                 case .moodInsights:
                     MoodInsightsView()
                 case .settings:
@@ -58,8 +54,6 @@ struct TabbedView: View {
                 TabBar()
             }
 
-        } .onAppear {
-            moodEntries = placeholder.moodEntries
         }
     }
 

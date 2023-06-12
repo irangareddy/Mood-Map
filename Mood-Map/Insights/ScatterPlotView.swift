@@ -42,250 +42,250 @@ public struct ScatterPlotView: View {
 
     /// The body view of the ScatterPlotView.
     public var body: some View {
-//        ScrollView(.vertical, showsIndicators: false) {
-//            // MARK: - MAIN PLOT
-//            VStack {
-//                Chart(moodEntries) { moodEntry in
-//                    PointMark(
-//                        x: .value("Day", moodEntry.date, unit: .weekday),
-//                        y: .value("Pleasant Index", moodEntry.mood.happinessIndex)
-//
-//                    )
-//                    .annotation(position: .overlay, alignment: .center) {
-//                        ZStack {
-//                            Circle()
-//                                .fill(getMoodCategoryColor(for: moodEntry.mood.category))
-//
-//                        }.frame(width: 8, height: 8)
-//                    }
-//                    .symbolSize(0) // hide the existing symbol
-//                    .foregroundStyle(by: .value("Mood", moodEntry.mood.category.rawValue))
-//                    .symbol(by: .value("Mood", moodEntry.mood.category.rawValue))
-//                    //                    .position(by: .value("Mood", moodEntry.mood.category.rawValue))
-//                    .accessibilityLabel(moodEntry.date.description)
-//                    .accessibilityValue(moodEntry.mood.category.rawValue)
-//                }
-//
-//                .frame(height: 300)
-//                .chartXScale(range: .plotDimension(padding: 8))
-//            }
-//            .chartXAxis {
-//                AxisMarks(values: .stride(by: .day, count: 1)) { _ in
-//                    AxisGridLine()
-//                    AxisTick()
-//                    AxisValueLabel(
-//                        format: .dateTime.weekday(.abbreviated)
-//                    )
-//                }
-//            }
-//            .chartYAxis {
-//
-//                AxisMarks(
-//                    preset: .automatic,
-//                    position: .trailing,
-//                    values: [0, 5, 10]
-//                ) { value in
-//                    AxisGridLine()
-//                    AxisTick()
-//                    AxisValueLabel(
-//                        descriptionForUVIndex(value.as(Int.self)!)
-//
-//                    )
-//                }
-//            }
-//            .chartXAxisLabel("Weeks", alignment: .top)
-//            .chartLegend(position: .top, alignment: .leading, spacing: 8) {
-//                HStack {
-//
-//                    MoodCategoryLegendView()
-//
-//                }
-//            }
-//            .chartOverlay { proxy in
-//                GeometryReader { geometry in
-//                    Rectangle().fill(.clear).contentShape(Rectangle())
-//                        .gesture(
-//                            DragGesture()
-//                                .onChanged { value in
-//                                    // Convert the gesture location to the coordinate space of the plot area.
-//                                    let origin = geometry[proxy.plotAreaFrame].origin
-//                                    let location = CGPoint(
-//                                        x: value.location.x - origin.x,
-//                                        y: value.location.y - origin.y
-//                                    )
-//                                    // Get the x (weekday) and y (intensity) values from the location.
-//                                    if let (weekday, intensity) = proxy.value(at: location, as: (String, Double).self) {
-//                                        selectedWeekday = weekday
-//                                        selectedIntensity = intensity
-//                                    }
-//                                }
-//                        )
-//                }
-//            }
-//            .padding()
-//
-//            if displayFactor == nil {
-//                HStack {Image(systemName: "lightbulb.led.fill")
-//                    .foregroundColor(.accentColor)
-//                    Text("Understand above chart")
-//                    Spacer()
-//                    Image(systemName: "chevron.down")
-//                        .foregroundColor(.primary)
-//                }.padding()
-//                .onTapGesture {
-//                    isSheetPresented.toggle()
-//                }
-//                .font(.appBody)
-//            }
-//
-//            // MARK: - DISPLAY FACTORS
-//
-//            // MARK: Sleep
-//
-//            if displayFactor == .sleep {
-//                GroupBox(label: Text("Sleep Hours")) {
-//                    Chart(sleepHours, id: \.self) { moodEntry in
-//                        BarMark(
-//                            x: .value("Day", moodEntry.key, unit: .day),
-//                            y: .value("Happiness Index", moodEntry.value)
-//                        )
-//                        .foregroundStyle(
-//                            .linearGradient(
-//                                colors: [ .init(hex: "#80FF72"), .init(hex: "#7EE8FA")],
-//                                startPoint: .bottom,
-//                                endPoint: .top
-//                            )
-//                        )
-//                    }
-//                    //                .chartXAxis {
-//                    //                    AxisMarks(values: .stride(by: .day, count: 1)) { _ in
-//                    //                        AxisGridLine()
-//                    //                        AxisTick()
-//                    //                        AxisValueLabel(
-//                    //                            format: .dateTime.weekday(.abbreviated)
-//                    //                        )
-//                    //                    }
-//                    //
-//                    //                }
-//                    //                .chartYAxis {
-//                    //
-//                    //                    AxisMarks(
-//                    //                        preset: .aligned,
-//                    //                        position: .leading,
-//                    //                        values: [10,,10]
-//                    //                    ) { value in
-//                    //                        AxisValueLabel(
-//                    //                            "\(value.index.description) hours"
-//                    //                        )
-//                    //                    }
-//                    //                }
-//
-//                }.padding()
-//                .frame(height: 150)
-//            }
-//
-//            // MARK: Exercise
-//
-//            if displayFactor == .exercise {
-//
-//                GroupBox(label: Text("Exercise Hours")) {
-//                    Chart(exerciseHours, id: \.self) { moodEntry in
-//
-//                        BarMark(
-//                            x: .value("Day", moodEntry.key, unit: .day),
-//                            y: .value("Happiness Index", moodEntry.value)
-//                        )                    .foregroundStyle(
-//                            .linearGradient(
-//                                colors: [ .init(hex: "#EC9F05"), .init(hex: "#FF4E00")],
-//                                startPoint: .bottom,
-//                                endPoint: .top
-//                            )
-//                        )
-//
-//                    }
-//
-//                    //                              .chartXAxis {
-//                    //                    AxisMarks(values: .stride(by: .day, count: 1)) { _ in
-//                    //                        AxisGridLine()
-//                    //                        AxisTick()
-//                    //                        AxisValueLabel(
-//                    //                            format: .dateTime.weekday(.abbreviated)
-//                    //                        )
-//                    //                    }
-//                    //                }
-//
-//                }.padding().frame(height: 150)
-//            }
-//
-//            // MARK: Place
-//
-////            if displayFactor == .place {
-////                GroupBox(label: Text("Place")) {
-////                    Chart(moodEntries, id: \.self) { moodEntry in
-////                        PointMark(
-////                            x: .value("Day", moodEntry.date, unit: .day),
-////                            y: .value("Place", moodEntry.place!)
-////                        ).foregroundStyle(by: .value("Place", moodEntry.mood.category.rawValue))
-////                        //                        .symbol(by:.value("Place", moodEntry.place!))
-////                        .foregroundStyle(
-////                            .linearGradient(
-////                                colors: [ .init(hex: "#80FF72"), .init(hex: "#7EE8FA")],
-////                                startPoint: .bottom,
-////                                endPoint: .top
-////                            )
-////                        )
-////                    }
-////
-////                }.padding().frame(height: 250)
-////            }
-//
-//            // MARK: Weather
-//
-////            if displayFactor == .weather.displayName {
-////                GroupBox(label: Text("Weather")) {
-////                    Chart(moodEntries, id: \.self) { moodEntry in
-////                        PointMark(
-////                            x: .value("Day", moodEntry.date, unit: .day),
-////                            y: .value("Happiness Index", moodEntry.weather!)
-////                        ).foregroundStyle(by: .value("Weather", moodEntry.weather!))
-////                        .symbol(by: .value("Weather", moodEntry.weather!))
-////                        .foregroundStyle(
-////                            .linearGradient(
-////                                colors: [ .init(hex: "#80FF72"), .init(hex: "#7EE8FA")],
-////                                startPoint: .bottom,
-////                                endPoint: .top
-////                            )
-////                        )
-////                    }
-////
-////                }.padding().frame(height: 250)
-////            }
-//
-//            // MARK: Display Factor Buttons
-//
-//            VStack(alignment: .leading, spacing: 10) {
-//                Text("Life Factors")
-//                    .font(.appTitle3)
-//                    .frame(maxWidth: .infinity, alignment: .leading)
-//                    .padding(.vertical)
-//
-//                ForEach(LifeFactors.allCases, id: \.id) { factor in
-//                    LifeFactorButton(lifeFactor: factor, averageHours: "6h 32 mins", totalHours: "06 - 08 hrs", displayFactor: $displayFactor)
-//                }
-//
-//            }.padding()
-//            .background(.ultraThinMaterial)
-//
-//        }.onAppear(perform: {
-//            moodEntries = placeholder.moodEntries
-//            print(moodEntries.count)
-//            exerciseHours = MoodInsights.getExerciseHours(from: moodEntries)
-//            sleepHours = MoodInsights.getExerciseHours(from: moodEntries)
-//        })
-//        .navigationTitle("Mood Analysis")
-//        .sheet(isPresented: $isSheetPresented) {
-//            ModalSheetView(showSheetView: $isSheetPresented)
-//        }
+        //        ScrollView(.vertical, showsIndicators: false) {
+        //            // MARK: - MAIN PLOT
+        //            VStack {
+        //                Chart(moodEntries) { moodEntry in
+        //                    PointMark(
+        //                        x: .value("Day", moodEntry.date, unit: .weekday),
+        //                        y: .value("Pleasant Index", moodEntry.mood.happinessIndex)
+        //
+        //                    )
+        //                    .annotation(position: .overlay, alignment: .center) {
+        //                        ZStack {
+        //                            Circle()
+        //                                .fill(getMoodCategoryColor(for: moodEntry.mood.category))
+        //
+        //                        }.frame(width: 8, height: 8)
+        //                    }
+        //                    .symbolSize(0) // hide the existing symbol
+        //                    .foregroundStyle(by: .value("Mood", moodEntry.mood.category.rawValue))
+        //                    .symbol(by: .value("Mood", moodEntry.mood.category.rawValue))
+        //                    //                    .position(by: .value("Mood", moodEntry.mood.category.rawValue))
+        //                    .accessibilityLabel(moodEntry.date.description)
+        //                    .accessibilityValue(moodEntry.mood.category.rawValue)
+        //                }
+        //
+        //                .frame(height: 300)
+        //                .chartXScale(range: .plotDimension(padding: 8))
+        //            }
+        //            .chartXAxis {
+        //                AxisMarks(values: .stride(by: .day, count: 1)) { _ in
+        //                    AxisGridLine()
+        //                    AxisTick()
+        //                    AxisValueLabel(
+        //                        format: .dateTime.weekday(.abbreviated)
+        //                    )
+        //                }
+        //            }
+        //            .chartYAxis {
+        //
+        //                AxisMarks(
+        //                    preset: .automatic,
+        //                    position: .trailing,
+        //                    values: [0, 5, 10]
+        //                ) { value in
+        //                    AxisGridLine()
+        //                    AxisTick()
+        //                    AxisValueLabel(
+        //                        descriptionForUVIndex(value.as(Int.self)!)
+        //
+        //                    )
+        //                }
+        //            }
+        //            .chartXAxisLabel("Weeks", alignment: .top)
+        //            .chartLegend(position: .top, alignment: .leading, spacing: 8) {
+        //                HStack {
+        //
+        //                    MoodCategoryLegendView()
+        //
+        //                }
+        //            }
+        //            .chartOverlay { proxy in
+        //                GeometryReader { geometry in
+        //                    Rectangle().fill(.clear).contentShape(Rectangle())
+        //                        .gesture(
+        //                            DragGesture()
+        //                                .onChanged { value in
+        //                                    // Convert the gesture location to the coordinate space of the plot area.
+        //                                    let origin = geometry[proxy.plotAreaFrame].origin
+        //                                    let location = CGPoint(
+        //                                        x: value.location.x - origin.x,
+        //                                        y: value.location.y - origin.y
+        //                                    )
+        //                                    // Get the x (weekday) and y (intensity) values from the location.
+        //                                    if let (weekday, intensity) = proxy.value(at: location, as: (String, Double).self) {
+        //                                        selectedWeekday = weekday
+        //                                        selectedIntensity = intensity
+        //                                    }
+        //                                }
+        //                        )
+        //                }
+        //            }
+        //            .padding()
+        //
+        //            if displayFactor == nil {
+        //                HStack {Image(systemName: "lightbulb.led.fill")
+        //                    .foregroundColor(.accentColor)
+        //                    Text("Understand above chart")
+        //                    Spacer()
+        //                    Image(systemName: "chevron.down")
+        //                        .foregroundColor(.primary)
+        //                }.padding()
+        //                .onTapGesture {
+        //                    isSheetPresented.toggle()
+        //                }
+        //                .font(.appBody)
+        //            }
+        //
+        //            // MARK: - DISPLAY FACTORS
+        //
+        //            // MARK: Sleep
+        //
+        //            if displayFactor == .sleep {
+        //                GroupBox(label: Text("Sleep Hours")) {
+        //                    Chart(sleepHours, id: \.self) { moodEntry in
+        //                        BarMark(
+        //                            x: .value("Day", moodEntry.key, unit: .day),
+        //                            y: .value("Happiness Index", moodEntry.value)
+        //                        )
+        //                        .foregroundStyle(
+        //                            .linearGradient(
+        //                                colors: [ .init(hex: "#80FF72"), .init(hex: "#7EE8FA")],
+        //                                startPoint: .bottom,
+        //                                endPoint: .top
+        //                            )
+        //                        )
+        //                    }
+        //                    //                .chartXAxis {
+        //                    //                    AxisMarks(values: .stride(by: .day, count: 1)) { _ in
+        //                    //                        AxisGridLine()
+        //                    //                        AxisTick()
+        //                    //                        AxisValueLabel(
+        //                    //                            format: .dateTime.weekday(.abbreviated)
+        //                    //                        )
+        //                    //                    }
+        //                    //
+        //                    //                }
+        //                    //                .chartYAxis {
+        //                    //
+        //                    //                    AxisMarks(
+        //                    //                        preset: .aligned,
+        //                    //                        position: .leading,
+        //                    //                        values: [10,,10]
+        //                    //                    ) { value in
+        //                    //                        AxisValueLabel(
+        //                    //                            "\(value.index.description) hours"
+        //                    //                        )
+        //                    //                    }
+        //                    //                }
+        //
+        //                }.padding()
+        //                .frame(height: 150)
+        //            }
+        //
+        //            // MARK: Exercise
+        //
+        //            if displayFactor == .exercise {
+        //
+        //                GroupBox(label: Text("Exercise Hours")) {
+        //                    Chart(exerciseHours, id: \.self) { moodEntry in
+        //
+        //                        BarMark(
+        //                            x: .value("Day", moodEntry.key, unit: .day),
+        //                            y: .value("Happiness Index", moodEntry.value)
+        //                        )                    .foregroundStyle(
+        //                            .linearGradient(
+        //                                colors: [ .init(hex: "#EC9F05"), .init(hex: "#FF4E00")],
+        //                                startPoint: .bottom,
+        //                                endPoint: .top
+        //                            )
+        //                        )
+        //
+        //                    }
+        //
+        //                    //                              .chartXAxis {
+        //                    //                    AxisMarks(values: .stride(by: .day, count: 1)) { _ in
+        //                    //                        AxisGridLine()
+        //                    //                        AxisTick()
+        //                    //                        AxisValueLabel(
+        //                    //                            format: .dateTime.weekday(.abbreviated)
+        //                    //                        )
+        //                    //                    }
+        //                    //                }
+        //
+        //                }.padding().frame(height: 150)
+        //            }
+        //
+        //            // MARK: Place
+        //
+        ////            if displayFactor == .place {
+        ////                GroupBox(label: Text("Place")) {
+        ////                    Chart(moodEntries, id: \.self) { moodEntry in
+        ////                        PointMark(
+        ////                            x: .value("Day", moodEntry.date, unit: .day),
+        ////                            y: .value("Place", moodEntry.place!)
+        ////                        ).foregroundStyle(by: .value("Place", moodEntry.mood.category.rawValue))
+        ////                        //                        .symbol(by:.value("Place", moodEntry.place!))
+        ////                        .foregroundStyle(
+        ////                            .linearGradient(
+        ////                                colors: [ .init(hex: "#80FF72"), .init(hex: "#7EE8FA")],
+        ////                                startPoint: .bottom,
+        ////                                endPoint: .top
+        ////                            )
+        ////                        )
+        ////                    }
+        ////
+        ////                }.padding().frame(height: 250)
+        ////            }
+        //
+        //            // MARK: Weather
+        //
+        ////            if displayFactor == .weather.displayName {
+        ////                GroupBox(label: Text("Weather")) {
+        ////                    Chart(moodEntries, id: \.self) { moodEntry in
+        ////                        PointMark(
+        ////                            x: .value("Day", moodEntry.date, unit: .day),
+        ////                            y: .value("Happiness Index", moodEntry.weather!)
+        ////                        ).foregroundStyle(by: .value("Weather", moodEntry.weather!))
+        ////                        .symbol(by: .value("Weather", moodEntry.weather!))
+        ////                        .foregroundStyle(
+        ////                            .linearGradient(
+        ////                                colors: [ .init(hex: "#80FF72"), .init(hex: "#7EE8FA")],
+        ////                                startPoint: .bottom,
+        ////                                endPoint: .top
+        ////                            )
+        ////                        )
+        ////                    }
+        ////
+        ////                }.padding().frame(height: 250)
+        ////            }
+        //
+        //            // MARK: Display Factor Buttons
+        //
+        //            VStack(alignment: .leading, spacing: 10) {
+        //                Text("Life Factors")
+        //                    .font(.appTitle3)
+        //                    .frame(maxWidth: .infinity, alignment: .leading)
+        //                    .padding(.vertical)
+        //
+        //                ForEach(LifeFactors.allCases, id: \.id) { factor in
+        //                    LifeFactorButton(lifeFactor: factor, averageHours: "6h 32 mins", totalHours: "06 - 08 hrs", displayFactor: $displayFactor)
+        //                }
+        //
+        //            }.padding()
+        //            .background(.ultraThinMaterial)
+        //
+        //        }.onAppear(perform: {
+        //            moodEntries = placeholder.moodEntries
+        //            print(moodEntries.count)
+        //            exerciseHours = MoodInsights.getExerciseHours(from: moodEntries)
+        //            sleepHours = MoodInsights.getExerciseHours(from: moodEntries)
+        //        })
+        //        .navigationTitle("Mood Analysis")
+        //        .sheet(isPresented: $isSheetPresented) {
+        //            ModalSheetView(showSheetView: $isSheetPresented)
+        //        }
 
         Text("Wait until the fix")
     }

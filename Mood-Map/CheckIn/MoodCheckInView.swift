@@ -50,7 +50,7 @@ struct MoodCheckInView: View {
     @State private var weather: String = ""
     @State private var imageId: String = ""
     @Environment(\.presentationMode) var presentationMode
-    
+
     var body: some View {
         GeometryReader { geometry in
             ScrollView {
@@ -58,35 +58,35 @@ struct MoodCheckInView: View {
                     // Top
                     VStack(alignment: .leading) {
                         Text("I'm feeling")
-                        Text(selectedMood!.name)
+                        Text(selectedMood?.name ?? Emoozee.shared.placeholderMood.name)
                             .foregroundColor(backgroundForCategory(MoodCategory(rawValue: (selectedMood?.category)!.rawValue) ?? MoodCategory.highEnergyPleasant))
                     }
                     .font(.appTitle2)
                     .multilineTextAlignment(.leading)
-                    
+
                     DateLabel(selectedDate: $date, lottieView: lottieView(for: .edit))
-                    
+
                     // Photo Picker
                     PhotoPickerView(selectedUIImage: $picture)
-                    
+
                     // Voice Note
                     VoiceNoteView(lottieView: lottieView(for: .microphoneRecording))
-                    
+
                     // Note
                     NoteView(notes: $notes, geometry: geometry)
-                    
+
                     // Tags
                     TagsView(title: "Where are you?", cases: getAllRawValues(ofEnum: Place.self), lottieIcon: MoodMapAnimatedIcons.location, geometry: geometry, size: 5, selectedValue: $place)
-                    
+
                     TagsView(title: "Weather", cases: getAllRawValues(ofEnum: Weather.self), lottieIcon: MoodMapAnimatedIcons.weather, geometry: geometry, size: 5, selectedValue: $weather)
                         .padding(.top, 8)
-                    
+
                     // Exercise
                     ExerciseView(lottieView: lottieView(for: .exercise), exerciseHours: $exerciseHours)
-                    
+
                     // Sleep
                     SleepView(lottieView: lottieView(for: .sleep), sleepHours: $sleepHours)
-                    
+
                 }
                 .padding()
             }
@@ -116,16 +116,16 @@ struct MoodCheckInView: View {
             }
         }
     }
-    
+
     private func createEntry() {
         guard let selectedMood = selectedMood else {
             print("No selected mood")
             return
         }
-        
+
         let weatherEnum: Weather? = Weather.allCases.first { $0.rawValue == weather.lowercased() }
         let placeEnum: Place? = Place.allCases.first { $0.rawValue == place.lowercased() }
-        
+
         print("Selected Mood: \(selectedMood.name)")
         print("Date: \(date)")
         print("Notes: \(notes)")
@@ -135,13 +135,12 @@ struct MoodCheckInView: View {
         print("Place: \(placeEnum?.rawValue ?? "Unknown")")
         print("Sleep Hours: \(sleepHours)")
         print("Exercise Hours: \(exerciseHours)")
-        
+
         // Assuming moodVM is an instance of the MoodViewModel class
-        
+
         // Convert exerciseHours string to an Int
         let exerciseHoursInt = Double(exerciseHours)
         let sleepHoursInt = Double(sleepHours)
-        
 
         // Create a new MoodEntry instance
         // Assuming moodVM is an instance of the MoodViewModel class
@@ -149,15 +148,13 @@ struct MoodCheckInView: View {
         // Create a new MoodEntry instance
         let moodEntry: MoodEntry = MoodEntry(moods: [selectedMood], timestamp: Date(), imageId: imageId, voiceNoteId: nil, notes: notes, place: placeEnum, exerciseHours: exerciseHoursInt, sleepHours: sleepHoursInt, weather: weatherEnum)
 
-
-        
         // Use the moodVM to append the moodEntry
         moodVM.append(mood: moodEntry) {
             // Completion handler called after appending the moodEntry
             // Handle any necessary actions or UI updates
         }
     }
-    
+
 }
 
 // MARK: - VoiceNoteView
@@ -301,7 +298,7 @@ enum PhotoActions: String, CaseIterable, Identifiable {
 
 // MARK: - PhotoPickerView
 
-//struct PhotoPickerView: View {
+// struct PhotoPickerView: View {
 //    @State private var selectedItem: PhotosPickerItem?
 //    @State private var selectedImageData: Data?
 //    @State private var showActionSheet = false
@@ -379,8 +376,7 @@ enum PhotoActions: String, CaseIterable, Identifiable {
 //            removePicture()
 //        }
 //    }
-//}
-
+// }
 
 struct PhotoPickerView: View {
     @State private var selectedItem: PhotosPickerItem?
@@ -432,13 +428,13 @@ struct PhotoPickerView: View {
                                 // Do nothing
                             } else {
                                 Task {
-                                    
+
                                     // Retrieve selected asset in the form of Data
-                                                          if let data = try? await newItem?.loadTransferable(type: Data.self) {
-                                                              let selectedImageData = data
-                                                              selectedUIImage = UIImage(data: selectedImageData)
-                                                          }
-                                    
+                                    if let data = try? await newItem?.loadTransferable(type: Data.self) {
+                                        let selectedImageData = data
+                                        selectedUIImage = UIImage(data: selectedImageData)
+                                    }
+
                                 }
                             }
                         }

@@ -159,7 +159,7 @@ class NetworkManager {
             // Handle the case when user ID is not found in UserDefaults
             throw UserDefaultsError.userIdNotFound
         }
-        
+
         debugPrint(dump(data))
 
         do {
@@ -176,11 +176,11 @@ class NetworkManager {
                 ]
             )
 
-//            let payload = ["userId": userId, "from": "mobile"]
-//            if let jsonPayload = convertToJsonString(payload: payload) {
-//                debugPrint("Sending payload \(jsonPayload)")
-//                await self.executeCloudFuction(of: K.HEATMAP_FUNCTION_ID, payload: jsonPayload)
-//            }
+            //            let payload = ["userId": userId, "from": "mobile"]
+            //            if let jsonPayload = convertToJsonString(payload: payload) {
+            //                debugPrint("Sending payload \(jsonPayload)")
+            //                await self.executeCloudFuction(of: K.HEATMAP_FUNCTION_ID, payload: jsonPayload)
+            //            }
         }
     }
 

@@ -14,7 +14,7 @@ import MoodMapKit
 
 class MoodViewModel: BaseViewModel {
     static let shared = MoodViewModel()
-    @Published var moodEntries = [MoodEntry]()
+    @Published var moodEntries = [AppwriteModels.Document<MoodEntry>]()
     @Published var isLoading = false
     @Published var error: NetworkError?
     @Published var image: Image?
@@ -28,28 +28,34 @@ class MoodViewModel: BaseViewModel {
             do {
                 try await networkManager.createDocument(collectionId: K.MOOD_ENTRIES_COLLECTION_ID, data: mood, permissions: [])
                 completion()
+                await getMoods()
             } catch {
                 print("Got error here \(dump(error))")
-               handleAppError(error)
-           }
-            
+                handleAppError(error)
+            }
+
         }
+
     }
 
     // MARK: MOOD READ
-    func getMoods() async -> [AppwriteModels.Document<MoodEntry>] {
-        isLoading = true // Set isLoading to true before making the network request
+    func getMoods() async {
+        DispatchQueue.main.async {
+            self.isLoading = true
+        }
 
         do {
             let response = try await networkManager.readDocuments(collectionId: K.MOOD_ENTRIES_COLLECTION_ID) as [AppwriteModels.Document<MoodEntry>]
-            return response
+            dump(response)
+            DispatchQueue.main.async {
+                self.moodEntries = response
+            }
 
         } catch {
             // Handle network request error
             self.error = NetworkError.dataConversionError
             isLoading = false // Set isLoading to false in case of an error
         }
-        return []
     }
 
     // MARK: MOOD DELETE
@@ -95,7 +101,7 @@ class MoodViewModel: BaseViewModel {
     }
 
     // MARK: GET IMAGE
-    
+
     func getImage(of id: String) async -> Image? {
         do {
             if let buffer = try await networkManager.preview(fileId: id) {
@@ -107,14 +113,14 @@ class MoodViewModel: BaseViewModel {
         }
         return nil
     }
-    
+
     // MARK: GET AUDIO
     func getVoiceNote(of id: String) async -> Recording? {
         do {
             if let buffer = try await networkManager.previewAudio(fileId: id) {
-                    let location = fileLocationWithByteBuffer(buffer)
-                    let recording = Recording(name: "Now Playing", location: location)
-                    return recording
+                let location = fileLocationWithByteBuffer(buffer)
+                let recording = Recording(name: "Now Playing", location: location)
+                return recording
             }
         } catch {
             print("On get Image")

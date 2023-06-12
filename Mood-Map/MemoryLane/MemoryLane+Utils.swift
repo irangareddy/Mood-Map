@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftUI
+import MoodMapKit
 
 /// Returns a linear gradient representing the color associated with the given mood category.
 ///

@@ -12,7 +12,6 @@ public func getMoodNames(moods: [Mood]) -> [String] {
     return moodNames
 }
 
-
 /// Represents a mood entry.
 ///
 /// A `MoodEntry` consists of various properties such as id, mood, timestamp, picture data, audio data, notes, place, exercise hours, sleep hours, and weather.
@@ -47,7 +46,7 @@ public struct MoodEntry: Equatable, Codable, Hashable, Identifiable {
 
     /// The weather condition recorded for the entry.
     public var weather: String?
-    
+
     /// Initializes a new MoodEntry instance.
     ///
     /// - Parameters:
@@ -73,7 +72,7 @@ public struct MoodEntry: Equatable, Codable, Hashable, Identifiable {
         self.sleepHours = sleepHours
         self.weather = weather?.rawValue
     }
-    
+
     public init(moods: [Mood], timestamp: Date) {
         self.moods = getMoodNames(moods: moods)
         let formatter = ISO8601DateFormatter()
@@ -93,35 +92,33 @@ public struct MoodEntry: Equatable, Codable, Hashable, Identifiable {
         case sleepHours = "sleepHours"
         case weather = "weather"
     }
-    
+
     public func encode(to encoder: Encoder) throws {
-           var container = encoder.container(keyedBy: CodingKeys.self)
-           try container.encode(id, forKey: .id)
-           try container.encode(moods, forKey: .moods)
-           try container.encode(timestamp, forKey: .timestamp)
-           try container.encodeIfPresent(imageId, forKey: .imageId)
-           try container.encodeIfPresent(voiceNoteId, forKey: .voiceNoteId)
-           try container.encodeIfPresent(notes, forKey: .notes)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(id, forKey: .id)
+        try container.encode(moods, forKey: .moods)
+        try container.encode(timestamp, forKey: .timestamp)
+        try container.encodeIfPresent(imageId, forKey: .imageId)
+        try container.encodeIfPresent(voiceNoteId, forKey: .voiceNoteId)
+        try container.encodeIfPresent(notes, forKey: .notes)
         try container.encodeIfPresent(place, forKey: .place)
-           try container.encodeIfPresent(exerciseHours, forKey: .exerciseHours)
-           try container.encodeIfPresent(sleepHours, forKey: .sleepHours)
-            try container.encodeIfPresent(weather, forKey: .weather)
-       }
-    
+        try container.encodeIfPresent(exerciseHours, forKey: .exerciseHours)
+        try container.encodeIfPresent(sleepHours, forKey: .sleepHours)
+        try container.encodeIfPresent(weather, forKey: .weather)
+    }
+
     public init(from decoder: Decoder) throws {
-           let container = try decoder.container(keyedBy: CodingKeys.self)
-           moods = try container.decode([String].self, forKey: .moods)
-           timestamp = try container.decode(String.self, forKey: .timestamp)
-           imageId = try container.decodeIfPresent(String.self, forKey: .imageId)
-           voiceNoteId = try container.decodeIfPresent(String.self, forKey: .voiceNoteId)
-           notes = try container.decodeIfPresent(String.self, forKey: .notes)
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        moods = try container.decode([String].self, forKey: .moods)
+        timestamp = try container.decode(String.self, forKey: .timestamp)
+        imageId = try container.decodeIfPresent(String.self, forKey: .imageId)
+        voiceNoteId = try container.decodeIfPresent(String.self, forKey: .voiceNoteId)
+        notes = try container.decodeIfPresent(String.self, forKey: .notes)
         place = try container.decodeIfPresent(String.self, forKey: .place)
-           exerciseHours = try container.decodeIfPresent(Double.self, forKey: .exerciseHours)
-           sleepHours = try container.decodeIfPresent(Double.self, forKey: .sleepHours)
-            weather = try container.decodeIfPresent(String.self, forKey: .weather)
-       }
-    
-    
+        exerciseHours = try container.decodeIfPresent(Double.self, forKey: .exerciseHours)
+        sleepHours = try container.decodeIfPresent(Double.self, forKey: .sleepHours)
+        weather = try container.decodeIfPresent(String.self, forKey: .weather)
+    }
 
     /// Determines the equality of two `MoodEntry` instances by comparing their IDs.
     public static func == (lhs: MoodEntry, rhs: MoodEntry) -> Bool {
@@ -136,13 +133,28 @@ public struct MoodEntry: Equatable, Codable, Hashable, Identifiable {
     /// The date associated with the mood entry.
     public var date: Date {
         let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSSSS"
+        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssX"
+        formatter.locale = Locale(identifier: "en_US_POSIX")
 
         if let date = formatter.date(from: timestamp) {
             return date
         } else {
             // Return a default date or handle the error case
             return Date() // Default value is the current date and time
+        }
+    }
+
+    public var cardDate: String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssX"
+        formatter.locale = Locale(identifier: "en_US_POSIX")
+
+        if let date = formatter.date(from: timestamp) {
+            formatter.dateFormat = "E MMM d, h:mm a"
+            return formatter.string(from: date)
+        } else {
+            // Return a default value or handle the error case
+            return "Invalid Date"
         }
     }
 
@@ -157,7 +169,7 @@ public struct MoodEntry: Equatable, Codable, Hashable, Identifiable {
 
             let weekdaySymbol = calendar.weekdaySymbols[weekdayNumber - 1].capitalizedFirstLetter()
 
-            return weekdaySymbol 
+            return weekdaySymbol
         }
 
         return "Unknown"

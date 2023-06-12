@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftUI
+import MoodMapKit
 
 extension MemoryLaneView {
     /// A custom slider view used for scrolling through memory lane entries.
