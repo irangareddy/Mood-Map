@@ -29,25 +29,29 @@ class AuthViewModel: BaseViewModel {
 
     private var networkManager = NetworkManager.shared
 
+    override init() {
+        super.init()
+        validateCurrentSession()
+    }
+
     func validateCurrentSession() {
         Task {
             do {
                 if let isUserLoggedIn = try await networkManager.getCurrentSession() {
-                    DispatchQueue.main.async { [self] in
-                        if isUserLoggedIn {
-                            self.getCurrentUserDetails()
-                        }
+                    if isUserLoggedIn {
+                        await getCurrentUserDetails()
+                    }
+                    DispatchQueue.main.async {
                         self.isUserLoggedIn = isUserLoggedIn
                     }
                 }
-
             } catch {
                 handleAppError(error)
             }
         }
     }
 
-    func deleteSession(session: AppwriteSessions) {
+    func deleteSession(session: AppwriteSessions) async {
         Task {
             do {
                 let sessions: Any // Define the sessions variable with appropriate type
@@ -58,7 +62,6 @@ class AuthViewModel: BaseViewModel {
                     sessions = try await networkManager.account.deleteSessions()
                 }
                 wipeSessionInfo()
-                debugPrint("Deleted Session Info")
                 DispatchQueue.main.async {
                     self.isUserLoggedIn = false
                 }
@@ -68,57 +71,64 @@ class AuthViewModel: BaseViewModel {
         }
     }
 
-    func signUp(name: String, email: String, password: String) {
+    func signUp(name: String, email: String, password: String) async {
         Task {
             do {
                 try await networkManager.createAccount(name: name, email: email, password: password)
-                self.validateCurrentSession()
-            } catch {
-                debugPrint("On Sign Up")
-            }
-        }
-
-    }
-
-    func login(email: String, password: String) throws {
-        Task {
-            do {
-                let result = try await networkManager.account.createEmailSession(email: email, password: password)
-                self.validateCurrentSession()
+                validateCurrentSession()
             } catch {
                 handleAppError(error)
             }
         }
-
     }
 
-    // About Current User
-    func getCurrentUserDetails() {
+    func login(email: String, password: String) async throws {
         Task {
             do {
-                let user = try await networkManager.getAccount()
+                let result = try await networkManager.account.createEmailSession(email: email, password: password)
+                await validateCurrentSession()
+            } catch {
+                handleAppError(error)
+            }
+        }
+    }
+
+    func logout() async {
+        Task {
+            do {
+                await deleteSession(session: .current)
+                wipeSessionInfo()
                 DispatchQueue.main.async {
-                    self.currentUser = user
+                    self.isUserLoggedIn = false
                 }
             } catch {
-                // Handle any error that occurs during fetching user details
-                print("Error fetching user details: \(error)")
+                handleAppError(error)
             }
+        }
+    }
+
+    func getCurrentUserDetails() async {
+        do {
+            let user = try await networkManager.getAccount()
+            DispatchQueue.main.async {
+                self.currentUser = user
+            }
+        } catch {
+            // Handle any error that occurs during fetching user details
+            handleAppError(error)
         }
     }
 
     func resetPassword(password: String) {
         Task {
             do {
-                let user = try await networkManager.account.updatePassword(password: password, oldPassword: nil)
-                print("on forgot password \(user)")
+                let user = try await networkManager.account.updatePassword(password: password)
             } catch {
-                // Handle any error that occurs during fetching user details
-                print("Error fetching user details: \(error)")
+                // Handle any error that occurs during resetting password
+                handleAppError(error)
             }
         }
     }
-
 }
 
 enum AppError: LocalizedError {

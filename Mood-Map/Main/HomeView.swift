@@ -9,12 +9,13 @@ import SwiftUI
 
 struct HomeView: View {
     @ObservedObject private var authManager = AuthViewModel.shared
+    @State private var isSectionVisible = false
 
     var body: some View {
         Form {
             if let user = authManager.currentUser {
 
-                Section(header: Text("User Details")) {
+                Section(header: Text("User Details").font(.appHeadline)) {
                     KeyValueRow(key: "ID", value: user.id)
                     KeyValueRow(key: "Created At", value: user.createdAt.humanReadableDateTime())
                     KeyValueRow(key: "Updated At", value: user.updatedAt.humanReadableDateTime())
@@ -25,29 +26,32 @@ struct HomeView: View {
                     KeyValueRow(key: "Phone Verification", value: "\(user.phoneVerification)")
                 }
 
-                Section(header: Text("Preferences")) {
+                Section(header: Text("Preferences").font(.appHeadline), footer: Text("Preferences the only visible on long press gesture").font(.appCaption)) {
                     ForEach(user.prefs.data.sorted(by: { $0.key < $1.key }), id: \.key) { key, value in
                         KeyValueRow(key: key, value: "\(value)")
+                            .blur(radius: isSectionVisible ? 0 : 10)
+                            .onLongPressGesture {
+                                isSectionVisible = true
+                            }
                     }
                 }
             }
 
-            Button(action: {
-                logout()
-            }) {
-                Text("Logout")
-                    .foregroundColor(.red)
-            }
         }            .redacted(reason: authManager.currentUser == nil ? .placeholder : [])
 
         .onAppear {
-            authManager.getCurrentUserDetails()
+            Task {
+                await authManager.getCurrentUserDetails()
+            }
         }
     }
 
     private func logout() {
-        authManager.deleteSession(session: .current)
-        showSplashScreen()
+        Task {
+            await authManager.deleteSession(session: .current)
+            showSplashScreen()
+        }
+
     }
 
     private func showSplashScreen() {
@@ -64,8 +68,10 @@ struct KeyValueRow: View {
     var body: some View {
         HStack {
             Text(key)
+                .font(.appBody)
             Spacer()
             Text(value)
+                .font(.appSmallBody)
                 .foregroundColor(.secondary)
         }
     }

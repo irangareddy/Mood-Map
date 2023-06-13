@@ -234,7 +234,7 @@ public struct TimePicker: View {
     public var body: some View {
         VStack {
             DatePicker("", selection: $selectedTime, displayedComponents: .hourAndMinute)
-                .datePickerStyle(.automatic)
+                .datePickerStyle(.wheel)
                 .labelsHidden()
         }
     }

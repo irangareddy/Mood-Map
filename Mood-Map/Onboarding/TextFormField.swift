@@ -27,7 +27,6 @@ struct TextFormField: View {
             TextField(placeholder, text: isNameValidatorEnabled ? nameEnabledText() : text())
                 .keyboardType(keyboardType ?? .default)
                 .padding()
-                .background(Color.white)
                 .overlay(
                     RoundedRectangle(cornerRadius: 16)
                         .stroke(Color.accentColor, lineWidth: 3)

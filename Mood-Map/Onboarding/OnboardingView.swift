@@ -92,10 +92,6 @@ struct OnboardingView: View {
     }
 
     func showLoginScreen() {
-        //        SpiceUpAPI.shownOnboarding()
-        //        if SpiceUpAPI.doesTokenExists() {
-        //            NavigationController.rootView(UIHostingController(rootView: HomeView()))
-        //        } else {
 
         NavigationController.pushController(UIHostingController(rootView: SignInView()))
     }

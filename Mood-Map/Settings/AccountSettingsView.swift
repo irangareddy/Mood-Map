@@ -6,12 +6,15 @@
 //
 
 import SwiftUI
+import MoodMapKit
 
 /// A view that displays the account settings options.
 ///
 /// Use `AccountSettingsView` to create a view that shows various account settings options.
 /// It uses the `AccountSettingsButton` component to create clickable buttons with titles, actions, and optional description texts.
 public struct AccountSettingsView: View {
+    @ObservedObject private var authManager = AuthViewModel.shared
+
     // Action enum
     public enum AccountAction {
         case editDisplayName
@@ -35,9 +38,11 @@ public struct AccountSettingsView: View {
             break
         case .logout:
             // Perform action for "Log out"
+
             break
         case .deleteAccount:
             // Perform action for "Delete Account"
+
             break
         }
     }
@@ -52,17 +57,18 @@ public struct AccountSettingsView: View {
         VStack(alignment: .leading, spacing: 0) {
             AccountSettingsButton(title: "Edit Display Name") {
                 buttonAction(.editDisplayName)
-            }
+            }.description("This feature is temporarily disabled.")
+            .disabled(true)
 
             AccountSettingsButton(title: "Log out") {
-                buttonAction(.logout)
+                logout(session: .current)
             }
             .description("When you log out, you will be signed out of your account and any unsaved data may be lost.")
 
             AccountSettingsButton(title: "Delete Account") {
-                buttonAction(.deleteAccount)
+                logout(session: .all)
             }
-            .description("When you delete your account, all of your account information and data will be permanently removed. This action cannot be undone.")
+            .description("When you delete your account, you will be logged out of all sessions. After 30 days of inactivity, your account information and data are permanently removed.")
 
             Spacer()
         }
@@ -76,6 +82,13 @@ public struct AccountSettingsView: View {
             }
         }
     }
+    private func logout(session: AppwriteSessions) {
+        Task {
+            await authManager.deleteSession(session: session)
+        }
+
+    }
+
 }
 
 struct AccountSettingsView_Previews: PreviewProvider {

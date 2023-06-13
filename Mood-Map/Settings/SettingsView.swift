@@ -11,8 +11,11 @@ import MoodMapKit
 import UIKit
 import MessageUI
 #endif
-enum ColorSchemeSetting: String, CaseIterable {
-    case light, dark, system
+
+enum ColorSchemeSetting: String, CaseIterable, Codable {
+    case light
+    case dark
+    case system
 }
 
 struct CodableColor: Codable {
@@ -56,7 +59,7 @@ struct SettingsView: View {
         VStack(alignment: .leading, spacing: 0) {
             WaveDividerView()
             VStack(alignment: .leading) {
-                Text("Appearence".capitalized)
+                Text("Appearance".capitalized)
                     .font(.appSmallSubheadline)
                 // Color Picker
                 Picker(selection: $chosenColorScheme, label: Text("Choose scheme")) {
@@ -80,7 +83,7 @@ struct SettingsView: View {
                         updateAppAccentColor(newValue)
                         #endif
                     }
-                Text("Select a accent color for your app")
+                Text("Select an accent color for your app")
                     .font(.appCaption)
                     .foregroundColor(.secondary)
             }.padding()
@@ -127,12 +130,10 @@ struct SettingsView: View {
         }
     }
     #if os(iOS)
-
     private func updateAppAccentColor(_ color: Color) {
         UIApplication.shared.windows.first?.tintColor = UIColor(color)
     }
     #endif
-
 }
 
 struct SettingsView_Previews: PreviewProvider {
@@ -147,7 +148,7 @@ struct SettingsView_Previews: PreviewProvider {
 }
 
 struct AccentColorButton: View {
-    @State var appAccentColor: Color = .black
+    @State var appAccentColor: Color = .accentColor
 
     var body: some View {
         Button(action: {

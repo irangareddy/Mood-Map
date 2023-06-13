@@ -10,8 +10,8 @@ import MoodMapKit
 
 struct SignInView: View {
     @EnvironmentObject var errorHandling: ErrorHandling
-    @State private var email: String = "robert@gmail.com"
-    @State private var password: String = "robert@gmail.com"
+    @State private var email: String = ""
+    @State private var password: String = ""
     @State private var isShowingSignup: Bool = false
     @State private var isShowingForgotPassword: Bool = false
     @ObservedObject private var authVM = AuthViewModel.shared
@@ -19,78 +19,96 @@ struct SignInView: View {
     var body: some View {
         GeometryReader { geometry in
             ScrollView(.vertical, showsIndicators: false) {
-                HStack {
-                    Text("Already have a Mood Map account?")
-                        .font(.appHeadline)
+                Text("SignIn to Mood Map")
+                    .font(.appTitle3)
+                    .foregroundColor(.accentColor)
+                    .frame(maxWidth: .infinity, alignment: .center)
+                    .padding()
+                Spacer()
+
+                VStack {
+                    if email.isEmpty {
+                        Image("signin")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: geometry.size.width * 0.7)
+                            .shadow(radius: 5)
+                    }
+                    Text("Sign in to access all the features and track your mood journey.")
+                        .font(.appCaption)
                         .foregroundColor(.secondary)
-                    Spacer()
+                        .multilineTextAlignment(.center)
+                        .padding(.horizontal, 16)
+                        .padding(.top, 2)
                 }
-                .padding()
+
                 Spacer()
-                Image("signin")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: geometry.size.width*0.7)
-                    .shadow(radius: 5)
-                Spacer()
+
                 VStack(alignment: .trailing, spacing: 10) {
                     TextFormField(placeholder: "Enter your email", textfieldContent: $email, keyboardType: .emailAddress)
                     TextFormField(placeholder: "Enter your password", textfieldContent: $password)
-                }.padding(.bottom)
+                }
+                .padding(.bottom)
 
                 Spacer()
 
                 HStack {
                     Spacer()
-                    Text("Forgot Password ?")
+                    Text("Forgot Password?")
                         .font(.appSubheadline)
                         .onTapGesture {
                             isShowingForgotPassword = true
                         }
                         .sheet(isPresented: $isShowingForgotPassword) {
                             ForgotPasswordView(isPresented: $isShowingForgotPassword)
+                                .presentationDetents([.medium])
                         }
-                }.padding(.trailing)
+                }
+                .padding(.trailing)
                 .padding(.trailing)
 
                 LargeButton(title: "Login") {
-                    login()
-                }.padding(.horizontal)
-
-                Text("Don't have an account?")
-                    .font(.appSubheadline)
-
-                Button("Sign Up") {
-                    isShowingSignup = true
+                    Task {
+                        await login()
+                    }
                 }
-                .sheet(isPresented: $isShowingSignup) {
-                    SignUpView(isPresented: $isShowingSignup)
-                }
+                .padding(.horizontal)
 
+                HStack {
+                    Text("Don't have an account?")
+                        .foregroundColor(.primary)
+                    Button("Sign Up") {
+                        isShowingSignup = true
+                    }
+                    .sheet(isPresented: $isShowingSignup) {
+                        SignUpView(isPresented: $isShowingSignup)
+                            .withErrorHandling()
+
+                    }
+                }
+                .font(.appSubheadline)
                 .foregroundColor(.accentColor)
                 .padding()
-
-            }.onReceive(authVM.$appError) { error in
+            }
+            .onReceive(authVM.$appError) { error in
                 if let localizedError = error {
-
                     errorHandling.handle(error: localizedError)
-
                 }
             }
-            .navigationTitle("SignIn to Mood Map")
         }
     }
 
-    func login() {
-        // Perform login logic here
-        // You can access the username and password variables to authenticate the user
+    func login() async {
         do {
-            try authVM.login(email: email.lowercased(), password: password)
-            //            NavigationController.rootView(UIHostingController(rootView: TabbedView()))
+            try await authVM.login(email: email.lowercased(), password: password)
+            if authVM.isUserLoggedIn {
+                NavigationController.rootView(UIHostingController(rootView: TabbedView().environmentObject(errorHandling)))
+            }
         } catch {
             debugPrint("From the login screen \(error)")
         }
     }
+
 }
 
 struct SignInView_Previews: PreviewProvider {
