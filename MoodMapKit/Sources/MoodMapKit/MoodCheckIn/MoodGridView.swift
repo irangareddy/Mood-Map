@@ -113,15 +113,18 @@ public struct MoodGridView: View {
                                     Color.clear.preference(key: ScrollOffsetPreferenceKey.self, value: offset)
                                 }
                                 .onPreferenceChange(ScrollOffsetPreferenceKey.self) { offset in
-                                    let isScrollingBack = offset < previousOffset
-                                    if isScrollingBack {
-                                        withAnimation {
+                                    DispatchQueue.main.async {
+                                        let isScrollingBack = offset < previousOffset
 
-                                            moodSelected = nil
+                                        if isScrollingBack {
+                                            withAnimation {
+
+                                                moodSelected = nil
+                                            }
                                         }
-                                    }
 
-                                    previousOffset = offset
+                                        previousOffset = offset
+                                    }
                                 }
                             )
 

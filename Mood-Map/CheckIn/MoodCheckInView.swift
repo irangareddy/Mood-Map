@@ -13,10 +13,11 @@ import Lottie
 // MARK: - MoodView
 
 struct MoodView: View {
-    @ObservedObject var emoozee = Emoozee()
+    @ObservedObject var emoozee = Emoozee.shared
     @State private var moodSelected: Mood?
 
     var body: some View {
+
         MoodGridView(moodSelected: $moodSelected,
                      moods: emoozee.moodData.moods,
                      closeView: {
@@ -27,6 +28,7 @@ struct MoodView: View {
 
                      })
             .frame(maxWidth: .infinity, maxHeight: .infinity)
+
     }
 }
 
@@ -59,7 +61,7 @@ struct MoodCheckInView: View {
                     VStack(alignment: .leading) {
                         Text("I'm feeling")
                         Text(selectedMood?.name ?? Emoozee.shared.placeholderMood.name)
-                            .foregroundColor(backgroundForCategory(MoodCategory(rawValue: (selectedMood?.category)!.rawValue) ?? MoodCategory.highEnergyPleasant))
+                        //                            .foregroundColor(backgroundForCategory(MoodCategory(rawValue: (selectedMood?.category)!.rawValue) ?? MoodCategory.highEnergyPleasant))
                     }
                     .font(.appTitle2)
                     .multilineTextAlignment(.leading)
@@ -272,7 +274,7 @@ struct MoodCheckInView_Previews: PreviewProvider {
         return MoodCheckInView(selectedMood: .constant(placeholderMood))
     }
 }
-
+//
 // struct MoodCheckInView_Previews: PreviewProvider {
 //    static var previews: some View {
 //        MoodView()

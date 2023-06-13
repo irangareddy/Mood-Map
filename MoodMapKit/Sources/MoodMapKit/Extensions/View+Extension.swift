@@ -28,7 +28,9 @@ extension View {
                 Color.clear
                     .preference(key: OffsetKey.self, value: rect)
                     .onPreferenceChange(OffsetKey.self) { value in
-                        completion(value)
+                        DispatchQueue.main.async {
+                            completion(value)
+                        }
                     }
             }
         }

@@ -40,7 +40,6 @@ public class Emoozee: ObservableObject {
         do {
             let data = try getJSONData(filename: "moods")
             moodData = try decoder.decode(MoodData.self, from: data)
-            dump(moodData)
         } catch {
             // Handle any errors here
             print("Failed to load mood data:", error)

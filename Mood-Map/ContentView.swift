@@ -13,19 +13,18 @@ struct ContentView: View {
     @EnvironmentObject var emoozee: Emoozee
 
     var body: some View {
-        NavigationStack {
-            if isFirstTimeUser {
-                OnboardingView()
-                    .withErrorHandling()
-                    .environmentObject(emoozee)
-                    .onAppear {
-                        isFirstTimeUser = false
-                    }
-            } else {
-                SplashView()
-                    .withErrorHandling()
-                    .environmentObject(emoozee)
-            }
+
+        if isFirstTimeUser {
+            OnboardingView()
+                .withErrorHandling()
+                .environmentObject(emoozee)
+                .onAppear {
+                    isFirstTimeUser = false
+                }
+        } else {
+            SplashView()
+                .withErrorHandling()
+                .environmentObject(emoozee)
         }
     }
 }

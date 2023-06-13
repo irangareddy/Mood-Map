@@ -13,33 +13,29 @@ import SwiftUI
 public struct SplashView: View {
     @ObservedObject private var authManager = AuthViewModel.shared
     @State private var isActive = false
-    @State private var showHome = false
 
     /// The body view that constructs the UI hierarchy.
     public var body: some View {
-        EmojiFacesView()
-            .onAppear {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1.2) {
-                    withAnimation {
-                        showHome = true
+        NavigationView {
+            EmojiFacesView()
+                .onAppear {
+                    authManager.validateCurrentSession()
+                    withAnimation(.spring(response: 0.3, dampingFraction: 0.7).delay(0.5)) {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                            self.isActive = true
+                            showNextScreen()
+                        }
                     }
+
                 }
-            }
-            .fullScreenCover(isPresented: $showHome, content: {
-                if authManager.isUserLoggedIn {
-                    TabbedView()
-                } else {
-                    SignInView()
-                }
-            })
-            .onAppear {
-                authManager.validateCurrentSession()
-                withAnimation {
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                        self.isActive = true
-                    }
-                }
-            }
+
+        }
+    }
+
+    func showNextScreen() {
+        let rootView = authManager.isUserLoggedIn ? AnyView(TabbedView()) : AnyView(SignInView())
+
+        NavigationController.rootView( UIHostingController(rootView: rootView))
     }
 }
 

@@ -19,28 +19,26 @@ struct SplashScreen: View {
 
     var body: some View {
         VStack {
-            NavigationView {
-                if isActive {
-                    if authManager.isUserLoggedIn {
-                        TabbedView()
-                            .onAppear(perform: clearStoredValues)
-                    } else {
-                        SignInView()
-                    }
+            if isActive {
+                if authManager.isUserLoggedIn {
+                    TabbedView()
+                        .onAppear(perform: clearStoredValues)
                 } else {
-                    Text("Appwrite CRUD")
-                        .font(.largeTitle)
-                        .opacity(0.5)
-                        .animation(.easeInOut(duration: 1))
-                        .onAppear {
-                            authManager.validateCurrentSession()
-                            withAnimation {
-                                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                                    self.isActive = true
-                                }
+                    SignInView()
+                }
+            } else {
+                Text("Appwrite CRUD")
+                    .font(.largeTitle)
+                    .opacity(0.5)
+                    .animation(.easeInOut(duration: 1))
+                    .onAppear {
+                        authManager.validateCurrentSession()
+                        withAnimation {
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                                self.isActive = true
                             }
                         }
-                }
+                    }
             }
 
         }

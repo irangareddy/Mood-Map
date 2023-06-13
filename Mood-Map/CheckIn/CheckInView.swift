@@ -15,8 +15,10 @@ struct CheckInView: View {
     @Environment(\.colorScheme) var scheme
 
     var body: some View {
-        GeometryReader { proxy in
-            VStack {
+
+        VStack {
+            GeometryReader { proxy in
+
                 VStack(alignment: .center) {
                     Text("How are you feeling this evening?")
                         .font(.appTitle2)
@@ -31,23 +33,26 @@ struct CheckInView: View {
                         }
                         .padding(8)
 
-                        VStack(spacing: 8) {
-                            Image(systemName: "plus")
-                                .font(.title)
-                                .padding()
-                                .background(
-                                    Circle()
-                                        .fill(scheme == .dark ? Color.white : Color.black)
-                                )
-                                .foregroundColor(scheme == .dark ? Color.black : Color.white)
-
-                            Text("Check In")
-                                .font(.appHeadline)
-
-                        }.background(RoundedRectangle(cornerRadius: 16).foregroundColor(Color.clear))
-                        .onTapGesture {
+                        Button {
                             NavigationController.pushController(UIHostingController(rootView: MoodView()))
+                        } label: {
+                            VStack(spacing: 8) {
+                                Image(systemName: "plus")
+                                    .font(.title)
+                                    .padding()
+                                    .background(
+                                        Circle()
+                                            .fill(scheme == .dark ? Color.white : Color.black)
+                                    )
+                                    .foregroundColor(scheme == .dark ? Color.black : Color.white)
+
+                                Text("Check In")
+                                    .font(.appHeadline)
+
+                            }.background(RoundedRectangle(cornerRadius: 16).foregroundColor(Color.clear))
+
                         }
+
                     }.frame(maxWidth: .infinity, maxHeight: proxy.size.height / 3)
 
                 }.padding(8)
@@ -73,6 +78,7 @@ struct CheckInView: View {
             }
             .padding()
         }
+
     }
 }
 
