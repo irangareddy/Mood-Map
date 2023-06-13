@@ -46,7 +46,6 @@ class MoodViewModel: BaseViewModel {
 
         do {
             let response = try await networkManager.readDocuments(collectionId: K.MOOD_ENTRIES_COLLECTION_ID) as [AppwriteModels.Document<MoodEntry>]
-            dump(response)
             DispatchQueue.main.async {
                 self.moodEntries = response
             }

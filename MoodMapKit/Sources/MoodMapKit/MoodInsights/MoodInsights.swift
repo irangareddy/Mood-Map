@@ -36,7 +36,7 @@ import Foundation
 //
 //                let timeInterval = weekday * 100 + hour
 //                countByTime[timeInterval, default: 0] += 1
-//                heatmapData[weekday - 1][hour] += Double(moodEntry.mood.intensityLevel)
+//                heatmapData[weekday - 1][hour] += Double(moodEntry.moods.first?.toMood().intensityLevel)
 //            }
 //        }
 //
@@ -80,7 +80,7 @@ import Foundation
 //        var lineGraphData: [(Date, Double)] = []
 //
 //        for moodEntry in moods {
-//            let dataPoint: (Date, Double) = (moodEntry.timestamp, Double(moodEntry.mood.intensityLevel))
+//            let dataPoint: (Date, Double) = (moodEntry.timestamp, Double(moodEntry.moods.first?.toMood().intensityLevel))
 //            lineGraphData.append(dataPoint)
 //        }
 //
@@ -91,7 +91,7 @@ import Foundation
 //        var scatterPlotData: [(Double, Double)] = []
 //
 //        for moodEntry in moods {
-//            let dataPoint: (Double, Double) = (moodEntry.mood.happinessIndex, Double(moodEntry.mood.intensityLevel))
+//            let dataPoint: (Double, Double) = (moodEntry.moods.first?.toMood().happinessIndex, Double(moodEntry.moods.first?.toMood().intensityLevel))
 //            scatterPlotData.append(dataPoint)
 //        }
 //

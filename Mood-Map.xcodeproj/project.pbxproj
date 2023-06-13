@@ -10,6 +10,10 @@
 		1D0467F62A36C43700AC17D5 /* MemoryLaneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D0467F52A36C43700AC17D5 /* MemoryLaneView.swift */; };
 		1D0467F82A36C46100AC17D5 /* ScrollMood.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D0467F72A36C46100AC17D5 /* ScrollMood.swift */; };
 		1D0467FA2A36C46500AC17D5 /* MemoryLaneView+MoodEntryCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D0467F92A36C46500AC17D5 /* MemoryLaneView+MoodEntryCardView.swift */; };
+		1D0566462A38839B006FBEB0 /* HeatmapDataView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D0566452A38839B006FBEB0 /* HeatmapDataView.swift */; };
+		1D0566482A3885CB006FBEB0 /* LockedFeatureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D0566472A3885CB006FBEB0 /* LockedFeatureView.swift */; };
+		1D05664A2A3894C6006FBEB0 /* HeatMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D0566492A3894C6006FBEB0 /* HeatMapView.swift */; };
+		1D05664C2A38ADC7006FBEB0 /* ShareButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D05664B2A38ADC7006FBEB0 /* ShareButton.swift */; };
 		1D0D1B472A2ECFBA0086BED8 /* ScatterPlotView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D0D1B462A2ECFBA0086BED8 /* ScatterPlotView.swift */; };
 		1D199B602A356F31009F6EB1 /* microphone-recording.json in Resources */ = {isa = PBXBuildFile; fileRef = 1DC460F22A2B9D23004BF432 /* microphone-recording.json */; };
 		1D39F33C2A278D8C00C2AC90 /* PlaceholderData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D39F33B2A278D8C00C2AC90 /* PlaceholderData.swift */; };
@@ -106,6 +110,10 @@
 		1D0467F52A36C43700AC17D5 /* MemoryLaneView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MemoryLaneView.swift; path = ../Main/MemoryLaneView.swift; sourceTree = "<group>"; };
 		1D0467F72A36C46100AC17D5 /* ScrollMood.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollMood.swift; sourceTree = "<group>"; };
 		1D0467F92A36C46500AC17D5 /* MemoryLaneView+MoodEntryCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MemoryLaneView+MoodEntryCardView.swift"; sourceTree = "<group>"; };
+		1D0566452A38839B006FBEB0 /* HeatmapDataView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HeatmapDataView.swift; sourceTree = "<group>"; };
+		1D0566472A3885CB006FBEB0 /* LockedFeatureView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LockedFeatureView.swift; sourceTree = "<group>"; };
+		1D0566492A3894C6006FBEB0 /* HeatMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeatMapView.swift; sourceTree = "<group>"; };
+		1D05664B2A38ADC7006FBEB0 /* ShareButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareButton.swift; sourceTree = "<group>"; };
 		1D0D1B462A2ECFBA0086BED8 /* ScatterPlotView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScatterPlotView.swift; sourceTree = "<group>"; };
 		1D39F33B2A278D8C00C2AC90 /* PlaceholderData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceholderData.swift; sourceTree = "<group>"; };
 		1D39F33D2A278EEC00C2AC90 /* placeholder_data.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = placeholder_data.json; sourceTree = "<group>"; };
@@ -246,10 +254,13 @@
 		1D0467ED2A36BEF000AC17D5 /* Insights */ = {
 			isa = PBXGroup;
 			children = (
+				1D0566492A3894C6006FBEB0 /* HeatMapView.swift */,
+				1D0566452A38839B006FBEB0 /* HeatmapDataView.swift */,
 				1D61AC062A2C61BC0033C4FC /* SwiftHeatMap.swift */,
 				1DA7C0852A24CBF800A50A5F /* MoodInsightsView.swift */,
 				1D61AC0A2A2CE9CE0033C4FC /* MoodOverviewView.swift */,
 				1D0D1B462A2ECFBA0086BED8 /* ScatterPlotView.swift */,
+				1D05664B2A38ADC7006FBEB0 /* ShareButton.swift */,
 			);
 			path = Insights;
 			sourceTree = "<group>";
@@ -338,6 +349,7 @@
 				1D6206DF2A232B150034C0A6 /* Assets.xcassets */,
 				1D6206E12A232B150034C0A6 /* Mood_Map.entitlements */,
 				1D6206E22A232B150034C0A6 /* Preview Content */,
+				1D0566472A3885CB006FBEB0 /* LockedFeatureView.swift */,
 			);
 			path = "Mood-Map";
 			sourceTree = "<group>";
@@ -592,12 +604,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				1DDF11642A36361F00A6B49E /* NetworkManager.swift in Sources */,
+				1D0566462A38839B006FBEB0 /* HeatmapDataView.swift in Sources */,
 				1D0467F82A36C46100AC17D5 /* ScrollMood.swift in Sources */,
 				1DDF116A2A36365F00A6B49E /* Constants.swift in Sources */,
 				1DF0B4A72A2AFF910031CB48 /* SplashView.swift in Sources */,
 				1D0467F62A36C43700AC17D5 /* MemoryLaneView.swift in Sources */,
 				1DED30582A36C4DB00705A88 /* MemoryLane+Utils.swift in Sources */,
 				1DC460ED2A2B9336004BF432 /* TabbedView+Extensions.swift in Sources */,
+				1D05664C2A38ADC7006FBEB0 /* ShareButton.swift in Sources */,
 				1DA7C0862A24CBF800A50A5F /* MoodInsightsView.swift in Sources */,
 				1DDF11732A36367000A6B49E /* AuthenticationView.swift in Sources */,
 				1DED30592A36C4DB00705A88 /* MemoryLaneView+DateElevation.swift in Sources */,
@@ -622,8 +636,10 @@
 				1D68C1762A37868B005B1902 /* Onboarding.swift in Sources */,
 				1D68C1822A37A4F0005B1902 /* SignUpView.swift in Sources */,
 				1DC461062A2B9E96004BF432 /* CheckInView.swift in Sources */,
+				1D0566482A3885CB006FBEB0 /* LockedFeatureView.swift in Sources */,
 				1D0467FA2A36C46500AC17D5 /* MemoryLaneView+MoodEntryCardView.swift in Sources */,
 				1DDF117A2A36368100A6B49E /* AuthViewModel.swift in Sources */,
+				1D05664A2A3894C6006FBEB0 /* HeatMapView.swift in Sources */,
 				1DB6E1D42A24EE8D00279B6E /* TabbedView.swift in Sources */,
 				1DDF11792A36368100A6B49E /* InsightsViewModel.swift in Sources */,
 				1D600C132A35D46200084D15 /* NavigationController.swift in Sources */,

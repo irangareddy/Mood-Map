@@ -50,21 +50,34 @@ enum InsightsCategory {
         }
     }
 
-    var randomStreakString: String {
+    var randomStreakString: (Int?) -> String {
         switch self {
         case .heatMap:
-            return getRandomStreakString(days: 11)
+            return { value in
+                getRandomStreakString(days: value)
+            }
         case .analysis:
-            return getRandomStreakString(days: nil)
+            return { _ in
+                getRandomStreakString(days: nil)
+            }
         }
     }
 
-    var destination: AnyView {
+    var destination: (InsightsViewModel) -> AnyView {
         switch self {
         case .heatMap:
-            return AnyView(HeatMapView(grid: HeatMapGrid(rows: monthlyData.count, columns: monthlyData[0].count, data: monthlyData)))
+            return { insights in
+                if let heatmapData = insights.heatmapData {
+                    return AnyView(HeatMapView(grid: heatmapData))
+                } else {
+                    return AnyView(ScatterPlotView(moodEntries: []))
+                }
+
+            }
         case .analysis:
-            return AnyView(ScatterPlotView(moodEntries: []))
+            return { _ in
+                AnyView(ScatterPlotView(moodEntries: []))
+            }
         }
     }
 }
@@ -72,6 +85,8 @@ enum InsightsCategory {
 // MARK: - MoodInsightsView
 
 struct MoodInsightsView: View {
+    @EnvironmentObject var errorHandling: ErrorHandling
+    @ObservedObject var insights = InsightsViewModel.shared
     let cardInfos: [InsightsCategory] = [.heatMap, .analysis]
 
     var body: some View {
@@ -81,20 +96,36 @@ struct MoodInsightsView: View {
                     MoodInsightsCard(
                         title: cardInfo.title,
                         description: cardInfo.description,
-                        randomStreakString: cardInfo.randomStreakString,
+                        randomStreakString: cardInfo.randomStreakString(insights.streaksCount),
                         content: {
                             // Additional content for the component
                             // Add any views you want to include here
                             // For example:
                             // Text("Card: \(cardInfo.cardName)")
-                        },
-                        destination: { cardInfo.destination }
-                    )
+
+                            Text("Last Updated " + (insights.lastUpdated?.description ?? ""))
+                                .font(.appCaption)
+                                .redacted(reason: insights.lastUpdated == nil ? .placeholder : [])
+
+                        }) {
+                        cardInfo.destination(insights)
+                    }
                 }
                 .padding(.top)
             }
             .frame(maxWidth: .infinity)
             .navigationTitle("Mood Insights")
+        }
+        .onAppear {
+            Task {
+                await insights.getHeatMap()
+            }
+        }
+        .onReceive(insights.$appError) { error in
+            if let localizedError = error {
+                debugPrint(localizedError)
+                // errorHandling.handle(error: localizedError)
+            }
         }
     }
 }
@@ -118,25 +149,23 @@ struct MoodInsightsCard<Content: View>: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 4) {
-            NavigationLink(
-                destination: destination(),
-                label: {
-                    HStack(alignment: .firstTextBaseline) {
-                        VStack(alignment: .leading, spacing: 0) {
-                            Text(title)
-                                .font(.appTitle3)
-                                .padding(.bottom, 8)
-                            Text(description)
-                                .font(.caption)
-                                .foregroundColor(.primary)
-                                .multilineTextAlignment(.leading)
-                        }
-                        Spacer()
-
-                        Image(systemName: "arrow.right")
-                            .padding(.trailing, 4)
+            NavigationLink(destination: destination()) {
+                HStack(alignment: .firstTextBaseline) {
+                    VStack(alignment: .leading, spacing: 0) {
+                        Text(title)
+                            .font(.appTitle3)
+                            .padding(.bottom, 8)
+                        Text(description)
+                            .font(.caption)
+                            .foregroundColor(.primary)
+                            .multilineTextAlignment(.leading)
                     }
-                })
+                    Spacer()
+
+                    Image(systemName: "arrow.right")
+                        .padding(.trailing, 4)
+                }
+            }
 
             Text(randomStreakString)
                 .padding(.vertical)
@@ -194,7 +223,7 @@ struct MoodInsightsSecondView: View {
             Spacer()
 
             if selectedChartIndex == 0 {
-                HeatMapView(grid: HeatMapGrid(rows: monthlyData.count, columns: monthlyData[0].count, data: monthlyData))
+                //                HeatMapView(grid: HeatMapGrid(rows: monthlyData.count, columns: monthlyData[0].count, data: monthlyData))
             } else if selectedChartIndex == 1 {
                 //                MoodDistributionView()
             } else if selectedChartIndex == 2 {

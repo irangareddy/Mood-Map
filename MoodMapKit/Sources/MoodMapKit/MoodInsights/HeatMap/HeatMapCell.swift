@@ -25,15 +25,22 @@ public struct HeatMapCell: View {
     @Binding var selectedRow: Int?
     @Binding var selectedColumn: Int?
 
-    /// A Boolean value indicating whether the cell is currently selected.
+    public init(value: Double, row: Int, column: Int, grid: HeatMapGrid, selectedRow: Binding<Int?>, selectedColumn: Binding<Int?>) {
+        self.value = value
+        self.row = row
+        self.column = column
+        self.grid = grid
+        self._selectedRow = selectedRow
+        self._selectedColumn = selectedColumn
+    }
+
     var isSelected: Bool {
         selectedRow == row && selectedColumn == column
     }
 
-    /// The body of the view.
     public var body: some View {
-        Rectangle()
-            .fill(Color.accentColor.opacity(value))
+        RoundedRectangle(cornerRadius: 4.0)
+            .fill(value == 0 ? Color.secondary.opacity(0.2) : Color.accentColor.opacity(value))
             .frame(width: 20, height: 20)
             .border(isSelected ? Color.primary : Color.clear, width: 2)
             .onTapGesture {
@@ -78,5 +85,19 @@ public struct HeatMapCell: View {
     private func resetSelection() {
         selectedRow = nil
         selectedColumn = nil
+    }
+}
+
+struct HeatMapCell_Previews: PreviewProvider {
+    static var previews: some View {
+        let grid = HeatMapGrid(rows: 5, columns: 5, data: [[(key: "2023-01-01", value: 0.2)]])
+        let selectedRow = Binding<Int?>(get: { nil }, set: { _ in })
+        let selectedColumn = Binding<Int?>(get: { nil }, set: { _ in })
+
+        return Group {
+            HeatMapCell(value: 0.2, row: 0, column: 0, grid: grid, selectedRow: selectedRow, selectedColumn: selectedColumn)
+            HeatMapCell(value: 0.2, row: 0, column: 0, grid: grid, selectedRow: selectedRow, selectedColumn: selectedColumn)
+                .preferredColorScheme(.dark)
+        }.previewLayout(.sizeThatFits)
     }
 }
