@@ -21,14 +21,23 @@ struct CheckInLabel: View {
                 Text(text)
                     .font(.appBody)
                 Spacer()
-                ResizableLottieView(lottieView: lottieView, color: Color.accentColor)
-                    .frame(width: 30, height: 30)
-                    .onAppear {
-                        lottieView.play { _ in
-                            // Animation completion handler
-                        }
-                    }
 
+                if text.contains("weather") {
+                    Image(systemName: "cloud")
+                        .font(.subheadline)
+                        .frame(width: 30, height: 30)
+                        .foregroundColor(.accentColor)
+                } else if text.contains("are you") {
+                    Image(systemName: "location")
+                        .font(.subheadline)
+                        .frame(width: 30, height: 30)
+                        .foregroundColor(.accentColor)
+                } else {
+                    Image(systemName: "pencil")
+                        .font(.subheadline)
+                        .frame(width: 30, height: 30)
+                        .foregroundColor(.accentColor)
+                }
             }
         }
     }

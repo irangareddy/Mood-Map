@@ -15,6 +15,7 @@ func getAllRawValues<T: RawRepresentable & CaseIterable>(ofEnum enumType: T.Type
 }
 
 struct TagsView: View {
+
     var title: String
     var cases: [String]
     var lottieIcon: MoodMapAnimatedIcons

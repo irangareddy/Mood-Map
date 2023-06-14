@@ -191,8 +191,7 @@ class NetworkManager {
                     Permission.update(Role.user(userId))
                 ]
             )
-            
-            
+
             let JWT_KEY = try await account.createJWT()
             let payload = [
                 "userId": userId,

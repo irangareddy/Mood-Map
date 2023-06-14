@@ -36,12 +36,13 @@ public func lottieView(for icon: MoodMapAnimatedIcons) -> LottieAnimationView {
     return LottieAnimationView(name: icon.fileName, bundle: .main)
 }
 
-// MARK: - MoodCheckInView
-
 struct MoodCheckInView: View {
     @EnvironmentObject var errorHandling: ErrorHandling
-    let moodVM = MoodViewModel.shared
+    @StateObject private var moodVM = MoodViewModel.shared
+    @ObservedObject var userPreferenceViewModel = UserPreferenceViewModel.shared
+
     @Binding var selectedMood: Mood?
+
     @State private var date: Date = .now
     @State private var picture: UIImage?
     @State private var audio: Data?
@@ -51,51 +52,29 @@ struct MoodCheckInView: View {
     @State private var sleepHours: String = ""
     @State private var weather: String = ""
     @State private var imageId: String = ""
+
     @Environment(\.presentationMode) var presentationMode
 
     var body: some View {
         GeometryReader { geometry in
             ScrollView {
-                VStack(alignment: .leading) {
-                    // Top
-                    VStack(alignment: .leading) {
-                        Text("I'm feeling")
-                        Text(selectedMood?.name ?? Emoozee.shared.placeholderMood.name)
-                        //                            .foregroundColor(backgroundForCategory(MoodCategory(rawValue: (selectedMood?.category)!.rawValue) ?? MoodCategory.highEnergyPleasant))
-                    }
-                    .font(.appTitle2)
-                    .multilineTextAlignment(.leading)
-
+                VStack(alignment: .leading, spacing: 16) {
+                    topSection
                     DateLabel(selectedDate: $date, lottieView: lottieView(for: .edit))
-
-                    // Photo Picker
                     PhotoPickerView(selectedUIImage: $picture)
-
-                    // Voice Note
                     VoiceNoteView(lottieView: lottieView(for: .microphoneRecording))
-
-                    // Note
                     NoteView(notes: $notes, geometry: geometry)
-
-                    // Tags
                     TagsView(title: "Where are you?", cases: getAllRawValues(ofEnum: Place.self), lottieIcon: MoodMapAnimatedIcons.location, geometry: geometry, size: 5, selectedValue: $place)
-
                     TagsView(title: "Weather", cases: getAllRawValues(ofEnum: Weather.self), lottieIcon: MoodMapAnimatedIcons.weather, geometry: geometry, size: 5, selectedValue: $weather)
                         .padding(.top, 8)
-
-                    // Exercise
                     ExerciseView(lottieView: lottieView(for: .exercise), exerciseHours: $exerciseHours)
-
-                    // Sleep
                     SleepView(lottieView: lottieView(for: .sleep), sleepHours: $sleepHours)
-
                 }
                 .padding()
             }
             .redacted(reason: selectedMood == nil ? .placeholder : [])
             .safeAreaInset(edge: .bottom) {
                 FloatingButton(action: {
-                    // Perform some action here...
                     createEntry()
                     NavigationController.popToRootView()
                 }, icon: "plus")
@@ -104,19 +83,27 @@ struct MoodCheckInView: View {
                 if let localizedError = error {
                     print("\(localizedError) from the view")
                     errorHandling.handle(error: localizedError)
-
                 }
             }
             .onChange(of: picture) { newImage in
                 Task {
-                    do {
-                        if let pictureId = await moodVM.saveImage(loaded: newImage) {
-                            self.imageId = pictureId
-                        }
+                    if let pictureId = await moodVM.saveImage(loaded: newImage) {
+                        self.imageId = pictureId
                     }
                 }
             }
+        }.onAppear {
+            userPreferenceViewModel.loadAccentColor()
         }
+    }
+
+    private var topSection: some View {
+        VStack(alignment: .leading) {
+            Text("I'm feeling")
+            Text(selectedMood?.name ?? Emoozee.shared.placeholderMood.name)
+                .foregroundColor(getMoodCategoryColor(for: MoodCategory(rawValue: (selectedMood?.name.toMood()?.category)!.rawValue) ?? .highEnergyPleasant))
+        } .font(.appTitle2)
+        .multilineTextAlignment(.leading)
     }
 
     private func createEntry() {
@@ -128,35 +115,26 @@ struct MoodCheckInView: View {
         let weatherEnum: Weather? = Weather.allCases.first { $0.rawValue == weather.lowercased() }
         let placeEnum: Place? = Place.allCases.first { $0.rawValue == place.lowercased() }
 
-        print("Selected Mood: \(selectedMood.name)")
-        print("Date: \(date)")
-        print("Notes: \(notes)")
-        print("Audio: \(String(describing: audio))")
-        print("Picture: \(String(describing: imageId))")
-        print("Weather: \(weatherEnum?.rawValue ?? "Unknown")")
-        print("Place: \(placeEnum?.rawValue ?? "Unknown")")
-        print("Sleep Hours: \(sleepHours)")
-        print("Exercise Hours: \(exerciseHours)")
-
-        // Assuming moodVM is an instance of the MoodViewModel class
-
-        // Convert exerciseHours string to an Int
         let exerciseHoursInt = Double(exerciseHours)
         let sleepHoursInt = Double(sleepHours)
 
-        // Create a new MoodEntry instance
-        // Assuming moodVM is an instance of the MoodViewModel class
+        let moodEntry = MoodEntry(
+            moods: [selectedMood],
+            timestamp: Date(),
+            imageId: imageId,
+            voiceNoteId: nil,
+            notes: notes,
+            place: placeEnum,
+            exerciseHours: exerciseHoursInt,
+            sleepHours: sleepHoursInt,
+            weather: weatherEnum
+        )
 
-        // Create a new MoodEntry instance
-        let moodEntry: MoodEntry = MoodEntry(moods: [selectedMood], timestamp: Date(), imageId: imageId, voiceNoteId: nil, notes: notes, place: placeEnum, exerciseHours: exerciseHoursInt, sleepHours: sleepHoursInt, weather: weatherEnum)
-
-        // Use the moodVM to append the moodEntry
         moodVM.append(mood: moodEntry) {
             // Completion handler called after appending the moodEntry
             // Handle any necessary actions or UI updates
         }
     }
-
 }
 
 // MARK: - VoiceNoteView
@@ -170,13 +148,17 @@ struct VoiceNoteView: View {
                 Text("Add a voice note")
                     .font(.appBody)
                 Spacer()
-                ResizableLottieView(lottieView: lottieView, color: Color.accentColor)
+                //                ResizableLottieView(lottieView: lottieView, color: Color.accentColor)
+                Image(systemName: "mic")
                     .frame(width: 30, height: 30)
-                    .onAppear {
-                        lottieView.play { _ in
-                        }
-                    }
-                    .blendMode(.normal)
+                    //                    .onAppear {
+                    //                        DispatchQueue.main.async {
+                    //                            lottieView.play { _ in
+                    //                                // Animation completion handler
+                    //                            }
+                    //                        }
+                    //                    }
+                    .foregroundColor(.accentColor)
             }.padding(.vertical, 2)
             Divider()
         }
@@ -188,6 +170,7 @@ struct VoiceNoteView: View {
 struct NoteView: View {
     @Binding var notes: String
     var geometry: GeometryProxy
+    let lottieView = LottieAnimationView(name: MoodMapAnimatedIcons.document.fileName, bundle: .main)
 
     var body: some View {
         VStack {
@@ -195,8 +178,17 @@ struct NoteView: View {
                 Text("Add a note")
                     .font(.appBody)
                 Spacer()
-                ResizableLottieView(lottieView: LottieAnimationView(name: MoodMapAnimatedIcons.document.fileName, bundle: .main), color: Color.accentColor)
+                //                ResizableLottieView(lottieView: lottieView, color: Color.accentColor)
+                Image(systemName: "note")
                     .frame(width: 30, height: 30)
+                    .foregroundColor(.accentColor)
+                    .onAppear {
+                        DispatchQueue.main.async {
+                            lottieView.play { _ in
+                                // Animation completion handler
+                            }
+                        }
+                    }
                     .blendMode(.normal)
             }
             TextEditor(text: $notes)
@@ -217,13 +209,10 @@ struct ExerciseView: View {
     var body: some View {
         VStack {
             HStack {
-                ResizableLottieView(lottieView: lottieView, color: Color.accentColor)
+
+                Image(systemName: "figure.gymnastics")
                     .frame(width: 30, height: 30)
-                    .onAppear {
-                        lottieView.play { _ in
-                        }
-                    }
-                    .blendMode(.normal)
+                    .foregroundColor(.accentColor)
                 Text("Exercise")
                 Spacer()
                 TextField("Hours", text: $exerciseHours)
@@ -246,13 +235,9 @@ struct SleepView: View {
     var body: some View {
         VStack {
             HStack {
-                ResizableLottieView(lottieView: lottieView, color: Color.accentColor)
+                Image(systemName: "sleep")
                     .frame(width: 30, height: 30)
-                    .onAppear {
-                        lottieView.play { _ in
-                        }
-                    }
-                    .blendMode(.normal)
+                    .foregroundColor(.accentColor)
                 Text("Sleep")
                 Spacer()
                 TextField("Hours", text: $sleepHours)
@@ -261,7 +246,9 @@ struct SleepView: View {
                     .multilineTextAlignment(.trailing)
             }
             .padding(.top, 8)
+
         }
+
     }
 }
 
@@ -417,11 +404,14 @@ struct PhotoPickerView: View {
                             selection: $selectedItem,
                             matching: .images,
                             photoLibrary: .shared()) {
-                            ResizableLottieView(lottieView: lottieView, color: Color.accentColor, loopMode: .loop)
+                            //                            ResizableLottieView(lottieView: lottieView, color: Color.accentColor, loopMode: .loop)
+                            Image(systemName: "photo")
                                 .frame(width: 30, height: 30)
                                 .onAppear {
-                                    lottieView.play { _ in
-                                        // Animation completion handler
+                                    DispatchQueue.main.async {
+                                        lottieView.play { _ in
+                                            // Animation completion handler
+                                        }
                                     }
                                 }
                         }
@@ -502,14 +492,12 @@ struct DateLabel: View {
                 Text(text)
                     .font(.appBody)
                 Spacer()
-                ResizableLottieView(lottieView: lottieView, color: Color.accentColor)
+                //                ResizableLottieView(lottieView: lottieView, color: Color.accentColor)
+                Image(systemName: "pencil")
+                    .font(.subheadline)
+                    .scaledToFit()
                     .frame(width: 30, height: 30)
-                    .onAppear {
-                        lottieView.play { _ in
-                            // Animation completion handler
-                        }
-                    }
-                    .blendMode(.normal)
+                    .foregroundColor(.accentColor)
                     .onTapGesture {
                         isDatePickerVisible.toggle()
                     }
