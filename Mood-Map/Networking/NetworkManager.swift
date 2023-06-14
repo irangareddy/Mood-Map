@@ -55,10 +55,7 @@ class NetworkManager {
         self.functions = Functions(client)
         self.storage = Storage(client)
 
-        Task { try? await listSessions()
-
-            try? await generateJWT()
-        }
+        Task { try? await listSessions() }
 
     }
 
@@ -88,7 +85,6 @@ class NetworkManager {
     func generateJWT() async throws {
         do {
             let jwt = try await account.createJWT()
-            dump(jwt)
         } catch {
             throw error
         }
@@ -195,12 +191,23 @@ class NetworkManager {
                     Permission.update(Role.user(userId))
                 ]
             )
+            
+            
+            let JWT_KEY = try await account.createJWT()
+            let payload = [
+                "userId": userId,
+                "sessionId": sessionId,
+                "jwtKey": "\(JWT_KEY.jwt)",
+                "from": "mobile"
+            ]
 
-            let payload = ["userId": userId, "sessionId": sessionId, "from": "mobile"]
+            // ⚠️ WARNING: This approach of sending keys as parameters is not recommended and will be fixed in an upcoming update this week.
+
             if let jsonPayload = convertToJsonString(payload: payload) {
                 debugPrint("Sending payload \(jsonPayload)")
                 await self.executeCloudFuction(of: K.HEATMAP_FUNCTION_ID, payload: jsonPayload)
             }
+
         }
     }
 

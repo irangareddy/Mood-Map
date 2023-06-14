@@ -72,10 +72,9 @@ class InsightsViewModel: BaseViewModel {
             DispatchQueue.main.async { [weak self] in
                 guard let self = self else { return }
                 self.isLoading = true
-                dump(response)
                 self.streaks = response
 
-                if let streak = response.first {
+                if let streak = response.last {
                     let cleanedHeatmap = streak.data.heatmap.cleanJSONString()
                     if let heatmap: [String: Int] = cleanedHeatmap.decodeJSON() {
                         self.heatmapData = generateHeatMapGrid(from: heatmap)
