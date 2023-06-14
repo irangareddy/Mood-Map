@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct SignUpView: View {
+    @ObservedObject var userPreferenceViewModel = UserPreferenceViewModel.shared
     @EnvironmentObject var errorHandling: ErrorHandling
     @Binding var isPresented: Bool
     @State private var name: String = ""
@@ -52,6 +53,7 @@ struct SignUpView: View {
                 }
             }.disabled(authVM.isLoading)
         }
+        .preferredColorScheme(userPreferenceViewModel.selectedColorScheme)
         .onReceive(authVM.$appError) { error in
             if let localizedError = error {
                 errorHandling.handle(error: localizedError)

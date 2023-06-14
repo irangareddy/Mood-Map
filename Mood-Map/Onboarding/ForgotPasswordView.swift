@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct ForgotPasswordView: View {
+    @ObservedObject var userPreferenceViewModel = UserPreferenceViewModel.shared
+
     @EnvironmentObject var errorHandling: ErrorHandling
     @Binding var isPresented: Bool
     @State private var password: String = ""
@@ -41,7 +43,9 @@ struct ForgotPasswordView: View {
                 .multilineTextAlignment(.center)
                 .padding(.horizontal, 16)
             Spacer()
-        }.onReceive(authVM.$appError) { error in
+        }
+        .preferredColorScheme(userPreferenceViewModel.selectedColorScheme)
+        .onReceive(authVM.$appError) { error in
             if let localizedError = error {
 
                 errorHandling.handle(error: localizedError)

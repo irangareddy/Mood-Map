@@ -12,6 +12,7 @@ import SwiftUI
 // MARK: - TabbedView
 
 struct TabbedView: View {
+    @ObservedObject var userPreferenceViewModel = UserPreferenceViewModel.shared
 
     init() {
         UITabBar.appearance().isHidden = true
@@ -47,6 +48,7 @@ struct TabbedView: View {
                         SettingsView()
                     }
                 }.frame(maxWidth: .infinity, maxHeight: .infinity)
+                .preferredColorScheme(userPreferenceViewModel.selectedColorScheme)
 
                 if #available(iOS 16, *) {
                     TabBar()

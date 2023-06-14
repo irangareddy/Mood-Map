@@ -66,6 +66,7 @@
 		1DB7E2782A3A0F8700EDEF22 /* MoodMapWidget.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 1DB7E2742A3A0F8600EDEF22 /* MoodMapWidget.intentdefinition */; };
 		1DB7E2792A3A0F8700EDEF22 /* MoodMapWidget.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 1DB7E2742A3A0F8600EDEF22 /* MoodMapWidget.intentdefinition */; };
 		1DB7E27C2A3A0F8700EDEF22 /* MoodMapWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 1DB7E26C2A3A0F8600EDEF22 /* MoodMapWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		1DB7E2812A3A4B3D00EDEF22 /* UserPreferenceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DB7E2802A3A4B3D00EDEF22 /* UserPreferenceViewModel.swift */; };
 		1DC460ED2A2B9336004BF432 /* TabbedView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DC460EC2A2B9336004BF432 /* TabbedView+Extensions.swift */; };
 		1DC460FB2A2B9D23004BF432 /* avatar.json in Resources */ = {isa = PBXBuildFile; fileRef = 1DC460F12A2B9D23004BF432 /* avatar.json */; };
 		1DC460FD2A2B9D23004BF432 /* photo-picturelandscape-gallery.json in Resources */ = {isa = PBXBuildFile; fileRef = 1DC460F32A2B9D23004BF432 /* photo-picturelandscape-gallery.json */; };
@@ -198,6 +199,7 @@
 		1DB7E2742A3A0F8600EDEF22 /* MoodMapWidget.intentdefinition */ = {isa = PBXFileReference; lastKnownFileType = file.intentdefinition; path = MoodMapWidget.intentdefinition; sourceTree = "<group>"; };
 		1DB7E2752A3A0F8700EDEF22 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1DB7E2772A3A0F8700EDEF22 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1DB7E2802A3A4B3D00EDEF22 /* UserPreferenceViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPreferenceViewModel.swift; sourceTree = "<group>"; };
 		1DC460EC2A2B9336004BF432 /* TabbedView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TabbedView+Extensions.swift"; sourceTree = "<group>"; };
 		1DC460F12A2B9D23004BF432 /* avatar.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = avatar.json; sourceTree = "<group>"; };
 		1DC460F22A2B9D23004BF432 /* microphone-recording.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "microphone-recording.json"; sourceTree = "<group>"; };
@@ -500,6 +502,7 @@
 				1DDF11762A36368100A6B49E /* InsightsViewModel.swift */,
 				1DDF11772A36368100A6B49E /* AuthViewModel.swift */,
 				1DDF11782A36368100A6B49E /* MoodViewModel.swift */,
+				1DB7E2802A3A4B3D00EDEF22 /* UserPreferenceViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -743,6 +746,7 @@
 				1DED305A2A36C4DB00705A88 /* MemoryLaneView+ScrollerKnob.swift in Sources */,
 				1DED305B2A36C4DB00705A88 /* MoodEntryCardContentView.swift in Sources */,
 				1DDF116C2A36365F00A6B49E /* ErrorHandling.swift in Sources */,
+				1DB7E2812A3A4B3D00EDEF22 /* UserPreferenceViewModel.swift in Sources */,
 				1D6206DC2A232B140034C0A6 /* Mood_MapApp.swift in Sources */,
 				1DED305C2A36C4DB00705A88 /* MemoryLaneView+CustomScroller.swift in Sources */,
 				1D61AC0B2A2CE9CE0033C4FC /* MoodOverviewView.swift in Sources */,

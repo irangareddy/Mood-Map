@@ -9,6 +9,7 @@ import SwiftUI
 import MoodMapKit
 
 struct SignInView: View {
+    @ObservedObject var userPreferenceViewModel = UserPreferenceViewModel.shared
     @EnvironmentObject var errorHandling: ErrorHandling
     @State private var email: String = "test@gmail.com"
     @State private var password: String = "12345678"
@@ -104,7 +105,10 @@ struct SignInView: View {
                     .padding()
             }
 
-        }.onChange(of: authVM.isUserLoggedIn) { status in
+        }
+        .preferredColorScheme(userPreferenceViewModel.selectedColorScheme)
+
+        .onChange(of: authVM.isUserLoggedIn) { status in
             if status {
                 NavigationController.rootView(UIHostingController(rootView: TabbedView().withErrorHandling()))
             }

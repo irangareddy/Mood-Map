@@ -9,6 +9,7 @@ import SwiftUI
 import MoodMapKit
 
 struct ContentView: View {
+    @ObservedObject var userPreferenceViewModel = UserPreferenceViewModel.shared
     @AppStorage("isFirstTimeUser") var isFirstTimeUser: Bool = true
     @EnvironmentObject var emoozee: Emoozee
 
@@ -24,6 +25,8 @@ struct ContentView: View {
                     .environmentObject(emoozee)
             }
         }
+        .preferredColorScheme(userPreferenceViewModel.selectedColorScheme)
+
     }
 }
 

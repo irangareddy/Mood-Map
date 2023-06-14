@@ -11,6 +11,7 @@ import SwiftUI
 
 /// A view that represents the splash screen.
 public struct SplashView: View {
+    @ObservedObject var userPreferenceViewModel = UserPreferenceViewModel.shared
     @ObservedObject private var authManager = AuthViewModel.shared
     @State private var isActive = false
 
@@ -29,7 +30,8 @@ public struct SplashView: View {
 
                 }
 
-        }
+        }    .preferredColorScheme(userPreferenceViewModel.selectedColorScheme)
+
     }
 
     func showNextScreen() {

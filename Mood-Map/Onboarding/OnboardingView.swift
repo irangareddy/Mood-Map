@@ -9,6 +9,7 @@ import SwiftUI
 
 /// Onboarding View
 struct OnboardingView: View {
+    @ObservedObject var userPreferenceViewModel = UserPreferenceViewModel.shared
     @ObservedObject private var authManager = AuthViewModel.shared
     @AppStorage("isFirstTimeUser") var isFirstTimeUser: Bool = true
     /// current step in onboarding process
@@ -76,6 +77,7 @@ struct OnboardingView: View {
                 showNextScreen()
             }
         }
+        .preferredColorScheme(userPreferenceViewModel.selectedColorScheme)
 
     }
 

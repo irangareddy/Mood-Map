@@ -40,12 +40,11 @@ struct CodableColor: Codable {
 }
 
 struct SettingsView: View {
-    @AppStorage("colorScheme") var chosenColorScheme: ColorSchemeSetting = .system
-    @AppStorage("appAccentColorData") private var appAccentColorData: Data?
+    @ObservedObject var userPreferenceViewModel = UserPreferenceViewModel.shared
     @State private var selectedColor = Color.accentColor
 
     var selectedColorScheme: ColorScheme? {
-        switch chosenColorScheme {
+        switch userPreferenceViewModel.chosenColorScheme {
         case .light:
             return .light
         case .dark:
@@ -62,7 +61,7 @@ struct SettingsView: View {
                 Text("Appearance".capitalized)
                     .font(.appSmallSubheadline)
                 // Color Picker
-                Picker(selection: $chosenColorScheme, label: Text("Choose scheme")) {
+                Picker(selection: $userPreferenceViewModel.chosenColorScheme, label: Text("Choose scheme")) {
                     ForEach(ColorSchemeSetting.allCases, id: \.self) { colorScheme in
                         Text(colorScheme.rawValue.capitalized)
                             .font(.appCaption)
@@ -78,9 +77,9 @@ struct SettingsView: View {
                 ColorPicker("Select an accent color", selection: $selectedColor)
                     .font(.appSmallSubheadline)
                     .onChange(of: selectedColor) { newValue in
-                        saveAccentColor(newValue)
+                        userPreferenceViewModel.saveAccentColor(newValue)
                         #if os(iOS)
-                        updateAppAccentColor(newValue)
+                        userPreferenceViewModel.updateAppAccentColor(newValue)
                         #endif
                     }
                 Text("Select an accent color for your app")
@@ -107,13 +106,10 @@ struct SettingsView: View {
             Spacer()
         }
         .navigationTitle("Settings")
-        .preferredColorScheme(selectedColorScheme)
-        .onAppear {
-            loadAccentColor()
-            #if os(iOS)
-            updateAppAccentColor(selectedColor)
-            #endif
-        }
+        .onAppear(perform: {
+            userPreferenceViewModel.loadAccentColor()
+        })
+        .preferredColorScheme(userPreferenceViewModel.selectedColorScheme)
 
     }
 
@@ -122,18 +118,6 @@ struct SettingsView: View {
         let accentColorData = try? JSONEncoder().encode(codableColor)
         UserDefaults.standard.set(accentColorData, forKey: "appAccentColorData")
     }
-
-    private func loadAccentColor() {
-        if let accentColorData = UserDefaults.standard.data(forKey: "appAccentColorData"),
-           let codableColor = try? JSONDecoder().decode(CodableColor.self, from: accentColorData) {
-            selectedColor = codableColor.color
-        }
-    }
-    #if os(iOS)
-    private func updateAppAccentColor(_ color: Color) {
-        UIApplication.shared.windows.first?.tintColor = UIColor(color)
-    }
-    #endif
 }
 
 struct SettingsView_Previews: PreviewProvider {
