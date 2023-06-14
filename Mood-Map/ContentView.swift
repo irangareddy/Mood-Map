@@ -24,7 +24,9 @@ struct ContentView: View {
                     .withErrorHandling()
                     .environmentObject(emoozee)
             }
-        }
+        }.onAppear(perform: {
+            userPreferenceViewModel.loadAccentColor()
+        })
         .preferredColorScheme(userPreferenceViewModel.selectedColorScheme)
 
     }

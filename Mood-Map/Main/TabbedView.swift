@@ -94,7 +94,7 @@ extension TabbedView {
             if selectedTab == .memoryLane { Spacer() }
             if selectedTab == .moodInsights { Spacer()
                 Spacer() }
-            Circle().fill(Color(hex: "#734f96")).frame(width: 80)
+            Circle().fill(Color.accentColor).frame(width: 80)
             if selectedTab == .checkIn { Spacer() }
             if selectedTab == .memoryLane { Spacer()
                 Spacer() }
@@ -106,7 +106,7 @@ extension TabbedView {
             if selectedTab == .moodInsights { Spacer()
                 Spacer() }
             RoundedRectangle(cornerRadius: 3)
-                .fill(Color(hex: "#734f96")).frame(width: 28, height: 5)
+                .fill(Color.accentColor).frame(width: 28, height: 5)
                 .frame(width: 88)
                 .frame(maxHeight: .infinity, alignment: .top)
             if selectedTab == .checkIn { Spacer() }
