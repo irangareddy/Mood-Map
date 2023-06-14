@@ -14,14 +14,13 @@ struct Quote: Codable, Equatable {
     let importance: String
 }
 
-
 class QuotesViewModel: ObservableObject {
     @Published var quotes: [Quote] = []
-    
+
     init() {
         loadQuotes()
     }
-    
+
     func loadQuotes() {
         if let quotesFileURL = Bundle.main.url(forResource: "quotes", withExtension: "json") {
             do {
@@ -33,11 +32,11 @@ class QuotesViewModel: ObservableObject {
             }
         }
     }
-    
+
     func quoteForCurrentDay() -> Quote? {
         let calendar = Calendar.current
         let weekday = calendar.component(.weekday, from: Date())
-        
+
         return quotes.first { quote in
             let quoteIndex = quotes.firstIndex(of: quote) ?? 0
             return quoteIndex == (weekday - 1)

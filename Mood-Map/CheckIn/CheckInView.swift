@@ -10,29 +10,29 @@ import MoodMapKit
 import Lottie
 
 func timeOfDayGreeting() -> String {
-        let date = Date()
-        let calendar = Calendar.current
-        let hour = calendar.component(.hour, from: date)
-        
-        switch hour {
-        case 0:
-            return "Midnight"
-        case 1..<6:
-            return "Dawn"
-        case 6..<12:
-            return "Morning"
-        case 12:
-            return "Midday"
-        case 13..<17:
-            return "Afternoon"
-        case 17..<18:
-            return "Evening"
-        case 18..<24:
-            return "Night"
-        default:
-            return "Unknown"
-        }
+    let date = Date()
+    let calendar = Calendar.current
+    let hour = calendar.component(.hour, from: date)
+
+    switch hour {
+    case 0:
+        return "Midnight"
+    case 1..<6:
+        return "Dawn"
+    case 6..<12:
+        return "Morning"
+    case 12:
+        return "Midday"
+    case 13..<17:
+        return "Afternoon"
+    case 17..<18:
+        return "Evening"
+    case 18..<24:
+        return "Night"
+    default:
+        return "Unknown"
     }
+}
 
 struct CheckInView: View {
 
@@ -93,7 +93,6 @@ struct CheckInView: View {
                     Spacer()
 
                 }.padding(8)
- 
 
             }
             .padding()
@@ -145,7 +144,7 @@ struct RingAnimationView: View {
                 .opacity(0.0) // Hide the chasing cap
         }
         .onAppear {
-           animateProgress()
+            animateProgress()
         }
     }
 

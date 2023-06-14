@@ -8,16 +8,65 @@
 import SwiftUI
 import CoreMotion
 
+public func getMoodCategoryColorMine(for category: MoodCategory) -> AngularGradient {
+    let baseColors: [Color]
+    let startAngle: Angle
+    let endAngle: Angle
+
+    switch category {
+    case .highEnergyUnpleasant:
+        baseColors = [
+            Color(hex: "#FF6B6B"), // Vibrant Red
+            Color(hex: "#FFADAD"), // Lighter shade of red
+            Color(hex: "#FFD6D6") // Even lighter shade of red
+        ]
+        startAngle = .degrees(-90)
+        endAngle = .degrees(360)
+
+    case .highEnergyPleasant:
+        baseColors = [
+            Color(hex: "#FFCC4D"), // Vibrant Yellow
+            Color(hex: "#FFE698"), // Lighter shade of yellow
+            Color(hex: "#FFF4CC") // Even lighter shade of yellow
+        ]
+        startAngle = .degrees(-90)
+        endAngle = .degrees(360)
+
+    case .lowEnergyPleasant:
+        baseColors = [
+            Color(hex: "#6AB7FF"), // Vibrant Blue
+            Color(hex: "#A5D8FF"), // Lighter shade of blue
+            Color(hex: "#D0E9FF") // Even lighter shade of blue
+        ]
+        startAngle = .degrees(-90)
+        endAngle = .degrees(360)
+
+    case .lowEnergyUnpleasant:
+        baseColors = [
+            Color(hex: "#A65FCA"), // Vibrant Purple
+            Color(hex: "#D39EF3"), // Lighter shade of purple
+            Color(hex: "#ECCAFF") // Even lighter shade of purple
+        ]
+        startAngle = .degrees(-90)
+        endAngle = .degrees(360)
+    }
+
+    let colors = [Color.white] + baseColors
+    let gradient = AngularGradient(gradient: Gradient(colors: colors), center: .center, startAngle: startAngle, endAngle: endAngle)
+
+    return gradient
+}
+
 public func backgroundForCategory(_ category: MoodCategory) -> Color {
     switch category {
     case .highEnergyUnpleasant:
-        return Color(red: 0.6, green: 0.8, blue: 0.6) // Subtle green for dark mode
+        return  Color(hex: "#FF6B6B")
     case .lowEnergyPleasant:
-        return Color(red: 0.6, green: 0.6, blue: 0.8) // Subtle blue for dark mode
+        return             Color(hex: "#6AB7FF")
     case .lowEnergyUnpleasant:
-        return Color(red: 0.8, green: 0.6, blue: 0.6) // Subtle red for dark mode
+        return Color(hex: "#A65FCA")
     case .highEnergyPleasant:
-        return Color(red: 0.8, green: 0.8, blue: 0.6) // Subtle yellow for dark mode
+        return Color(hex: "#FFCC4D")
     }
     // Add more cases for other categories as needed
 }
@@ -27,6 +76,7 @@ public func backgroundForCategory(_ category: MoodCategory) -> Color {
 /// Use `MoodGridView` to create a view that presents a grid of moods with selectable options.
 /// The view supports scrolling in both horizontal and vertical directions.
 public struct MoodGridView: View {
+    @Environment(\.presentationMode) var presentationMode
     @State private var isShowingToast = false
     @State private var toastMessage = ""
     @Binding var moodSelected: Mood?
@@ -86,11 +136,12 @@ public struct MoodGridView: View {
                                     Text("\(mood.name) \(mood.emoji)")
                                         .foregroundColor(.white)
                                         .padding()
-                                        .background(
-                                            RoundedRectangle(cornerRadius: 100)
-                                                .foregroundColor(backgroundForCategory(mood.category))
-                                                .cornerRadius(8)
+                                        .background(.ultraThinMaterial)
+                                        .background(getMoodCategoryColorMine(for: mood.category)
                                         )
+                                        .cornerRadius(100)
+                                        .shadow(color: Color.black.opacity(0.1), radius: 2, x: 0, y: 2)
+                                        .shadow(color: Color.white.opacity(0.1), radius: 2, x: 0, y: 1)
                                         .onTapGesture {
 
                                             withAnimation {
@@ -132,10 +183,9 @@ public struct MoodGridView: View {
                     }
 
                 }
-
                 Button {
                     print("Tapped")
-                    circleTappedAction()
+                    presentationMode.wrappedValue.dismiss()
                 } label: {
                     Image(systemName: "xmark")
                         .font(.title3)
@@ -185,7 +235,8 @@ public struct MoodGridView: View {
                 }
             }
 
-        }
+        }.navigationBarHidden(true)
+
     }
 
     func offsetX(for mood: Mood, geometry: GeometryProxy) -> CGFloat {

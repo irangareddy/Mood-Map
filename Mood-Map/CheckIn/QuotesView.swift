@@ -9,10 +9,10 @@ import SwiftUI
 
 struct QuotesView: View {
     @ObservedObject var viewModel = QuotesViewModel()
-    
+
     var body: some View {
         if let quote = viewModel.quoteForCurrentDay() {
-            VStack(alignment: .leading,spacing: 10) {
+            VStack(alignment: .leading, spacing: 10) {
                 Text(quote.quote)
                     .font(.appHeadline)
                 Text("- \(quote.author)")
@@ -23,13 +23,12 @@ struct QuotesView: View {
                     .font(.appSmallBody)
                     .foregroundColor(.gray)
             }.multilineTextAlignment(.center)
-                .padding()
+            .padding()
         } else {
             Text("No quote available for today.")
         }
     }
 }
-
 
 struct QuotesView_Previews: PreviewProvider {
     static var previews: some View {
