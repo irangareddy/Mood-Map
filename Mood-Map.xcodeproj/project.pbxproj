@@ -67,6 +67,9 @@
 		1DB7E2792A3A0F8700EDEF22 /* MoodMapWidget.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 1DB7E2742A3A0F8600EDEF22 /* MoodMapWidget.intentdefinition */; };
 		1DB7E27C2A3A0F8700EDEF22 /* MoodMapWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 1DB7E26C2A3A0F8600EDEF22 /* MoodMapWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		1DB7E2812A3A4B3D00EDEF22 /* UserPreferenceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DB7E2802A3A4B3D00EDEF22 /* UserPreferenceViewModel.swift */; };
+		1DB7E2832A3A547700EDEF22 /* quotes.json in Resources */ = {isa = PBXBuildFile; fileRef = 1DB7E2822A3A547700EDEF22 /* quotes.json */; };
+		1DB7E2852A3A54B700EDEF22 /* QuotesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DB7E2842A3A54B700EDEF22 /* QuotesViewModel.swift */; };
+		1DB7E2872A3A552C00EDEF22 /* QuotesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DB7E2862A3A552C00EDEF22 /* QuotesView.swift */; };
 		1DC460ED2A2B9336004BF432 /* TabbedView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DC460EC2A2B9336004BF432 /* TabbedView+Extensions.swift */; };
 		1DC460FB2A2B9D23004BF432 /* avatar.json in Resources */ = {isa = PBXBuildFile; fileRef = 1DC460F12A2B9D23004BF432 /* avatar.json */; };
 		1DC460FD2A2B9D23004BF432 /* photo-picturelandscape-gallery.json in Resources */ = {isa = PBXBuildFile; fileRef = 1DC460F32A2B9D23004BF432 /* photo-picturelandscape-gallery.json */; };
@@ -200,6 +203,9 @@
 		1DB7E2752A3A0F8700EDEF22 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1DB7E2772A3A0F8700EDEF22 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1DB7E2802A3A4B3D00EDEF22 /* UserPreferenceViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPreferenceViewModel.swift; sourceTree = "<group>"; };
+		1DB7E2822A3A547700EDEF22 /* quotes.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = quotes.json; sourceTree = "<group>"; };
+		1DB7E2842A3A54B700EDEF22 /* QuotesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuotesViewModel.swift; sourceTree = "<group>"; };
+		1DB7E2862A3A552C00EDEF22 /* QuotesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuotesView.swift; sourceTree = "<group>"; };
 		1DC460EC2A2B9336004BF432 /* TabbedView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TabbedView+Extensions.swift"; sourceTree = "<group>"; };
 		1DC460F12A2B9D23004BF432 /* avatar.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = avatar.json; sourceTree = "<group>"; };
 		1DC460F22A2B9D23004BF432 /* microphone-recording.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "microphone-recording.json"; sourceTree = "<group>"; };
@@ -275,6 +281,7 @@
 				1DB7B9C62A350442004BC710 /* VoiceNoteIntentView.swift */,
 				1D600C142A35F1C300084D15 /* CheckInLabel.swift */,
 				1D600C162A35FB5000084D15 /* TagsView.swift */,
+				1DB7E2862A3A552C00EDEF22 /* QuotesView.swift */,
 			);
 			path = CheckIn;
 			sourceTree = "<group>";
@@ -359,6 +366,7 @@
 			isa = PBXGroup;
 			children = (
 				1DC460F02A2B9CE5004BF432 /* AnimatedIcons */,
+				1DB7E2822A3A547700EDEF22 /* quotes.json */,
 				1D39F33D2A278EEC00C2AC90 /* placeholder_data.json */,
 				1DA7C07E2A24CA7800A50A5F /* MoodMapKit */,
 				1D55AE1C2A23C3A3008DEDB8 /* Packages */,
@@ -503,6 +511,7 @@
 				1DDF11772A36368100A6B49E /* AuthViewModel.swift */,
 				1DDF11782A36368100A6B49E /* MoodViewModel.swift */,
 				1DB7E2802A3A4B3D00EDEF22 /* UserPreferenceViewModel.swift */,
+				1DB7E2842A3A54B700EDEF22 /* QuotesViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -661,6 +670,7 @@
 				1DC461002A2B9D23004BF432 /* trash-bin.json in Resources */,
 				1DC460FE2A2B9D23004BF432 /* flower-doodle.json in Resources */,
 				1D39F33E2A278EEC00C2AC90 /* placeholder_data.json in Resources */,
+				1DB7E2832A3A547700EDEF22 /* quotes.json in Resources */,
 				1DC460FB2A2B9D23004BF432 /* avatar.json in Resources */,
 				1DC461042A2B9D23004BF432 /* home.json in Resources */,
 				1D6206E02A232B150034C0A6 /* Assets.xcassets in Resources */,
@@ -699,6 +709,7 @@
 				1DDF11642A36361F00A6B49E /* NetworkManager.swift in Sources */,
 				1D0566462A38839B006FBEB0 /* HeatmapDataView.swift in Sources */,
 				1D0467F82A36C46100AC17D5 /* ScrollMood.swift in Sources */,
+				1DB7E2852A3A54B700EDEF22 /* QuotesViewModel.swift in Sources */,
 				1DDF116A2A36365F00A6B49E /* Constants.swift in Sources */,
 				1DF0B4A72A2AFF910031CB48 /* SplashView.swift in Sources */,
 				1D0467F62A36C43700AC17D5 /* MemoryLaneView.swift in Sources */,
@@ -742,6 +753,7 @@
 				1D6B3E862A36CD1E009476D1 /* CategoryBackgroundView.swift in Sources */,
 				1D68C17E2A379D5D005B1902 /* SignInView.swift in Sources */,
 				1D68C1802A379DAB005B1902 /* TextFormField.swift in Sources */,
+				1DB7E2872A3A552C00EDEF22 /* QuotesView.swift in Sources */,
 				1DDF116B2A36365F00A6B49E /* AppStorage+Extension.swift in Sources */,
 				1DED305A2A36C4DB00705A88 /* MemoryLaneView+ScrollerKnob.swift in Sources */,
 				1DED305B2A36C4DB00705A88 /* MoodEntryCardContentView.swift in Sources */,

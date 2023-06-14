@@ -9,9 +9,34 @@ import SwiftUI
 import MoodMapKit
 import Lottie
 
+func timeOfDayGreeting() -> String {
+        let date = Date()
+        let calendar = Calendar.current
+        let hour = calendar.component(.hour, from: date)
+        
+        switch hour {
+        case 0:
+            return "Midnight"
+        case 1..<6:
+            return "Dawn"
+        case 6..<12:
+            return "Morning"
+        case 12:
+            return "Midday"
+        case 13..<17:
+            return "Afternoon"
+        case 17..<18:
+            return "Evening"
+        case 18..<24:
+            return "Night"
+        default:
+            return "Unknown"
+        }
+    }
+
 struct CheckInView: View {
 
-    @State private var doesPreviousEntriesExists = true
+    @State private var doesPreviousEntriesExists = false
     @Environment(\.colorScheme) var scheme
 
     var body: some View {
@@ -20,10 +45,9 @@ struct CheckInView: View {
             GeometryReader { proxy in
 
                 VStack(alignment: .center) {
-                    Text("How are you feeling this evening?")
+                    Text("How are you feeling this \(timeOfDayGreeting())?")
                         .font(.appTitle2)
                         .multilineTextAlignment(.center)
-
                     ZStack {
                         ZStack {
                             RingAnimationView()
@@ -54,30 +78,26 @@ struct CheckInView: View {
                         }
 
                     }.frame(maxWidth: .infinity, maxHeight: proxy.size.height / 3)
+                    Spacer()
+                    VStack(alignment: .leading) {
+                        if doesPreviousEntriesExists {
+
+                            // TODO: Show Last 3 Activities
+
+                        } else {
+                            QuotesView()
+                        }
+                    }
+                    .frame(maxWidth: .infinity, minHeight: proxy.size.height / 2)
+                    Spacer()
+                    Spacer()
 
                 }.padding(8)
-                VStack(alignment: .leading) {
-                    if doesPreviousEntriesExists {
-
-                        // TODO: Show Last 3 Activities
-
-                    } else {
-                        Divider()
-                            .frame(height: 2)
-                            .foregroundColor(.secondary)
-                            .padding(.vertical, 20)
-                            .padding(.horizontal, 8)
-                        Text(NO_EMOTIONS_MESSAGES.randomElement()!)
-                            .font(.appSubheadline)
-                            .multilineTextAlignment(.center)
-                            .frame(maxWidth: .infinity, maxHeight: proxy.size.height/3)
-                            .padding(16)
-                    }
-                }
+ 
 
             }
             .padding()
-        }
+        }.navigationBarHidden(true)
 
     }
 }
@@ -125,7 +145,7 @@ struct RingAnimationView: View {
                 .opacity(0.0) // Hide the chasing cap
         }
         .onAppear {
-            //            animateProgress()
+           animateProgress()
         }
     }
 
