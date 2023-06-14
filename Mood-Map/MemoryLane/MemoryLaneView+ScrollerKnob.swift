@@ -17,7 +17,7 @@ extension MemoryLaneView {
     public func ScrollerKnob(moodEntry: Binding<ScrollMood>, rect: CGRect) -> some View {
         Circle()
             .fill(LinearGradient(
-                gradient: Gradient(colors: [Color(hex: "#737DFE"), Color(hex: "#FFCAC9")]),
+                gradient: Gradient(colors: [Color.accentColor, Color(hex: "#FFCAC9")]),
                 startPoint: .topLeading,
                 endPoint: .bottomTrailing
             ))
