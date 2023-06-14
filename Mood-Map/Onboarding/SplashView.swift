@@ -33,7 +33,7 @@ public struct SplashView: View {
     }
 
     func showNextScreen() {
-        let rootView = authManager.isUserLoggedIn ? AnyView(TabbedView()) : AnyView(SignInView())
+        let rootView = authManager.isUserLoggedIn ? AnyView(TabbedView().withErrorHandling()) : AnyView(SignInView().withErrorHandling())
 
         NavigationController.rootView( UIHostingController(rootView: rootView))
     }

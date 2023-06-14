@@ -50,7 +50,7 @@ struct SignUpView: View {
                 Task {
                     await signup()
                 }
-            }
+            }.disabled(authVM.isLoading)
         }
         .onReceive(authVM.$appError) { error in
             if let localizedError = error {
@@ -67,7 +67,7 @@ struct SignUpView: View {
         // Close the signup view after successful signup
         do {
             await authVM.signUp(name: name, email: email.lowercased(), password: password)
-            if authVM.isUserLoggedIn {
+            if !authVM.isLoading {
                 isPresented = false
             }
         }
