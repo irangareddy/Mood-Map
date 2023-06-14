@@ -18,9 +18,6 @@ struct ContentView: View {
                 OnboardingView()
                     .withErrorHandling()
                     .environmentObject(emoozee)
-                    .onAppear {
-                        isFirstTimeUser = false
-                    }
             } else {
                 SplashView()
                     .withErrorHandling()
