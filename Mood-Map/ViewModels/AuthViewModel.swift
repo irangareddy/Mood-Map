@@ -12,10 +12,18 @@ import MoodMapKit
 
 class BaseViewModel: ObservableObject {
     @Published var appError: AppError?
+    @Published var isLoading: Bool = false
+
+    func updateLoading(_ status: Bool) {
+        DispatchQueue.main.async {
+            self.isLoading = status
+        }
+    }
 
     func handleAppError(_ error: Error) {
         DispatchQueue.main.async {
             self.appError = AppError.customError(error.localizedDescription)
+            self.updateLoading(false)
         }
     }
 }
@@ -23,7 +31,6 @@ class BaseViewModel: ObservableObject {
 class AuthViewModel: BaseViewModel {
     static let shared = AuthViewModel()
     @Published var isUserLoggedIn: Bool = false
-    @Published var isLoading = false
     @Published var error: NetworkError?
     @Published var currentUser: User<[String: AnyCodable]>?
 
@@ -43,6 +50,7 @@ class AuthViewModel: BaseViewModel {
                     }
                     DispatchQueue.main.async {
                         self.isUserLoggedIn = isUserLoggedIn
+                        self.isLoading = false
                     }
                 }
             } catch {
@@ -54,43 +62,50 @@ class AuthViewModel: BaseViewModel {
     func deleteSession(session: AppwriteSessions) async {
         Task {
             do {
-                let sessions: Any // Define the sessions variable with appropriate type
+                updateLoading(true)
                 switch session {
                 case .current:
-                    sessions = try await networkManager.account.deleteSession(sessionId: session.rawValue)
+                    _ = try await networkManager.account.deleteSession(sessionId: session.rawValue)
                 case .all:
-                    sessions = try await networkManager.account.deleteSessions()
+                    _ = try await networkManager.account.deleteSessions()
                 }
                 wipeSessionInfo()
                 DispatchQueue.main.async {
                     self.isUserLoggedIn = false
                 }
+                validateCurrentSession()
             } catch {
+
                 handleAppError(error)
             }
         }
+        updateLoading(false)
     }
 
     func signUp(name: String, email: String, password: String) async {
         Task {
             do {
+                updateLoading(true)
                 try await networkManager.createAccount(name: name, email: email, password: password)
                 validateCurrentSession()
             } catch {
                 handleAppError(error)
             }
         }
+        updateLoading(false)
     }
 
     func login(email: String, password: String) async throws {
         Task {
             do {
+                updateLoading(true)
                 let result = try await networkManager.account.createEmailSession(email: email, password: password)
                 await validateCurrentSession()
             } catch {
                 handleAppError(error)
             }
         }
+        updateLoading(false)
     }
 
     func logout() async {

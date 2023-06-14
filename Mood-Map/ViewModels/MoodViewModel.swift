@@ -14,8 +14,8 @@ import MoodMapKit
 
 class MoodViewModel: BaseViewModel {
     static let shared = MoodViewModel()
+    private let authVM = AuthViewModel.shared
     @Published var moodEntries = [AppwriteModels.Document<MoodEntry>]()
-    @Published var isLoading = false
     @Published var error: NetworkError?
     @Published var image: Image?
     @Published var recording: Recording?
@@ -30,6 +30,9 @@ class MoodViewModel: BaseViewModel {
                 completion()
                 await getMoods()
             } catch {
+                if error as! UserDefaultsError == UserDefaultsError.userIdNotFound {
+                    await authVM.logout()
+                }
                 print("Got error here \(dump(error))")
                 handleAppError(error)
             }

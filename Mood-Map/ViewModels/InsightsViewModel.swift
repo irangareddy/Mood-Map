@@ -62,7 +62,6 @@ class InsightsViewModel: BaseViewModel {
     @Published var streaksCount: Int?
     @Published var highestEntries: HighestEntries?
     @Published var lastUpdated: String?
-    @Published var isLoading = false
     @Published var error: NetworkError?
 
     private let networkManager = NetworkManager.shared
