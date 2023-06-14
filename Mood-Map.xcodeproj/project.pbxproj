@@ -58,6 +58,14 @@
 		1DB053FC2A38D65B009CF560 /* AccountSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DB053FB2A38D65B009CF560 /* AccountSettingsView.swift */; };
 		1DB6E1D42A24EE8D00279B6E /* TabbedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DB6E1D32A24EE8D00279B6E /* TabbedView.swift */; };
 		1DB7B9C72A350442004BC710 /* VoiceNoteIntentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DB7B9C62A350442004BC710 /* VoiceNoteIntentView.swift */; };
+		1DB7E26D2A3A0F8600EDEF22 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DB054042A38F7F4009CF560 /* WidgetKit.framework */; };
+		1DB7E26E2A3A0F8600EDEF22 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DB054062A38F7F5009CF560 /* SwiftUI.framework */; };
+		1DB7E2712A3A0F8600EDEF22 /* MoodMapWidgetBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DB7E2702A3A0F8600EDEF22 /* MoodMapWidgetBundle.swift */; };
+		1DB7E2732A3A0F8600EDEF22 /* MoodMapWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DB7E2722A3A0F8600EDEF22 /* MoodMapWidget.swift */; };
+		1DB7E2762A3A0F8700EDEF22 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1DB7E2752A3A0F8700EDEF22 /* Assets.xcassets */; };
+		1DB7E2782A3A0F8700EDEF22 /* MoodMapWidget.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 1DB7E2742A3A0F8600EDEF22 /* MoodMapWidget.intentdefinition */; };
+		1DB7E2792A3A0F8700EDEF22 /* MoodMapWidget.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 1DB7E2742A3A0F8600EDEF22 /* MoodMapWidget.intentdefinition */; };
+		1DB7E27C2A3A0F8700EDEF22 /* MoodMapWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 1DB7E26C2A3A0F8600EDEF22 /* MoodMapWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		1DC460ED2A2B9336004BF432 /* TabbedView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DC460EC2A2B9336004BF432 /* TabbedView+Extensions.swift */; };
 		1DC460FB2A2B9D23004BF432 /* avatar.json in Resources */ = {isa = PBXBuildFile; fileRef = 1DC460F12A2B9D23004BF432 /* avatar.json */; };
 		1DC460FD2A2B9D23004BF432 /* photo-picturelandscape-gallery.json in Resources */ = {isa = PBXBuildFile; fileRef = 1DC460F32A2B9D23004BF432 /* photo-picturelandscape-gallery.json */; };
@@ -103,7 +111,28 @@
 			remoteGlobalIDString = 1D6206D72A232B140034C0A6;
 			remoteInfo = "Mood-Map";
 		};
+		1DB7E27A2A3A0F8700EDEF22 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1D6206D02A232B140034C0A6 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 1DB7E26B2A3A0F8600EDEF22;
+			remoteInfo = MoodMapWidgetExtension;
+		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		1DB054132A38F7F6009CF560 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 12;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				1DB7E27C2A3A0F8700EDEF22 /* MoodMapWidgetExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		1D0467F52A36C43700AC17D5 /* MemoryLaneView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MemoryLaneView.swift; path = ../Main/MemoryLaneView.swift; sourceTree = "<group>"; };
@@ -159,8 +188,16 @@
 		1DA7C0832A24CBDE00A50A5F /* MemoryLaneViewWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoryLaneViewWrapper.swift; sourceTree = "<group>"; };
 		1DA7C0852A24CBF800A50A5F /* MoodInsightsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoodInsightsView.swift; sourceTree = "<group>"; };
 		1DB053FB2A38D65B009CF560 /* AccountSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountSettingsView.swift; sourceTree = "<group>"; };
+		1DB054042A38F7F4009CF560 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		1DB054062A38F7F5009CF560 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
 		1DB6E1D32A24EE8D00279B6E /* TabbedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabbedView.swift; sourceTree = "<group>"; };
 		1DB7B9C62A350442004BC710 /* VoiceNoteIntentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceNoteIntentView.swift; sourceTree = "<group>"; };
+		1DB7E26C2A3A0F8600EDEF22 /* MoodMapWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = MoodMapWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		1DB7E2702A3A0F8600EDEF22 /* MoodMapWidgetBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoodMapWidgetBundle.swift; sourceTree = "<group>"; };
+		1DB7E2722A3A0F8600EDEF22 /* MoodMapWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoodMapWidget.swift; sourceTree = "<group>"; };
+		1DB7E2742A3A0F8600EDEF22 /* MoodMapWidget.intentdefinition */ = {isa = PBXFileReference; lastKnownFileType = file.intentdefinition; path = MoodMapWidget.intentdefinition; sourceTree = "<group>"; };
+		1DB7E2752A3A0F8700EDEF22 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		1DB7E2772A3A0F8700EDEF22 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1DC460EC2A2B9336004BF432 /* TabbedView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TabbedView+Extensions.swift"; sourceTree = "<group>"; };
 		1DC460F12A2B9D23004BF432 /* avatar.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = avatar.json; sourceTree = "<group>"; };
 		1DC460F22A2B9D23004BF432 /* microphone-recording.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "microphone-recording.json"; sourceTree = "<group>"; };
@@ -212,6 +249,15 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1DB7E2692A3A0F8600EDEF22 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1DB7E26E2A3A0F8600EDEF22 /* SwiftUI.framework in Frameworks */,
+				1DB7E26D2A3A0F8600EDEF22 /* WidgetKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -294,6 +340,8 @@
 		1D55AE182A23C00B008DEDB8 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				1DB054042A38F7F4009CF560 /* WidgetKit.framework */,
+				1DB054062A38F7F5009CF560 /* SwiftUI.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -315,6 +363,7 @@
 				1D6206DA2A232B140034C0A6 /* Mood-Map */,
 				1D6206EC2A232B150034C0A6 /* Mood-MapTests */,
 				1D6206F62A232B150034C0A6 /* Mood-MapUITests */,
+				1DB7E26F2A3A0F8600EDEF22 /* MoodMapWidget */,
 				1D6206D92A232B140034C0A6 /* Products */,
 				1D55AE182A23C00B008DEDB8 /* Frameworks */,
 			);
@@ -326,6 +375,7 @@
 				1D6206D82A232B140034C0A6 /* Mood-Map.app */,
 				1D6206E92A232B150034C0A6 /* Mood-MapTests.xctest */,
 				1D6206F32A232B150034C0A6 /* Mood-MapUITests.xctest */,
+				1DB7E26C2A3A0F8600EDEF22 /* MoodMapWidgetExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -376,6 +426,18 @@
 				1D6206F92A232B150034C0A6 /* Mood_MapUITestsLaunchTests.swift */,
 			);
 			path = "Mood-MapUITests";
+			sourceTree = "<group>";
+		};
+		1DB7E26F2A3A0F8600EDEF22 /* MoodMapWidget */ = {
+			isa = PBXGroup;
+			children = (
+				1DB7E2702A3A0F8600EDEF22 /* MoodMapWidgetBundle.swift */,
+				1DB7E2722A3A0F8600EDEF22 /* MoodMapWidget.swift */,
+				1DB7E2742A3A0F8600EDEF22 /* MoodMapWidget.intentdefinition */,
+				1DB7E2752A3A0F8700EDEF22 /* Assets.xcassets */,
+				1DB7E2772A3A0F8700EDEF22 /* Info.plist */,
+			);
+			path = MoodMapWidget;
 			sourceTree = "<group>";
 		};
 		1DC460F02A2B9CE5004BF432 /* AnimatedIcons */ = {
@@ -452,10 +514,12 @@
 				1D6206D42A232B140034C0A6 /* Sources */,
 				1D6206D52A232B140034C0A6 /* Frameworks */,
 				1D6206D62A232B140034C0A6 /* Resources */,
+				1DB054132A38F7F6009CF560 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				1DB7E27B2A3A0F8700EDEF22 /* PBXTargetDependency */,
 			);
 			name = "Mood-Map";
 			packageProductDependencies = (
@@ -503,6 +567,23 @@
 			productReference = 1D6206F32A232B150034C0A6 /* Mood-MapUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
+		1DB7E26B2A3A0F8600EDEF22 /* MoodMapWidgetExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1DB7E27D2A3A0F8700EDEF22 /* Build configuration list for PBXNativeTarget "MoodMapWidgetExtension" */;
+			buildPhases = (
+				1DB7E2682A3A0F8600EDEF22 /* Sources */,
+				1DB7E2692A3A0F8600EDEF22 /* Frameworks */,
+				1DB7E26A2A3A0F8600EDEF22 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MoodMapWidgetExtension;
+			productName = MoodMapWidgetExtension;
+			productReference = 1DB7E26C2A3A0F8600EDEF22 /* MoodMapWidgetExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -523,6 +604,9 @@
 					1D6206F22A232B150034C0A6 = {
 						CreatedOnToolsVersion = 14.3;
 						TestTargetID = 1D6206D72A232B140034C0A6;
+					};
+					1DB7E26B2A3A0F8600EDEF22 = {
+						CreatedOnToolsVersion = 14.3;
 					};
 				};
 			};
@@ -546,6 +630,7 @@
 				1D6206D72A232B140034C0A6 /* Mood-Map */,
 				1D6206E82A232B150034C0A6 /* Mood-MapTests */,
 				1D6206F22A232B150034C0A6 /* Mood-MapUITests */,
+				1DB7E26B2A3A0F8600EDEF22 /* MoodMapWidgetExtension */,
 			);
 		};
 /* End PBXProject section */
@@ -593,6 +678,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		1DB7E26A2A3A0F8600EDEF22 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1DB7E2762A3A0F8700EDEF22 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -607,6 +700,7 @@
 				1DF0B4A72A2AFF910031CB48 /* SplashView.swift in Sources */,
 				1D0467F62A36C43700AC17D5 /* MemoryLaneView.swift in Sources */,
 				1DED30582A36C4DB00705A88 /* MemoryLane+Utils.swift in Sources */,
+				1DB7E2792A3A0F8700EDEF22 /* MoodMapWidget.intentdefinition in Sources */,
 				1DC460ED2A2B9336004BF432 /* TabbedView+Extensions.swift in Sources */,
 				1D05664C2A38ADC7006FBEB0 /* ShareButton.swift in Sources */,
 				1DA7C0862A24CBF800A50A5F /* MoodInsightsView.swift in Sources */,
@@ -672,6 +766,16 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		1DB7E2682A3A0F8600EDEF22 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1DB7E2712A3A0F8600EDEF22 /* MoodMapWidgetBundle.swift in Sources */,
+				1DB7E2782A3A0F8700EDEF22 /* MoodMapWidget.intentdefinition in Sources */,
+				1DB7E2732A3A0F8600EDEF22 /* MoodMapWidget.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -684,6 +788,11 @@
 			isa = PBXTargetDependency;
 			target = 1D6206D72A232B140034C0A6 /* Mood-Map */;
 			targetProxy = 1D6206F42A232B150034C0A6 /* PBXContainerItemProxy */;
+		};
+		1DB7E27B2A3A0F8700EDEF22 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 1DB7E26B2A3A0F8600EDEF22 /* MoodMapWidgetExtension */;
+			targetProxy = 1DB7E27A2A3A0F8700EDEF22 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -800,6 +909,7 @@
 		1D6206FE2A232B150034C0A6 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "Mood-Map/Mood_Map.entitlements";
@@ -840,6 +950,7 @@
 		1D6206FF2A232B150034C0A6 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "Mood-Map/Mood_Map.entitlements";
@@ -963,6 +1074,67 @@
 			};
 			name = Release;
 		};
+		1DB7E27E2A3A0F8700EDEF22 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = XU9WC44F8F;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = MoodMapWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = MoodMapWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.irangareddy.Mood-Map.MoodMapWidget";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		1DB7E27F2A3A0F8700EDEF22 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = XU9WC44F8F;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = MoodMapWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = MoodMapWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.irangareddy.Mood-Map.MoodMapWidget";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -998,6 +1170,15 @@
 			buildConfigurations = (
 				1D6207042A232B150034C0A6 /* Debug */,
 				1D6207052A232B150034C0A6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		1DB7E27D2A3A0F8700EDEF22 /* Build configuration list for PBXNativeTarget "MoodMapWidgetExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1DB7E27E2A3A0F8700EDEF22 /* Debug */,
+				1DB7E27F2A3A0F8700EDEF22 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

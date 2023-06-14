@@ -91,7 +91,6 @@ public struct MoodGridView: View {
                                                 .foregroundColor(backgroundForCategory(mood.category))
                                                 .cornerRadius(8)
                                         )
-                                        .hapticFeedback(.success)
                                         .onTapGesture {
 
                                             withAnimation {

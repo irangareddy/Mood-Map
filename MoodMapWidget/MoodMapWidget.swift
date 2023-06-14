@@ -9,20 +9,17 @@ import WidgetKit
 import SwiftUI
 import Intents
 
-import SwiftUI
-import WidgetKit
-
 struct Provider: IntentTimelineProvider {
     func placeholder(in context: Context) -> SimpleEntry {
         SimpleEntry(date: Date(), configuration: ConfigurationIntent())
     }
 
-    func getSnapshot(for configuration: ConfigurationIntent, in context: Context, completion: @escaping (SimpleEntry) -> ()) {
+    func getSnapshot(for configuration: ConfigurationIntent, in context: Context, completion: @escaping (SimpleEntry) -> Void) {
         let entry = SimpleEntry(date: Date(), configuration: configuration)
         completion(entry)
     }
 
-    func getTimeline(for configuration: ConfigurationIntent, in context: Context, completion: @escaping (Timeline<Entry>) -> ()) {
+    func getTimeline(for configuration: ConfigurationIntent, in context: Context, completion: @escaping (Timeline<Entry>) -> Void) {
         var entries: [SimpleEntry] = []
 
         // Generate a timeline consisting of five entries an hour apart, starting from the current date.
@@ -52,7 +49,7 @@ func randomImage() -> String {
     return strings.randomElement() ?? "024"
 }
 
-struct MoodMapWidgetEntryView : View {
+struct MoodMapWidgetEntryView: View {
     @Environment(\.colorScheme) var colorScheme
 
     var entry: Provider.Entry
@@ -67,13 +64,12 @@ struct MoodMapWidgetEntryView : View {
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(Image("032")
-                .opacity(colorScheme == .dark ? 0.9 : 0.3)
+                            .opacity(colorScheme == .dark ? 0.9 : 0.3)
             )
             .padding()
         }
     }
-    
-    
+
     func getRandomMoodEntryPrompt() -> String {
         let moodEntryPrompts = [
             "How are you feeling today?",
@@ -101,14 +97,12 @@ struct MoodMapWidgetEntryView : View {
             "How does your mood affect your daily activities?",
             "What strategies have worked well for you in the past?",
             "Is there anything you want to change about your current mood?",
-            "What do you hope to achieve with your mood tracking?",
+            "What do you hope to achieve with your mood tracking?"
         ]
 
         return moodEntryPrompts.randomElement() ?? ""
     }
 }
-
-
 
 struct MoodMapWidget: Widget {
     let kind: String = "MoodMapWidget"
@@ -126,8 +120,7 @@ struct MoodMapWidget: Widget {
 struct MoodMapWidget_Previews: PreviewProvider {
     static var previews: some View {
 
-            MoodMapWidgetEntryView(entry: SimpleEntry(date: Date(), configuration: ConfigurationIntent()))
-                .previewContext(WidgetPreviewContext(family: .systemMedium))
+        MoodMapWidgetEntryView(entry: SimpleEntry(date: Date(), configuration: ConfigurationIntent()))
+            .previewContext(WidgetPreviewContext(family: .systemMedium))
     }
 }
-
