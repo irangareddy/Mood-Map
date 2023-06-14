@@ -20,7 +20,7 @@ struct QuotesView: View {
                     .foregroundColor(.secondary)
                     .frame(maxWidth: .infinity, alignment: .trailing)
                 Text(quote.importance)
-                    .font(.appBody)
+                    .font(.appSmallBody)
                     .foregroundColor(.gray)
             }.multilineTextAlignment(.center)
                 .padding()

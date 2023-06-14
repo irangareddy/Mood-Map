@@ -42,7 +42,14 @@ public struct ScatterPlotView: View {
 
     /// The body view of the ScatterPlotView.
     public var body: some View {
-        ScrollView(.vertical, showsIndicators: false) {
+        VStack {
+            if displayFactor == nil {
+                Text("Unlock profound insights with Mood Analysis, our upcoming feature. Understand triggers, patterns, and enhance emotional well-being. Coming soon!").font(.appCaption2)
+                    .foregroundColor(.accentColor)
+                    .multilineTextAlignment(.center)
+                    .padding()
+            }
+
             // MARK: - MAIN PLOT
             //                                VStack {
             //                                    Chart(moodEntries) { moodEntry in
