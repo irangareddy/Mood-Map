@@ -55,7 +55,12 @@ class NetworkManager {
         self.functions = Functions(client)
         self.storage = Storage(client)
 
-        Task { try! await listSessions() }    }
+        Task { try? await listSessions()
+
+            try? await generateJWT()
+        }
+
+    }
 
     // MARK: - Authentication
 
@@ -76,6 +81,16 @@ class NetworkManager {
             try await getAccount()
         } catch {
             debugPrint("ERROR: On Create Account \(dump(error))")
+            throw error
+        }
+    }
+
+    func generateJWT() async throws {
+        do {
+            let jwt = try await account.createJWT()
+            dump(jwt)
+        } catch {
+            throw error
         }
     }
 
@@ -101,6 +116,7 @@ class NetworkManager {
             }
         } catch {
             debugPrint("ERROR: On Get Account \(dump(error))")
+            throw error
         }
     }
 
@@ -134,11 +150,10 @@ class NetworkManager {
                     // Wipe session information if sessionId and userId do not match the condition
                     wipeSessionInfo()
                 }
-            } else {
-                UserDefaults.standard.set(session.userId, for: .userId)
-                UserDefaults.standard.set(session.id, for: .sessionId)
-                print("Create a new Session")
             }
+            UserDefaults.standard.set(session.userId, for: .userId)
+            UserDefaults.standard.set(session.id, for: .sessionId)
+            debugPrint("Created a new Session")
 
             return true
         } catch {
@@ -160,6 +175,11 @@ class NetworkManager {
             throw UserDefaultsError.userIdNotFound
         }
 
+        guard let sessionId = UserDefaults.standard.string(for: .sessionId) else {
+            // Handle the case when user ID is not found in UserDefaults
+            throw UserDefaultsError.userIdNotFound
+        }
+
         debugPrint(dump(data))
 
         do {
@@ -176,7 +196,7 @@ class NetworkManager {
                 ]
             )
 
-            let payload = ["userId": userId, "from": "mobile"]
+            let payload = ["userId": userId, "sessionId": sessionId, "from": "mobile"]
             if let jsonPayload = convertToJsonString(payload: payload) {
                 debugPrint("Sending payload \(jsonPayload)")
                 await self.executeCloudFuction(of: K.HEATMAP_FUNCTION_ID, payload: jsonPayload)
