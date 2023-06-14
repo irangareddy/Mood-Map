@@ -234,7 +234,10 @@ public struct TimePicker: View {
     public var body: some View {
         VStack {
             DatePicker("", selection: $selectedTime, displayedComponents: .hourAndMinute)
+                #if os(iOS)
                 .datePickerStyle(.wheel)
+                #endif
+
                 .labelsHidden()
         }
     }
