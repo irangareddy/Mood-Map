@@ -9,7 +9,8 @@ import SwiftUI
 
 /// Onboarding View
 struct OnboardingView: View {
-
+    @ObservedObject private var authManager = AuthViewModel.shared
+    @AppStorage("isFirstTimeUser") var isFirstTimeUser: Bool = true
     /// current step in onboarding process
     @State var currentStep = 0
 
@@ -65,14 +66,14 @@ struct OnboardingView: View {
 
             LargeButton(title: currentStep == 2 ? "Get Started" : "Next", disabled: false, backgroundColor: .accentColor, foregroundColor: .white) {
                 if currentStep == 2 {
-                    showLoginScreen()
+                    showNextScreen()
                 } else {
                     moveNext()
                 }
             }
 
             SmallButton(title: "Skip", disabled: false, backgroundColor: .clear, foregroundColor: .accentColor, cornerRadius: 0) {
-                showLoginScreen()
+                showNextScreen()
             }
         }
 
@@ -91,9 +92,11 @@ struct OnboardingView: View {
         }
     }
 
-    func showLoginScreen() {
+    func showNextScreen() {
+        let rootView = authManager.isUserLoggedIn ? AnyView(TabbedView().withErrorHandling()) : AnyView(SignInView().withErrorHandling())
 
-        NavigationController.pushController(UIHostingController(rootView: SignInView()))
+        NavigationController.rootView( UIHostingController(rootView: rootView))
+        isFirstTimeUser = false
     }
 }
 

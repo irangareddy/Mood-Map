@@ -24,6 +24,7 @@ public struct AccountSettingsView: View {
 
     // Action variable
     @State private var selectedAction: AccountAction?
+    @AppStorage("isFirstTimeUser") var isFirstTimeUser: Bool = false
 
     // Public initializer
     public init(selectedAction: AccountAction? = nil) {
@@ -55,6 +56,11 @@ public struct AccountSettingsView: View {
     // The body view of the AccountSettingsView
     public var body: some View {
         VStack(alignment: .leading, spacing: 0) {
+            Toggle("Show Onboarding", isOn: $isFirstTimeUser)
+                .toggleStyle(SwitchToggleStyle())
+                .font(.appHeadline)
+                .padding(.horizontal)
+                .padding(.bottom, 4)
             AccountSettingsButton(title: "Edit Display Name") {
                 buttonAction(.editDisplayName)
             }.description("This feature is temporarily disabled.")
@@ -79,6 +85,10 @@ public struct AccountSettingsView: View {
             if let selectedAction = selectedAction {
                 performAction(selectedAction)
                 self.selectedAction = nil // Reset the selected action after performing it
+            }
+        }.onReceive(authManager.$isUserLoggedIn) { status in
+            if !status {
+                NavigationController.rootView(UIHostingController(rootView: SignInView().withErrorHandling()))
             }
         }
     }
