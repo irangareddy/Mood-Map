@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
-<dict/>
+<dict>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>This app requires microphone access to record voice notes for enhanced mood analysis. Your voice notes help us analyze and understand your emotions better, allowing us to provide personalized insights and recommendations for your well-being. We respect your privacy and ensure that your voice recordings are used only for the intended purposes within the app and are not shared with any third parties.
+</string>
+</dict>
 </plist>

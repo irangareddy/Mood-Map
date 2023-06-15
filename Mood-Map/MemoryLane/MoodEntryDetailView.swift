@@ -9,38 +9,62 @@ import SwiftUI
 import MoodMapKit
 
 struct MoodEntryDetailView: View {
+    @ObservedObject var moodViewModel = MoodViewModel.shared
     @Environment(\.colorScheme) var colorScheme
     let moodEntry: MoodEntry
+    @State var image: Image?
+    @State var audio: Recording?
+    @State private var isPresentingSheet = false
+    @State var recording: Recording?
 
     var body: some View {
-        ZStack {
+        ScrollView(.vertical, showsIndicators: false) {
             // Card content
 
             VStack(alignment: .leading, spacing: 10) {
 
                 VStack(alignment: .leading, spacing: 10) {
                     Text("I'm feeling")
-
                     Text(moodEntry.moods.first?.toMood()?.name ?? Emoozee.shared.placeholderMood.name)
                         .foregroundColor(Color.red)
 
-                }.font(.appTitle)
+                }.font(.appTitle2)
 
-                Divider()
+
 
                 Text(moodEntry.cardDate)
-                    .font(.appBody)
+                    
 
-                Divider()
                 if let notes = moodEntry.notes {
                     Text(notes)
+                        .multilineTextAlignment(.leading)
+                }
+                
+                if (moodEntry.imageId != nil) {
+                    if let looadedImage = image {
+                        looadedImage
+                            .resizable()
+                            .scaledToFill()
+                            .shadow(radius: 5)
+                            .frame(maxWidth: .infinity)
+                            
+                    }
+                    Image("lavendar")
+                        .resizable()
+                        .frame(maxWidth: .infinity)
+                        .redacted(reason: image != nil ? .placeholder : [])
+                }
+                
+                
+                if (moodEntry.voiceNoteId != nil) {
+                       Text("Listen to Voice Note")
+                        .padding()
+                        .foregroundColor(.accentColor)
+                        .onTapGesture {
+                        isPresentingSheet.toggle()
+                        }.frame(maxWidth: .infinity, alignment: .center)
                 }
 
-                Image("step-two")
-                    .resizable()
-                    .scaledToFill()
-                    .shadow(radius: 5)
-                    .frame(maxWidth: .infinity)
 
                 HStack {
                     if let place = moodEntry.place {
@@ -74,27 +98,39 @@ struct MoodEntryDetailView: View {
                 VStack {
                     Text("Tap to analyze your mood notes and get more insights")
                         .font(.appCaption)
-                    Button(action: {
-                        // Add action for the button here
-
-                    }) {
-                        RoundedRectangle(cornerRadius: 100).frame(height: 60)
-                            .overlay {
-                                Text("Analyze Mood  🚀")
-                                    .font(.appLargeBody)
-                                    .foregroundColor(.white)
-                            }
+                    LargeButton(title: "Analyze Mood  🚀",disabled: true, foregroundColor: Color.black) {
+                        
                     }
-                }.frame(maxWidth: .infinity, maxHeight: .infinity)
-
-            } .font(.appBody)
+                    Text("This feature is temporarily disabled.")
+                        .font(.appCaption2)
+                        .foregroundColor(.secondary)
+                        .multilineTextAlignment(.center)
+                        .padding(.horizontal, 16)
+                }
+            }.font(.appSmallBody)
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .padding()
             .background(.ultraThickMaterial)
-
-            .onAppear(perform: {
-                debugPrint(moodEntry)
-            })
+            .onAppear {
+                Task {
+                    if let image = moodEntry.imageId {
+                        let image = await moodViewModel.getImage(of: image)
+                        self.image = image
+                    }
+                    if let voiceNote =  moodEntry.voiceNoteId {
+                        let recording = await moodViewModel.getVoiceNote(of: voiceNote)
+                        self.recording = recording
+                        debugPrint(recording)
+                    }
+                    
+                }
+            }
+            .sheet(isPresented: $isPresentingSheet) {
+                if let recording = recording {
+                    MusicControllerView(recording: recording)
+                }
+                
+        }
 
         }
 

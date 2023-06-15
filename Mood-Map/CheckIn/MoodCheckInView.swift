@@ -52,6 +52,7 @@ struct MoodCheckInView: View {
     @State private var sleepHours: String = ""
     @State private var weather: String = ""
     @State private var imageId: String = ""
+    @State var voiceNoteId: String?
 
     @Environment(\.presentationMode) var presentationMode
 
@@ -61,8 +62,8 @@ struct MoodCheckInView: View {
                 VStack(alignment: .leading, spacing: 16) {
                     topSection
                     DateLabel(selectedDate: $date, lottieView: lottieView(for: .edit))
-                    PhotoPickerView(selectedUIImage: $picture)
-                    VoiceNoteView(lottieView: lottieView(for: .microphoneRecording))
+                    PhotoPickerView(selectedUIImage: $picture, status: moodVM.isImageSaved)
+                    VoiceNoteView(lottieView: lottieView(for: .microphoneRecording), voiceNoteId: $voiceNoteId, status: moodVM.isAudioSaved)
                     NoteView(notes: $notes, geometry: geometry)
                     TagsView(title: "Where are you?", cases: getAllRawValues(ofEnum: Place.self), lottieIcon: MoodMapAnimatedIcons.location, geometry: geometry, size: 5, selectedValue: $place)
                     TagsView(title: "Weather", cases: getAllRawValues(ofEnum: Weather.self), lottieIcon: MoodMapAnimatedIcons.weather, geometry: geometry, size: 5, selectedValue: $weather)
@@ -120,9 +121,9 @@ struct MoodCheckInView: View {
 
         let moodEntry = MoodEntry(
             moods: [selectedMood],
-            timestamp: Date(),
+            timestamp: date,
             imageId: imageId,
-            voiceNoteId: nil,
+            voiceNoteId: voiceNoteId,
             notes: notes,
             place: placeEnum,
             exerciseHours: exerciseHoursInt,
@@ -140,7 +141,10 @@ struct MoodCheckInView: View {
 // MARK: - VoiceNoteView
 
 struct VoiceNoteView: View {
-    let lottieView: LottieAnimationView
+    let lottieView: LottieAnimationView?
+    @State private var isPresentingSheet = false
+    @Binding var voiceNoteId: String?
+    var status: Bool?
 
     var body: some View {
         VStack {
@@ -148,18 +152,26 @@ struct VoiceNoteView: View {
                 Text("Add a voice note")
                     .font(.appBody)
                 Spacer()
-                //                ResizableLottieView(lottieView: lottieView, color: Color.accentColor)
-                Image(systemName: "mic")
-                    .frame(width: 30, height: 30)
-                    //                    .onAppear {
-                    //                        DispatchQueue.main.async {
-                    //                            lottieView.play { _ in
-                    //                                // Animation completion handler
-                    //                            }
-                    //                        }
-                    //                    }
-                    .foregroundColor(.accentColor)
-            }.padding(.vertical, 2)
+                HStack {
+                    if status == false {
+                        ProgressView()
+                            .progressViewStyle(CircularProgressViewStyle())
+                    }
+                    Image(systemName: status == true ? "checkmark.circle.fill" : "mic")
+                        .frame(width: 30, height: 30)
+                        .foregroundColor(.accentColor)
+                        .onTapGesture {
+                            isPresentingSheet = true
+                        }
+                }
+
+                .sheet(isPresented: $isPresentingSheet) {
+                    // Present your sheet view here
+                    // Replace `YourSheetView()` with your actual sheet view implementation
+                    AudioContentView(id: $voiceNoteId, recorderView: true).presentationDetents([.height(200)])
+                }
+            }
+            .padding(.vertical, 2)
             Divider()
         }
     }
@@ -372,6 +384,7 @@ struct PhotoPickerView: View {
     @Binding var selectedUIImage: UIImage?
     @State private var showActionSheet = false
     @State private var selectedOption: PhotoActions?
+    var status: Bool?
     let lottieView = LottieAnimationView(name: MoodMapAnimatedIcons.camera.fileName, bundle: .main)
 
     var body: some View {
@@ -393,6 +406,22 @@ struct PhotoPickerView: View {
                             }
                         }
                     }
+                    .overlay {
+                        ZStack {
+                            if status == false {
+                                ProgressView()
+                                    .progressViewStyle(CircularProgressViewStyle())
+                            }
+                            if status == true {
+                                Image(systemName: "checkmark.circle.fill")
+                                    .foregroundColor(.accentColor)
+                            }
+                        }
+                        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topTrailing)
+                        .padding()
+
+                    }
+
             } else {
                 VStack {
                     HStack {

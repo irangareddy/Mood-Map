@@ -10,73 +10,102 @@ import SwiftUI
 import AVFoundation
 
 struct AudioContentView: View {
-    @ObservedObject var recorder = AudioRecorder()
-    @ObservedObject var serverPlayer = MoodViewModel()
+    @ObservedObject var recorder = AudioRecorder.shared
+    @ObservedObject var viewModel = MoodViewModel.shared
+    @Binding var id: String?
     @State private var isPlaying = false
     @State private var currentRecording: Recording?
+    @State private var isRecording = false
     @State private var volume: Float = 1.0 // Initial volume level
+    var recorderView: Bool // Boolean value to determine whether to show the recording button or play button
+    var voiceNoteIdentifier: String? // String value for the voice note identifier
 
     var body: some View {
         VStack {
             HStack {
-                Text(isPlaying ? "Pause" : "Play")
-                    .padding()
-                    .background(RoundedRectangle(cornerRadius: 16).foregroundColor(.gray))
-                    .onTapGesture {
-                        if let serverRecordering = serverPlayer.recording {
-                            self.currentRecording = serverPlayer.recording
-                            self.isPlaying = true
-                            print(serverRecordering.location?.path)
+                if recorderView {
+
+                    WaveAnimationButton(isRecording: $isRecording, action: {
+                        // Perform your action here
+                        print("Button tapped")
+                        if self.recorder.recording == false {
+                            self.recorder.startRecording()
+                        } else {
+                            Task {
+                                do {
+
+                                    let url = try await self.recorder.stopRecording()
+                                    print("Saving ID \(url)")
+
+                                    Task {
+                                        do {
+                                            let response = await viewModel.saveAudioRecording(fileURL: url!)
+                                            self.id = response
+                                        }
+                                    }
+
+                                    // Perform any additional tasks or operations after the response is sent
+
+                                } catch {
+                                    print("Error stopping recording: \(error)")
+                                }
+                            }
+
                         }
-
-                    }
-
-                Spacer()
-
-                Button(action: {
-                    if self.recorder.recording == false {
-                        self.recorder.startRecording()
-                    } else {
-                        self.recorder.stopRecording()
-                    }
-                }) {
-                    Text(self.recorder.recording ? "Stop Recording" : "Start Recording")
-                }
-            }.padding()
-
-            List {
-                ForEach(recorder.recordings) { recording in
+                    })
+                } else {
                     Button(action: {
-                        self.currentRecording = recording
-                        self.isPlaying = true
-                        print(recording.location?.path)
+                        if let serverRecording = viewModel.recording {
+                            self.currentRecording = viewModel.recording
+                            self.isPlaying = true
+                            print(serverRecording.location?.path)
+                        }
                     }) {
-                        VStack(alignment: .leading) {
-                            Text(recording.name)
-                            if let location = recording.location {
-                                Text(location.path)
-                                    .font(.caption)
-                                    .foregroundColor(.gray)
+                        Text("Play")
+                            .padding()
+                            .background(RoundedRectangle(cornerRadius: 16).foregroundColor(.gray))
+                    }        .onAppear {
+                        if let id = voiceNoteIdentifier {
+                            Task {
+                                await viewModel.getVoiceNote(of: id)
+                                print("Getting Vocice")
                             }
                         }
-                    }
-                }
-                .onDelete { indices in
-                    for index in indices {
-                        if let url = recorder.recordings[index].location {
-                            recorder.deleteRecording(at: url)
-                        }
+
                     }
                 }
 
+                Spacer()
             }
+            .padding()
+
+//                        List {
+//                            ForEach(recorder.recordings) { recording in
+//                                Button(action: {
+//                                    self.currentRecording = recording
+//                                    self.isPlaying = true
+//                                    print(recording.location?.path)
+//                                }) {
+//                                    VStack(alignment: .leading) {
+//                                        Text(recording.name)
+//                                        if let location = recording.location {
+//                                            Text(location.path)
+//                                                .font(.caption)
+//                                                .foregroundColor(.gray)
+//                                        }
+//                                    }
+//                                }
+//                            }
+//                            .onDelete { indices in
+//                                for index in indices {
+//                                    if let url = recorder.recordings[index].location {
+//                                        recorder.deleteRecording(at: url)
+//                                    }
+//                                }
+//                            }
+//                        }
         }
-        .onAppear(perform: {
-            Task {
-                await serverPlayer.getVoiceNote(of: "")
-            }
 
-        })
         .sheet(isPresented: $isPlaying, onDismiss: {
             stopPlayback()
         }) {
@@ -166,7 +195,8 @@ struct PlayerControlsView: View {
 }
 
 class AudioRecorder: ObservableObject {
-    @ObservedObject var vm = MoodViewModel()
+    public static let shared = AudioRecorder()
+    @ObservedObject var vm = MoodViewModel.shared
     @Published var recording = false
     @Published var recordings: [Recording] = []
 
@@ -202,15 +232,20 @@ class AudioRecorder: ObservableObject {
         }
     }
 
-    func stopRecording() {
+    func stopRecording() async -> URL? {
         audioRecorder?.stop()
         recording = false
+        print("Stopped Recording")
 
         if let audioURL = audioURL {
-            saveRecording(at: audioURL)
+            print("Saving Recording")
+
+            let response = await saveRecording(at: audioURL)
+            return response
         }
 
         loadRecordings()
+        return nil
     }
 
     func getFormattedFileName() -> String {
@@ -251,7 +286,7 @@ class AudioRecorder: ObservableObject {
     //        loadRecordings()
     //    }
 
-    func saveRecording(at url: URL) {
+    func saveRecording(at url: URL) async  -> URL? {
         let fileManager = FileManager.default
         let documentsDirectory = fileManager.urls(for: .documentDirectory, in: .userDomainMask)[0]
 
@@ -260,20 +295,17 @@ class AudioRecorder: ObservableObject {
 
         do {
             try fileManager.moveItem(at: url, to: destinationURL)
-            print("Recording saved successfully.")
+            print("Local Recording saved successfully.")
 
             // Save audio recording to the server
-            Task {
-                do {
-                    await             vm.saveAudioRecording(fileURL: destinationURL)
-                }
-            }
+            return destinationURL
 
         } catch {
             print("Error saving recording: \(error.localizedDescription)")
         }
 
         loadRecordings()
+        return nil
     }
 
     func deleteRecording(at url: URL) {
@@ -306,4 +338,72 @@ struct Recording: Identifiable {
     let id = UUID()
     let name: String
     let location: URL?
+}
+
+struct WaveShape: Shape {
+    var offset: CGFloat
+    var waveLength: CGFloat // Added wave length property
+    var animatableData: CGFloat {
+        get { offset }
+        set { offset = newValue }
+    }
+
+    func path(in rect: CGRect) -> Path {
+        let width = rect.width
+        let height = rect.height
+
+        var path = Path()
+        path.move(to: CGPoint(x: 0, y: height / 2))
+
+        for x in stride(from: 0, to: width, by: waveLength) { // Use waveLength for stride
+            let y = height / 2 + sin((CGFloat(x) / width) * 2 * .pi + offset) * height / 4
+            path.addLine(to: CGPoint(x: x, y: y))
+        }
+
+        return path
+    }
+}
+
+struct WaveAnimationButton: View {
+    @Binding var isRecording: Bool
+    @State private var waveOffset: CGFloat = 0
+    var action: () -> Void // Closure to be executed when the button is tapped
+
+    var body: some View {
+        HStack {
+            Spacer()
+
+            WaveShape(offset: waveOffset, waveLength: 30)
+                .foregroundColor(.accentColor)
+                .opacity(isRecording ? 0.3 : 0)
+
+            Button(action: {
+                if isRecording {
+                    withAnimation(.linear(duration: 0.3)) {
+                        waveOffset = 0
+                    }
+                } else {
+                    withAnimation(Animation.linear(duration: 2).repeatForever()) {
+                        waveOffset += 2 * .pi
+                    }
+                }
+
+                isRecording.toggle()
+                action() // Call the provided closure
+            }) {
+                Image(systemName: isRecording ? "record.circle.fill" : "stop.circle.fill")
+                    .resizable()
+                    .frame(width: 44, height: 44)
+                    .foregroundColor(.accentColor)
+            }
+            .padding(.trailing, 16)
+        }
+        .onAppear {
+            if isRecording {
+                withAnimation(Animation.linear(duration: 2).repeatForever()) {
+                    waveOffset += 2 * .pi
+                }
+            }
+        }
+    }
 }

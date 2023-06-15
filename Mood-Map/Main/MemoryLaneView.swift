@@ -11,6 +11,7 @@ import SwiftUI
 import AppwriteModels
 
 public struct MemoryLaneView: View {
+    @ObservedObject var moodViewModel = MoodViewModel.shared
     @Binding var moodEntries: [AppwriteModels.Document<MoodEntry>]
     @State var searchText = ""
     @GestureState var isDragging: Bool = false
@@ -50,6 +51,14 @@ public struct MemoryLaneView: View {
                     .padding(.top, 15)
                     .padding(.trailing, 120)
                 }
+                .onAppear(perform: {
+                    Task {
+                        do {
+                            await moodViewModel.getMoods()
+                        }
+                    }
+                    
+                })
                 .onChange(of: currentActiveIndex) { newValue in
                     withAnimation(.easeInOut(duration: 0.15)) {
                         proxy.scrollTo(groupedMoodEntries[newValue].id, anchor: .top)
@@ -58,23 +67,29 @@ public struct MemoryLaneView: View {
                 .sheet(isPresented: $showDetail, content: {
                     if let entry = currentItem?.data {
                         MoodEntryDetailView(moodEntry: entry)
+         
                     }
 
                 })
             }.navigationTitle("Memory Lane")
         }
-
         .overlay(alignment: .trailing) {
             VStack(alignment: .trailing) {
                 Text("2023")
                     .font(.caption)
+                    .padding(2)
                 CustomScroller()
 
             } .padding(.top, 35)
         }
 
         .onAppear {
-            updateGroupedMoodEntries()
+            DispatchQueue.main.async { [self] in
+                moodViewModel.isLoading = true
+                updateGroupedMoodEntries()
+                moodViewModel.isLoading = false
+            }
+
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) {
                 dateElevation()
             }

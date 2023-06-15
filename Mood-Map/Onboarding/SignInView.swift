@@ -11,8 +11,8 @@ import MoodMapKit
 struct SignInView: View {
     @ObservedObject var userPreferenceViewModel = UserPreferenceViewModel.shared
     @EnvironmentObject var errorHandling: ErrorHandling
-    @State private var email: String = "test@gmail.com"
-    @State private var password: String = "12345678"
+    @State private var email: String = ""
+    @State private var password: String = ""
     @State private var isShowingSignup: Bool = false
     @State private var isShowingForgotPassword: Bool = false
     @ObservedObject private var authVM = AuthViewModel.shared

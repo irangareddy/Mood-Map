@@ -179,7 +179,7 @@ class NetworkManager {
         debugPrint(dump(data))
 
         do {
-            _ = try await databases.createDocument(
+            let response = try await databases.createDocument(
                 databaseId: K.DATABASE_ID,
                 collectionId: collectionId,
                 documentId: ID.unique(),
@@ -191,21 +191,27 @@ class NetworkManager {
                     Permission.update(Role.user(userId))
                 ]
             )
+            
+            dump(response)
+            
+            if !response.id.isEmpty {
+                let JWT_KEY = try await account.createJWT()
+                let payload = [
+                    "userId": userId,
+                    "sessionId": sessionId,
+                    "jwtKey": "\(JWT_KEY.jwt)",
+                    "from": "mobile"
+                ]
 
-            let JWT_KEY = try await account.createJWT()
-            let payload = [
-                "userId": userId,
-                "sessionId": sessionId,
-                "jwtKey": "\(JWT_KEY.jwt)",
-                "from": "mobile"
-            ]
+                // ⚠️ WARNING: This approach of sending keys as parameters is not recommended and will be fixed in an upcoming update this week.
 
-            // ⚠️ WARNING: This approach of sending keys as parameters is not recommended and will be fixed in an upcoming update this week.
-
-            if let jsonPayload = convertToJsonString(payload: payload) {
-                debugPrint("Sending payload \(jsonPayload)")
-                await self.executeCloudFuction(of: K.HEATMAP_FUNCTION_ID, payload: jsonPayload)
+                if let jsonPayload = convertToJsonString(payload: payload) {
+                    debugPrint("Sending payload \(jsonPayload)")
+                    await self.executeCloudFuction(of: K.HEATMAP_FUNCTION_ID, payload: jsonPayload)
+                }
             }
+
+    
 
         }
     }
@@ -289,11 +295,11 @@ class NetworkManager {
         }
     }
 
-    func saveAudio(_ fileData: Data) async {
+    func saveAudio(_ fileData: Data) async -> String? {
         let id = ID.unique()
         let file = InputFile.fromData(
             fileData,
-            filename: "\(id)-masakali.wav",
+            filename: generateFilename(),
             mimeType: "audio/x-wav"
         )
 
@@ -306,13 +312,11 @@ class NetworkManager {
                     print("Upload Progress: \(progress) / \(progress)")
                 }
             )
-            print("Image stored successfully!")
-            print("File ID: \(file.id)")
-            print("File URL: \(file.mimeType)")
-            print("File Details: \(dump(file))")
+            return file.id
         } catch {
             print("Error while uploading file: \(error)")
         }
+        return nil
     }
 
     func listFile() async throws {
@@ -329,7 +333,7 @@ class NetworkManager {
         try await listFile()
         do {
             let response = try await storage.getFilePreview(
-                bucketId: "647751475c51d1e48b5d",
+                bucketId: K.IMAGES_BUCKET_ID,
                 fileId: fileId
             )
             return response
@@ -344,7 +348,7 @@ class NetworkManager {
         try await listFile()
         do {
             let response = try await storage.getFileView(
-                bucketId: "647751475c51d1e48b5d",
+                bucketId: K.VOICE_NOTES_BUCKET_ID,
                 fileId: fileId
             )
             return response
@@ -387,4 +391,12 @@ func convertToJsonString(payload: Any) -> String? {
         print("Error serializing payload: \(error)")
         return nil
     }
+}
+
+func generateFilename() -> String {
+    let currentDate = Date()
+    let dateFormatter = DateFormatter()
+    dateFormatter.dateFormat = "yyyyMMdd_HHmmss"
+    let filename = "\(dateFormatter.string(from: currentDate)).wav"
+    return filename
 }

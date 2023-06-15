@@ -19,33 +19,41 @@ class MoodViewModel: BaseViewModel {
     @Published var error: NetworkError?
     @Published var image: Image?
     @Published var recording: Recording?
+    @Published var isAudioSaved: Bool?
+    @Published var isImageSaved: Bool?
 
     private var networkManager = NetworkManager.shared
+    
+    override init() {
+        super.init()
+        Task { try? await getMoods() }
+    }
 
     // MARK: MOOD CREATE
     func append(mood: MoodEntry, completion: @escaping () -> Void) {
+        updateLoading(true)
+
         Task {
             do {
                 try await networkManager.createDocument(collectionId: K.MOOD_ENTRIES_COLLECTION_ID, data: mood, permissions: [])
                 completion()
                 await getMoods()
             } catch {
-                if error as! UserDefaultsError == UserDefaultsError.userIdNotFound {
+//                if error as! UserDefaultsError {
                     await authVM.logout()
-                }
+//                }
                 print("Got error here \(dump(error))")
                 handleAppError(error)
             }
 
         }
+        updateLoading(false)
 
     }
 
     // MARK: MOOD READ
     func getMoods() async {
-        DispatchQueue.main.async {
-            self.isLoading = true
-        }
+        updateLoading(true)
 
         do {
             let response = try await networkManager.readDocuments(collectionId: K.MOOD_ENTRIES_COLLECTION_ID) as [AppwriteModels.Document<MoodEntry>]
@@ -56,8 +64,9 @@ class MoodViewModel: BaseViewModel {
         } catch {
             // Handle network request error
             self.error = NetworkError.dataConversionError
-            isLoading = false // Set isLoading to false in case of an error
+            handleAppError(error) // Set isLoading to false in case of an error
         }
+        updateLoading(false)
     }
 
     // MARK: MOOD DELETE
@@ -76,6 +85,9 @@ class MoodViewModel: BaseViewModel {
     }
 
     func saveImage(loaded: UIImage?) async -> String? {
+        DispatchQueue.main.async { [self] in
+            isImageSaved = false
+        }
         if let image = loaded {
             if let processedImage = processImage(image: image, maxSizeInMB: 3.0) {
                 let imageData = processedImage.data
@@ -86,6 +98,9 @@ class MoodViewModel: BaseViewModel {
                 print("File extension: \(fileExtension.rawValue) mimetype: image/\(fileExtension.rawValue) ")
                 do {
                     let response = try await networkManager.saveImageInStorage(imageData, fileName: "football.\(fileExtension.rawValue)", mime: "\(fileExtension.rawValue)")
+                    DispatchQueue.main.async { [self] in
+                        isImageSaved = true
+                    }
                     return response.id
                 } catch {
                     handleAppError(error)
@@ -130,23 +145,31 @@ class MoodViewModel: BaseViewModel {
         return nil
     }
 
-    func saveAudioRecording(fileURL: URL) async {
-        let fileData: Data
+    func saveAudioRecording(fileURL: URL) async -> String? {
+        DispatchQueue.main.async { [self] in
+            isAudioSaved = false
+        }
 
+        var fileData: Data
         do {
             fileData = try Data(contentsOf: fileURL)
         } catch {
             print("Error reading file data: \(error.localizedDescription)")
-            return
+            handleAppError(error)
+            return nil
         }
 
         do {
-            await networkManager.saveAudio(fileData)
+            let response = await networkManager.saveAudio(fileData)
+            DispatchQueue.main.async { [self] in
+                isAudioSaved = true
+            }
+            return response
         } catch {
-            print("VM \(error)")
+            handleAppError(error)
+            return nil
         }
     }
-
 }
 
 func fileLocationWithByteBuffer(_ byteBuffer: ByteBuffer) -> URL? {

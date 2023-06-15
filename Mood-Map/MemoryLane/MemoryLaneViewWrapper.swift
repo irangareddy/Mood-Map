@@ -12,13 +12,32 @@ public struct MemoryLaneViewWrapper: View {
     @ObservedObject private var moodVM = MoodViewModel.shared
 
     public var body: some View {
-        MemoryLaneView(moodEntries: $moodVM.moodEntries)
-            .onAppear {
-                Task {
-                    await moodVM.getMoods()
-                }
+        ZStack {
+            MemoryLaneView(moodEntries: $moodVM.moodEntries)
+                .onAppear {
+                    Task {
+                        await moodVM.getMoods()
+                    }
 
+                }
+            if moodVM.isLoading {
+                ProgressView()
+                        .progressViewStyle(CircularProgressViewStyle())
+                        .frame(width: 100, height: 100)
             }
+        }        .onAppear {
+            
+            DispatchQueue.main.async {
+                Task {
+                    do {
+                        await  moodVM.getMoods()
+                    }
+                }
+               
+                
+            }
+        }
+       
     }
 }
 
