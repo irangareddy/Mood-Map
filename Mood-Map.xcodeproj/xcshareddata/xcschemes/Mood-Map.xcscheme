@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "1D6206D72A232B140034C0A6"
-               BuildableName = "Mood-Map.app"
+               BuildableName = "Moood Map.app"
                BlueprintName = "Mood-Map"
                ReferencedContainer = "container:Mood-Map.xcodeproj">
             </BuildableReference>
@@ -68,7 +68,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "1D6206D72A232B140034C0A6"
-            BuildableName = "Mood-Map.app"
+            BuildableName = "Moood Map.app"
             BlueprintName = "Mood-Map"
             ReferencedContainer = "container:Mood-Map.xcodeproj">
          </BuildableReference>
@@ -85,7 +85,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "1D6206D72A232B140034C0A6"
-            BuildableName = "Mood-Map.app"
+            BuildableName = "Moood Map.app"
             BlueprintName = "Mood-Map"
             ReferencedContainer = "container:Mood-Map.xcodeproj">
          </BuildableReference>
