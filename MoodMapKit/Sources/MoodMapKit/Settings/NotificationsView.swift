@@ -8,6 +8,34 @@
 import SwiftUI
 import UserNotifications
 
+struct NotificationConstants {
+    static func getRandomReminderTitle() -> String {
+        let randomReminderOptions = [
+            "Reminder",
+            "Don't forget!",
+            "Time to check in!",
+            "How are feeling?",
+            "Emotional Check-in"
+        ]
+
+        let randomIndex = Int.random(in: 0..<randomReminderOptions.count)
+        return randomReminderOptions[randomIndex]
+    }
+
+    static func getRandomNotificationBody() -> String {
+        let randomBodyOptions = [
+            "How are you feeling today?",
+            "Take a moment to check in with your emotions.",
+            "What's your mood right now?",
+            "Pause and reflect on your emotional state.",
+            "Record your current feelings with Mood Map."
+        ]
+
+        let randomIndex = Int.random(in: 0..<randomBodyOptions.count)
+        return randomBodyOptions[randomIndex]
+    }
+}
+
 // MARK: NotificationsScreen
 
 /// A view that manages the notifications settings and reminders.
@@ -147,9 +175,12 @@ public struct NotificationsScreen: View {
                 continue // Skip sending notifications when isNotificationEnabled is false
             }
 
+            let reminderTitle = NotificationConstants.getRandomReminderTitle()
+            let notificationBody = NotificationConstants.getRandomNotificationBody()
+
             let content = UNMutableNotificationContent()
-            content.title = "Reminder"
-            content.body = "This is a reminder"
+            content.title = reminderTitle
+            content.body = notificationBody
             content.sound = UNNotificationSound.default
 
             let formatter = DateFormatter()
