@@ -59,7 +59,7 @@ public struct AccountSettingsView: View {
             Toggle("Show Onboarding", isOn: $isFirstTimeUser)
                 .toggleStyle(SwitchToggleStyle())
                 .font(.appHeadline)
-                .padding(.horizontal)
+                .padding(.horizontal, 8)
                 .padding(.bottom, 4)
             AccountSettingsButton(title: "Edit Display Name") {
                 buttonAction(.editDisplayName)

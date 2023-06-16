@@ -60,7 +60,7 @@ struct MailView: UIViewControllerRepresentable {
     func makeUIViewController(context: UIViewControllerRepresentableContext<MailView>) -> MFMailComposeViewController {
         let viewController = MFMailComposeViewController()
         viewController.mailComposeDelegate = context.coordinator
-        viewController.setToRecipients(["your-email@example.com"]) // Replace with your email address
+        viewController.setToRecipients(["sairangareddy22@gmail.com"])
         viewController.setSubject("Feedback for \(AppInfo.appName ?? "App")")
         viewController.setMessageBody(
             """
