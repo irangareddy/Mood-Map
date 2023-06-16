@@ -6,8 +6,6 @@ Moood Map is an innovative app designed to help you explore and understand your 
 
 ![Moood Map Banner](https://cdn.hashnode.com/res/hashnode/image/upload/v1686819658902/d9019e42-9b31-4550-9ac1-91b91bdb993e.png?w=1600&h=840&fit=crop&crop=entropy&auto=compress,format&format=webp)
 
-If your interested to read more, here is the journey of the app.
-
 If you want to read more, you can check out the app's journey [here](https://irangareddy.hashnode.dev/mood-map-appwrite-hashnode-hackathon). 
 
 ## Key Features
