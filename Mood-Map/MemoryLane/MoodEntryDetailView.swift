@@ -30,33 +30,29 @@ struct MoodEntryDetailView: View {
 
                 }.font(.appTitle2)
 
-
-
                 Text(moodEntry.cardDate)
-                    
 
                 if let notes = moodEntry.notes {
                     Text(notes)
                         .multilineTextAlignment(.leading)
                 }
-                
-                if (moodEntry.imageId != nil) {
+
+                if moodEntry.imageId != nil {
                     if let looadedImage = image {
                         looadedImage
                             .resizable()
                             .scaledToFill()
                             .shadow(radius: 5)
                             .frame(maxWidth: .infinity)
-                            
+
                     }
                     Image("lavendar")
                         .resizable()
                         .frame(maxWidth: .infinity)
                         .redacted(reason: image != nil ? .placeholder : [])
                 }
-                
-                
-                if (moodEntry.voiceNoteId != nil) {
+
+                if moodEntry.voiceNoteId != nil {
                        Text("Listen to Voice Note")
                         .padding()
                         .foregroundColor(.accentColor)
@@ -64,7 +60,6 @@ struct MoodEntryDetailView: View {
                         isPresentingSheet.toggle()
                         }.frame(maxWidth: .infinity, alignment: .center)
                 }
-
 
                 HStack {
                     if let place = moodEntry.place {
@@ -98,8 +93,8 @@ struct MoodEntryDetailView: View {
                 VStack {
                     Text("Tap to analyze your mood notes and get more insights")
                         .font(.appCaption)
-                    LargeButton(title: "Analyze Mood  🚀",disabled: true, foregroundColor: Color.black) {
-                        
+                    LargeButton(title: "Analyze Mood  🚀", disabled: true, foregroundColor: Color.black) {
+
                     }
                     Text("This feature is temporarily disabled.")
                         .font(.appCaption2)
@@ -122,14 +117,14 @@ struct MoodEntryDetailView: View {
                         self.recording = recording
                         debugPrint(recording)
                     }
-                    
+
                 }
             }
             .sheet(isPresented: $isPresentingSheet) {
                 if let recording = recording {
                     MusicControllerView(recording: recording)
                 }
-                
+
         }
 
         }

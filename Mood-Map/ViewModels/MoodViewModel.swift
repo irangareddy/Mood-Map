@@ -23,7 +23,7 @@ class MoodViewModel: BaseViewModel {
     @Published var isImageSaved: Bool?
 
     private var networkManager = NetworkManager.shared
-    
+
     override init() {
         super.init()
         Task { try? await getMoods() }

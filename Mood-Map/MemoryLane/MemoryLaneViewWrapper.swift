@@ -26,18 +26,17 @@ public struct MemoryLaneViewWrapper: View {
                         .frame(width: 100, height: 100)
             }
         }        .onAppear {
-            
+
             DispatchQueue.main.async {
                 Task {
                     do {
                         await  moodVM.getMoods()
                     }
                 }
-               
-                
+
             }
         }
-       
+
     }
 }
 

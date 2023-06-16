@@ -17,7 +17,7 @@ extension MemoryLaneView {
                 .font(.headline)
                 .padding()
 
-            ForEach(Array(scrollMood.moods.enumerated()), id: \.1.id) { index, moodEntry in
+            ForEach(Array(scrollMood.moods.enumerated()), id: \.1.id) { _, moodEntry in
                 Button {
                     withAnimation(.interactiveSpring(response: 0.3, dampingFraction: 0.7, blendDuration: 0.7)) {
                         currentItem = moodEntry

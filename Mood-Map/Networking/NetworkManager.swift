@@ -191,9 +191,9 @@ class NetworkManager {
                     Permission.update(Role.user(userId))
                 ]
             )
-            
+
             dump(response)
-            
+
             if !response.id.isEmpty {
                 let JWT_KEY = try await account.createJWT()
                 let payload = [
@@ -210,8 +210,6 @@ class NetworkManager {
                     await self.executeCloudFuction(of: K.HEATMAP_FUNCTION_ID, payload: jsonPayload)
                 }
             }
-
-    
 
         }
     }
