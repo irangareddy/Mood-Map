@@ -192,7 +192,7 @@ struct MailButton: View {
         .buttonStyle(NavigationButtonStyle())
         .disabled(!MFMailComposeViewController.canSendMail())
         .sheet(isPresented: $isShowingMailView) {
-            //            MailView(result: self.$result)
+                MailView(result: self.$result)
         }
     }
 }

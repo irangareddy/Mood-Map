@@ -50,6 +50,8 @@
 		1D68C1822A37A4F0005B1902 /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D68C1812A37A4F0005B1902 /* SignUpView.swift */; };
 		1D68C1842A37ADFA005B1902 /* ForgotPasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D68C1832A37ADFA005B1902 /* ForgotPasswordView.swift */; };
 		1D6B3E862A36CD1E009476D1 /* CategoryBackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6B3E852A36CD1E009476D1 /* CategoryBackgroundView.swift */; };
+		1D71B2E72A3C1F6A006C5503 /* terms-and-conditions.md in Resources */ = {isa = PBXBuildFile; fileRef = 1D71B2E52A3C1F6A006C5503 /* terms-and-conditions.md */; };
+		1D71B2E82A3C1F6A006C5503 /* privacy-policy.md in Resources */ = {isa = PBXBuildFile; fileRef = 1D71B2E62A3C1F6A006C5503 /* privacy-policy.md */; };
 		1DA7C07B2A24B74700A50A5F /* MoodCheckInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DA7C07A2A24B74700A50A5F /* MoodCheckInView.swift */; };
 		1DA7C0802A24CB7F00A50A5F /* MoodMapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 1DA7C07F2A24CB7F00A50A5F /* MoodMapKit */; };
 		1DA7C0822A24CBCF00A50A5F /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DA7C0812A24CBCF00A50A5F /* HomeView.swift */; };
@@ -165,7 +167,7 @@
 		1D61AC062A2C61BC0033C4FC /* SwiftHeatMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftHeatMap.swift; sourceTree = "<group>"; };
 		1D61AC082A2C98560033C4FC /* ResizableLottieView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResizableLottieView.swift; sourceTree = "<group>"; };
 		1D61AC0A2A2CE9CE0033C4FC /* MoodOverviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoodOverviewView.swift; sourceTree = "<group>"; };
-		1D6206D82A232B140034C0A6 /* Mood-Map.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Mood-Map.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		1D6206D82A232B140034C0A6 /* Moood Map.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Moood Map.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1D6206DB2A232B140034C0A6 /* Mood_MapApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mood_MapApp.swift; sourceTree = "<group>"; };
 		1D6206DD2A232B140034C0A6 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		1D6206DF2A232B150034C0A6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -186,6 +188,8 @@
 		1D68C1812A37A4F0005B1902 /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
 		1D68C1832A37ADFA005B1902 /* ForgotPasswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPasswordView.swift; sourceTree = "<group>"; };
 		1D6B3E852A36CD1E009476D1 /* CategoryBackgroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryBackgroundView.swift; sourceTree = "<group>"; };
+		1D71B2E52A3C1F6A006C5503 /* terms-and-conditions.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = "terms-and-conditions.md"; sourceTree = "<group>"; };
+		1D71B2E62A3C1F6A006C5503 /* privacy-policy.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = "privacy-policy.md"; sourceTree = "<group>"; };
 		1DA7C07A2A24B74700A50A5F /* MoodCheckInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoodCheckInView.swift; sourceTree = "<group>"; };
 		1DA7C07E2A24CA7800A50A5F /* MoodMapKit */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = MoodMapKit; sourceTree = "<group>"; };
 		1DA7C0812A24CBCF00A50A5F /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
@@ -365,6 +369,7 @@
 		1D6206CF2A232B140034C0A6 = {
 			isa = PBXGroup;
 			children = (
+				1D71B2E92A3C1F72006C5503 /* Terms */,
 				1DC460F02A2B9CE5004BF432 /* AnimatedIcons */,
 				1DB7E2822A3A547700EDEF22 /* quotes.json */,
 				1D39F33D2A278EEC00C2AC90 /* placeholder_data.json */,
@@ -382,7 +387,7 @@
 		1D6206D92A232B140034C0A6 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				1D6206D82A232B140034C0A6 /* Mood-Map.app */,
+				1D6206D82A232B140034C0A6 /* Moood Map.app */,
 				1D6206E92A232B150034C0A6 /* Mood-MapTests.xctest */,
 				1D6206F32A232B150034C0A6 /* Mood-MapUITests.xctest */,
 				1DB7E26C2A3A0F8600EDEF22 /* MoodMapWidgetExtension.appex */,
@@ -436,6 +441,15 @@
 				1D6206F92A232B150034C0A6 /* Mood_MapUITestsLaunchTests.swift */,
 			);
 			path = "Mood-MapUITests";
+			sourceTree = "<group>";
+		};
+		1D71B2E92A3C1F72006C5503 /* Terms */ = {
+			isa = PBXGroup;
+			children = (
+				1D71B2E52A3C1F6A006C5503 /* terms-and-conditions.md */,
+				1D71B2E62A3C1F6A006C5503 /* privacy-policy.md */,
+			);
+			path = Terms;
 			sourceTree = "<group>";
 		};
 		1DB7E26F2A3A0F8600EDEF22 /* MoodMapWidget */ = {
@@ -540,7 +554,7 @@
 				1DDF115D2A36349400A6B49E /* Appwrite */,
 			);
 			productName = "Mood-Map";
-			productReference = 1D6206D82A232B140034C0A6 /* Mood-Map.app */;
+			productReference = 1D6206D82A232B140034C0A6 /* Moood Map.app */;
 			productType = "com.apple.product-type.application";
 		};
 		1D6206E82A232B150034C0A6 /* Mood-MapTests */ = {
@@ -652,6 +666,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1D71B2E72A3C1F6A006C5503 /* terms-and-conditions.md in Resources */,
+				1D71B2E82A3C1F6A006C5503 /* privacy-policy.md in Resources */,
 				1D600C212A36129D00084D15 /* location.json in Resources */,
 				1D600C222A36129D00084D15 /* edit.json in Resources */,
 				1D600C232A36129D00084D15 /* sleep.json in Resources */,
@@ -937,6 +953,8 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Mood-Map/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Moood Map";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.healthcare-fitness";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -946,13 +964,13 @@
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphoneos*]" = UIStatusBarStyleDefault;
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 13.3;
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 0.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.irangareddy.Mood-Map";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "Moood Map";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = auto;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
@@ -977,6 +995,8 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Mood-Map/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Moood Map";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.healthcare-fitness";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -986,13 +1006,13 @@
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphoneos*]" = UIStatusBarStyleDefault;
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 13.3;
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 0.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.irangareddy.Mood-Map";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "Moood Map";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = auto;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";

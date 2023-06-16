@@ -17,7 +17,7 @@ public struct LinkButton: View {
     let title: String
 
     /// The destination URL.
-    let url: URL
+    let url: URL?
 
     /// The system image name to be displayed alongside the title.
     let systemImage: String
@@ -28,7 +28,7 @@ public struct LinkButton: View {
     ///   - title: The title of the button.
     ///   - url: The destination URL.
     ///   - systemImage: The system image name to be displayed alongside the title.
-    public init(title: String, url: URL, systemImage: String) {
+    public init(title: String, url: URL? = nil, systemImage: String) {
         self.title = title
         self.url = url
         self.systemImage = systemImage
@@ -36,23 +36,44 @@ public struct LinkButton: View {
 
     /// The body view of the LinkButton.
     public var body: some View {
-        Link(destination: url) {
-            VStack {
-                HStack {
-                    VStack(alignment: .leading, spacing: 0) {
-                        Text(title)
-                            .font(.appHeadline)
+        if let url = url {
+            Link(destination: url) {
+                VStack {
+                    HStack {
+                        VStack(alignment: .leading, spacing: 0) {
+                            Text(title)
+                                .font(.appHeadline)
+                        }
+                        Spacer()
+                        Image(systemName: systemImage)
+                            .font(.body)
+                            .padding(.trailing)
                     }
-                    Spacer()
-                    Image(systemName: systemImage)
-                        .font(.body)
-                        .padding(.trailing)
+                    .foregroundColor(.primary)
+                    .padding(.bottom, 4)
+                    Divider()
                 }
-                .foregroundColor(.primary)
-                .padding(.bottom, 4)
-                Divider()
+                .padding(.horizontal, 8)
             }
-            .padding(.horizontal, 8)
+        } else {
+
+                VStack {
+                    HStack {
+                        VStack(alignment: .leading, spacing: 0) {
+                            Text(title)
+                                .font(.appHeadline)
+                        }
+                        Spacer()
+                        Text(systemImage)
+                            .font(.body)
+                            .padding(.trailing)
+                    }
+                    .foregroundColor(.primary)
+                    .padding(.bottom, 4)
+                    Divider()
+                }
+                .padding(.horizontal, 8)
         }
+
     }
 }

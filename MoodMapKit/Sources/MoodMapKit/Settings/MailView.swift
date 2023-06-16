@@ -10,11 +10,12 @@ import SwiftUI
 #if os(iOS)
 import UIKit
 import MessageUI
+#endif
 
 /// A SwiftUI representation of a mail composer view for sending feedback emails.
 ///
 /// Use `MailView` to present a mail composer view within your SwiftUI app, allowing users to send feedback emails to a specified email address.
-struct MailView: UIViewControllerRepresentable {
+public struct MailView: UIViewControllerRepresentable {
     @Environment(\.presentationMode) var presentation
     @Binding var result: Result<MFMailComposeResult, Error>?
 
@@ -27,16 +28,16 @@ struct MailView: UIViewControllerRepresentable {
     }
 
     /// The coordinator class that handles mail compose events.
-    class Coordinator: NSObject, MFMailComposeViewControllerDelegate {
+    public class Coordinator: NSObject, MFMailComposeViewControllerDelegate {
         @Binding var presentation: PresentationMode
         @Binding var result: Result<MFMailComposeResult, Error>?
 
-        init(presentation: Binding<PresentationMode>, result: Binding<Result<MFMailComposeResult, Error>?>) {
+        public init(presentation: Binding<PresentationMode>, result: Binding<Result<MFMailComposeResult, Error>?>) {
             _presentation = presentation
             _result = result
         }
 
-        func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
+        public func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
             defer {
                 $presentation.wrappedValue.dismiss()
             }
@@ -50,14 +51,14 @@ struct MailView: UIViewControllerRepresentable {
 
     /// Creates a coordinator for the mail view.
     /// - Returns: The created coordinator.
-    func makeCoordinator() -> Coordinator {
+    public func makeCoordinator() -> Coordinator {
         return Coordinator(presentation: presentation, result: $result)
     }
 
     /// Creates the mail composer view controller.
     /// - Parameter context: The context information for creating the view controller.
     /// - Returns: The created mail composer view controller.
-    func makeUIViewController(context: UIViewControllerRepresentableContext<MailView>) -> MFMailComposeViewController {
+    public func makeUIViewController(context: UIViewControllerRepresentableContext<MailView>) -> MFMailComposeViewController {
         let viewController = MFMailComposeViewController()
         viewController.mailComposeDelegate = context.coordinator
         viewController.setToRecipients(["sairangareddy22@gmail.com"])
@@ -82,19 +83,28 @@ struct MailView: UIViewControllerRepresentable {
     }
 
     /// Updates the mail composer view controller.
-    func updateUIViewController(_ uiViewController: MFMailComposeViewController, context: UIViewControllerRepresentableContext<MailView>) {
+    public func updateUIViewController(_ uiViewController: MFMailComposeViewController, context: UIViewControllerRepresentableContext<MailView>) {
+    }
+
+    /// Initializes a new instance of the mail view.
+    /// - Parameter result: Binding to a result that represents the outcome of the mail composition.
+    public init(result: Binding<Result<MFMailComposeResult, Error>?>) {
+        _result = result
     }
 }
 
 /// A struct that provides information about the app.
-struct AppInfo {
+public struct AppInfo {
     /// The name of the app.
-    static var appName: String? {
-        return Bundle.main.infoDictionary?["CFBundleDisplayName"] as? String
+    public static var appName: String? {
+        guard let appName = Bundle.main.infoDictionary?["CFBundleDisplayName"] as? String else {
+            return "Moood Map"
+        }
+        return appName
     }
 
     /// The version of the app.
-    static var appVersion: String {
+    public static var appVersion: String {
         guard let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String else {
             return "Unknown"
         }
@@ -102,11 +112,10 @@ struct AppInfo {
     }
 
     /// The build number of the app.
-    static var buildNumber: String {
+    public static var buildNumber: String {
         guard let buildNumber = Bundle.main.infoDictionary?["CFBundleVersion"] as? String else {
             return "Unknown"
         }
         return buildNumber
     }
 }
-#endif

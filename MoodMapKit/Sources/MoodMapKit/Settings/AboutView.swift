@@ -18,11 +18,14 @@ public struct AboutView: View {
 
     public var body: some View {
         VStack(spacing: 16) {
-            LinkButton(title: "Learn More", url: URL(string: "https://your-learn-more-url.com")!, systemImage: "arrow.up.right.square")
+            LinkButton(title: "Learn More", url: URL(string: "https://irangareddy.hashnode.dev/mood-map-appwrite-hashnode-hackathon")!, systemImage: "arrow.up.right.square")
 
-            LinkButton(title: "Terms of Service", url: URL(string: "https://your-terms-of-service-url.com")!, systemImage: "doc.text")
+            LinkButton(title: "Terms of Service", url: URL(string: "https://github.com/irangareddy/Mood-Map/blob/develop/Terms/terms-and-conditions.md")!, systemImage: "doc.text")
 
-            LinkButton(title: "Privacy Policy", url: URL(string: "https://your-privacy-policy-url.com")!, systemImage: "shield")
+            LinkButton(title: "Privacy Policy", url: URL(string: "https://github.com/irangareddy/Mood-Map/blob/develop/Terms/privacy-policy.md")!, systemImage: "shield")
+
+            LinkButton(title: "Version", systemImage: AppInfo.appVersion)
+            LinkButton(title: "Build Number", systemImage: AppInfo.buildNumber)
 
             Spacer()
         }
