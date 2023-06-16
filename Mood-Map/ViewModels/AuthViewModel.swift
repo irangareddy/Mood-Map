@@ -89,7 +89,12 @@ class AuthViewModel: BaseViewModel {
                 try await networkManager.createAccount(name: name, email: email, password: password)
                 validateCurrentSession()
             } catch {
-                handleAppError(error)
+                // FIXME: LATER
+                if error.localizedDescription.contains("role") {
+                    handleAppError(AppError.accountCreated)
+                } else {
+                    handleAppError(error)
+                }
             }
         }
         updateLoading(false)
@@ -147,6 +152,7 @@ class AuthViewModel: BaseViewModel {
 }
 
 enum AppError: LocalizedError {
+    case accountCreated
     case missingName
     case invalidEmail
     case networkError
@@ -158,6 +164,8 @@ enum AppError: LocalizedError {
 
     var errorDescription: String? {
         switch self {
+        case .accountCreated:
+            return "No Error: Your account created successfully. Please SignIn."
         case .missingName:
             return "Name is a required field."
         case .invalidEmail:
