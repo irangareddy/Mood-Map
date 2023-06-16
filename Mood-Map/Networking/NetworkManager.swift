@@ -203,7 +203,7 @@ class NetworkManager {
 
                 if let jsonPayload = convertToJsonString(payload: payload) {
                     debugPrint("Sending payload \(jsonPayload)")
-                    await self.executeCloudFuction(of: K.HEATMAP_FUNCTION_ID, payload: jsonPayload)
+                    try await self.executeCloudFuction(of: K.HEATMAP_FUNCTION_ID, payload: jsonPayload)
                 }
             }
 

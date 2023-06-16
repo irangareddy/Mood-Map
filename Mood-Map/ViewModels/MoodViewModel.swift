@@ -160,7 +160,7 @@ class MoodViewModel: BaseViewModel {
         }
 
         do {
-            let response = await networkManager.saveAudio(fileData)
+            let response = try await networkManager.saveAudio(fileData)
             DispatchQueue.main.async { [self] in
                 isAudioSaved = true
             }
