@@ -27,18 +27,7 @@ extension MemoryLaneView {
 
                     MoodEntryCardContentView(moodEntry: moodEntry.data)
                         .padding(.horizontal)
-                        .overlay(
-                            // Add vertical divider if it's not the last card
-                            index != scrollMood.moods.count - 1 ? AnyView(
-                                HStack {
-                                    Spacer()
-                                    RoundedRectangle(cornerRadius: 2, style: .continuous)
-                                        .frame(width: 4, height: 16)
-                                        .foregroundColor(.secondary)
-                                    Spacer()
-                                }
-                            ) : AnyView(EmptyView())
-                        )
+                        .padding(.vertical, 2)
 
                 }.buttonStyle(ScaledButtonStyle())
 

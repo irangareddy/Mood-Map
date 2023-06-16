@@ -18,14 +18,13 @@ public struct MemoryLaneView: View {
     @State var offsetY: CGFloat = 0
     @State var timeOut = 0.3
     @State var currentMoodEntry: ScrollMood = ScrollMood(id: UUID(), date: Date(), moods: [], index: 0)
-    @State var groupedMoodEntries: [ScrollMood]  // Declare as @State
+    @State var groupedMoodEntries: [ScrollMood] = []
     @State var currentActiveIndex: Int = 0
     @State var currentItem: AppwriteModels.Document<MoodEntry>?
     @State var showDetail = false
 
     public init(moodEntries: Binding<[AppwriteModels.Document<MoodEntry>]>) {
         _moodEntries = moodEntries
-        _groupedMoodEntries = State(initialValue: [])
     }
 
     public var body: some View {
@@ -34,7 +33,6 @@ public struct MemoryLaneView: View {
                 ScrollView(.vertical, showsIndicators: false) {
                     VStack {
                         ForEach(groupedMoodEntries) { scrollMood in
-
                             MoodEntryCardView(scrollMood: scrollMood)
                                 .id(scrollMood.id)
                                 .onAppear {
@@ -45,7 +43,6 @@ public struct MemoryLaneView: View {
                                         }
                                     }
                                 }
-
                         }
                     }
                     .padding(.top, 15)
@@ -55,9 +52,9 @@ public struct MemoryLaneView: View {
                     Task {
                         do {
                             await moodViewModel.getMoods()
+                            updateGroupedMoodEntries()
                         }
                     }
-                    
                 })
                 .onChange(of: currentActiveIndex) { newValue in
                     withAnimation(.easeInOut(duration: 0.15)) {
@@ -67,34 +64,46 @@ public struct MemoryLaneView: View {
                 .sheet(isPresented: $showDetail, content: {
                     if let entry = currentItem?.data {
                         MoodEntryDetailView(moodEntry: entry)
-         
                     }
-
                 })
-            }.navigationTitle("Memory Lane")
+            }
+            .navigationTitle("Memory Lane")
         }
         .overlay(alignment: .trailing) {
             VStack(alignment: .trailing) {
                 Text("2023")
                     .font(.caption)
-                    .padding(2)
+                    .padding(.trailing, 4)
                 CustomScroller()
-
-            } .padding(.top, 35)
-        }
-
-        .onAppear {
-            DispatchQueue.main.async { [self] in
-                moodViewModel.isLoading = true
-                updateGroupedMoodEntries()
-                moodViewModel.isLoading = false
             }
-
+            .padding(.top, 35)
+        }
+        .onAppear {
+            if groupedMoodEntries.isEmpty { // Check if grouped entries are already available
+                DispatchQueue.main.async {
+                    moodViewModel.updateLoading(true)
+                }
+            }
+            DispatchQueue.global(qos: .userInitiated).async { [self] in
+                // Generate grouped entries only if they are not already available
+                if groupedMoodEntries.isEmpty {
+                    updateGroupedMoodEntries()
+                }
+                DispatchQueue.main.async {
+                    moodViewModel.updateLoading(false)
+                }
+            }
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) {
                 dateElevation()
             }
         }
-
+        .overlay(
+            Group {
+                if moodViewModel.isLoading {
+                    ProgressView() // Show the progress view while loading
+                }
+            }
+        )
     }
 
     private func updateGroupedMoodEntries() {
