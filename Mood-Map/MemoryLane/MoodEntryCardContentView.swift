@@ -60,9 +60,6 @@ struct MoodEntryCardContentView: View {
             .background(.ultraThinMaterial)
             .background(getMoodCategoryColorMine(for: MoodCategory(rawValue: (moodEntry.moods.first?.toMood()?.category)!.rawValue) ?? .lowEnergyPleasant))                .cornerRadius(10)
             .shadow(radius: 5)
-            .onAppear(perform: {
-                debugPrint(moodEntry)
-            })
         }
         .redacted(reason: moodEntry.moods.first == nil ? .placeholder : [])
     }

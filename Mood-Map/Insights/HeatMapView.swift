@@ -86,7 +86,6 @@ extension HeatMapView {
                                     .gesture(
                                         DragGesture()
                                             .updating($dragState) { value, dragState, _ in
-                                                debugPrint(value)
                                                 dragState = value.translation
                                             }
                                             .onEnded { value in

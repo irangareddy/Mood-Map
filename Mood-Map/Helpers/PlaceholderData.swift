@@ -14,13 +14,12 @@ class PlaceholderData: ObservableObject {
 
     init() {
         loadPlaceholderData()
-        print("Loading")
     }
 
     func loadPlaceholderData() {
         guard let url = Bundle.main.url(forResource: "placeholder_data", withExtension: "json"),
               let data = try? Data(contentsOf: url) else {
-            print("Failed to load data from JSON file")
+            debugPrint("Failed to load data from JSON file")
             return
         }
 
@@ -30,9 +29,8 @@ class PlaceholderData: ObservableObject {
         do {
             let moodEntries = try decoder.decode([MoodEntry].self, from: data)
             self.moodEntries = moodEntries.reversed()
-            print("Loaded placeholder data successfully.")
         } catch {
-            print("Error decoding placeholder data: \(error)")
+            debugPrint("Error decoding placeholder data: \(error)")
         }
     }
 

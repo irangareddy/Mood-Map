@@ -285,7 +285,7 @@ public struct ScatterPlotView: View {
 
         }.onAppear(perform: {
             moodEntries = placeholder.moodEntries
-            print(moodEntries.count)
+            debugPrint(moodEntries.count)
             exerciseHours = MoodInsights.getExerciseHours(from: moodEntries)
             sleepHours = MoodInsights.getExerciseHours(from: moodEntries)
         })
@@ -431,7 +431,7 @@ struct ModalSheetView: View {
             }.padding(.horizontal)
             //                .navigationBarTitle(Text("Understanding Mood Map"), displayMode: .inline)
             .navigationBarItems(trailing: Button(action: {
-                print("Dismissing sheet view...")
+                debugPrint("Dismissing sheet view...")
                 self.showSheetView = false
             }) {
                 Text("Done").font(.appBody)

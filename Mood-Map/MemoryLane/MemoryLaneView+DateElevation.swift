@@ -25,7 +25,7 @@ extension MemoryLaneView {
                 groupedMoodEntries[index].pushOffset = -35
                 groupedMoodEntries[index].isCurrent = true
                 currentActiveIndex = index
-                print("🙈 Current Active Index: \(currentActiveIndex)")
+                debugPrint("🙈 Current Active Index: \(currentActiveIndex)")
 
             } else {
                 groupedMoodEntries[index].pushOffset = 0

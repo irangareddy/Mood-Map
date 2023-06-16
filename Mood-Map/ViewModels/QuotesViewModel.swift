@@ -28,7 +28,7 @@ class QuotesViewModel: ObservableObject {
                 let decoder = JSONDecoder()
                 self.quotes = try decoder.decode([Quote].self, from: quotesData)
             } catch {
-                print("Error loading quotes: \(error.localizedDescription)")
+                debugPrint("Error loading quotes: \(error.localizedDescription)")
             }
         }
     }

@@ -34,7 +34,6 @@ public struct HeatMapGrid {
 }
 
 public func generateHeatMapGrid(from heatmapData: [String: Int]) -> HeatMapGrid? {
-    print("🚀 GOT \(heatmapData)")
     // Create a DateFormatter with ISO 8601 format
     let dateFormatter = DateFormatter()
     dateFormatter.dateFormat = "yyyy-MM-dd"
@@ -75,12 +74,12 @@ public func generateHeatMapGrid(from heatmapData: [String: Int]) -> HeatMapGrid?
     // Create the HeatMapGrid instance
     let grid = HeatMapGrid(rows: rowCount, columns: columnCount, data: data)
 
-    // Debug statements
-    print("Generated HeatMapGrid:")
-    print("Rows: \(grid.rows), Columns: \(grid.columns)")
-    for row in grid.data {
-        print(row)
-    }
+//    // Debug statements
+//    debugPrint("Generated HeatMapGrid:")
+//    debugPrint("Rows: \(grid.rows), Columns: \(grid.columns)")
+//    for row in grid.data {
+//        debugPrint(row)
+//    }
 
     return grid
 }

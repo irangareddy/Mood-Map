@@ -27,7 +27,7 @@ struct AudioContentView: View {
 
                     WaveAnimationButton(isRecording: $isRecording, action: {
                         // Perform your action here
-                        print("Button tapped")
+                        debugPrint("Button tapped")
                         if self.recorder.recording == false {
                             self.recorder.startRecording()
                         } else {
@@ -35,7 +35,7 @@ struct AudioContentView: View {
                                 do {
 
                                     let url = try await self.recorder.stopRecording()
-                                    print("Saving ID \(url)")
+                                    debugPrint("Saving ID \(url)")
 
                                     Task {
                                         do {
@@ -47,7 +47,7 @@ struct AudioContentView: View {
                                     // Perform any additional tasks or operations after the response is sent
 
                                 } catch {
-                                    print("Error stopping recording: \(error)")
+                                    debugPrint("Error stopping recording: \(error)")
                                 }
                             }
 
@@ -58,7 +58,7 @@ struct AudioContentView: View {
                         if let serverRecording = viewModel.recording {
                             self.currentRecording = viewModel.recording
                             self.isPlaying = true
-                            print(serverRecording.location?.path)
+                            debugPrint(serverRecording.location?.path)
                         }
                     }) {
                         Text("Play")
@@ -68,7 +68,7 @@ struct AudioContentView: View {
                         if let id = voiceNoteIdentifier {
                             Task {
                                 await viewModel.getVoiceNote(of: id)
-                                print("Getting Vocice")
+                                debugPrint("Getting Vocice")
                             }
                         }
 
@@ -84,7 +84,7 @@ struct AudioContentView: View {
 //                                Button(action: {
 //                                    self.currentRecording = recording
 //                                    self.isPlaying = true
-//                                    print(recording.location?.path)
+//                                    debugPrint(recording.location?.path)
 //                                }) {
 //                                    VStack(alignment: .leading) {
 //                                        Text(recording.name)
@@ -228,17 +228,17 @@ class AudioRecorder: ObservableObject {
             audioRecorder?.record()
             recording = true
         } catch {
-            print("Error starting recording: \(error.localizedDescription)")
+            debugPrint("Error starting recording: \(error.localizedDescription)")
         }
     }
 
     func stopRecording() async -> URL? {
         audioRecorder?.stop()
         recording = false
-        print("Stopped Recording")
+        debugPrint("Stopped Recording")
 
         if let audioURL = audioURL {
-            print("Saving Recording")
+            debugPrint("Saving Recording")
 
             let response = await saveRecording(at: audioURL)
             return response
@@ -265,9 +265,9 @@ class AudioRecorder: ObservableObject {
     //
     //        do {
     //            try fileManager.moveItem(at: url, to: destinationURL)
-    //            print("Recording saved successfully.")
+    //            debugPrint("Recording saved successfully.")
     //        } catch {
-    //            print("Error saving recording: \(error.localizedDescription)")
+    //            debugPrint("Error saving recording: \(error.localizedDescription)")
     //        }
     //
     //        loadRecordings()
@@ -278,9 +278,9 @@ class AudioRecorder: ObservableObject {
     //
     //        do {
     //            try fileManager.removeItem(at: url)
-    //            print("Recording deleted successfully.")
+    //            debugPrint("Recording deleted successfully.")
     //        } catch {
-    //            print("Error deleting recording: \(error.localizedDescription)")
+    //            debugPrint("Error deleting recording: \(error.localizedDescription)")
     //        }
     //
     //        loadRecordings()
@@ -295,13 +295,13 @@ class AudioRecorder: ObservableObject {
 
         do {
             try fileManager.moveItem(at: url, to: destinationURL)
-            print("Local Recording saved successfully.")
+            debugPrint("Local Recording saved successfully.")
 
             // Save audio recording to the server
             return destinationURL
 
         } catch {
-            print("Error saving recording: \(error.localizedDescription)")
+            debugPrint("Error saving recording: \(error.localizedDescription)")
         }
 
         loadRecordings()
@@ -313,9 +313,9 @@ class AudioRecorder: ObservableObject {
 
         do {
             try fileManager.removeItem(at: url)
-            print("Recording deleted successfully.")
+            debugPrint("Recording deleted successfully.")
         } catch {
-            print("Error deleting recording: \(error.localizedDescription)")
+            debugPrint("Error deleting recording: \(error.localizedDescription)")
         }
 
         loadRecordings()
@@ -329,7 +329,7 @@ class AudioRecorder: ObservableObject {
             let urls = try fileManager.contentsOfDirectory(at: documentsDirectory, includingPropertiesForKeys: nil, options: .skipsHiddenFiles)
             recordings = urls.filter { $0.pathExtension == "wav" }.map { Recording(name: $0.lastPathComponent, location: $0) }
         } catch {
-            print("Error loading recordings: \(error.localizedDescription)")
+            debugPrint("Error loading recordings: \(error.localizedDescription)")
         }
     }
 }

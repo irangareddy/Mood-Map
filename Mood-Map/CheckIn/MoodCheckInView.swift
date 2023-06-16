@@ -82,7 +82,7 @@ struct MoodCheckInView: View {
             }
             .onReceive(moodVM.$appError) { error in
                 if let localizedError = error {
-                    print("\(localizedError) from the view")
+                    debugPrint("\(localizedError) from the view")
                     errorHandling.handle(error: localizedError)
                 }
             }
@@ -109,7 +109,7 @@ struct MoodCheckInView: View {
 
     private func createEntry() {
         guard let selectedMood = selectedMood else {
-            print("No selected mood")
+            debugPrint("No selected mood")
             return
         }
 

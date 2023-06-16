@@ -115,12 +115,12 @@ extension String {
         }
 
         do {
-            print(jsonData)
+            debugPrint(jsonData)
             let decoder = JSONDecoder()
             let decodedObject = try decoder.decode(T.self, from: jsonData)
             return decodedObject
         } catch {
-            print("Failed to decode JSON: \(error)")
+            debugPrint("Failed to decode JSON: \(error)")
             return nil
         }
     }

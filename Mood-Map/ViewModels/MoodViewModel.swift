@@ -42,7 +42,7 @@ class MoodViewModel: BaseViewModel {
 //                if error as! UserDefaultsError {
                     await authVM.logout()
 //                }
-                print("Got error here \(dump(error))")
+                debugPrint("Got error here \(dump(error))")
                 handleAppError(error)
             }
 
@@ -94,8 +94,8 @@ class MoodViewModel: BaseViewModel {
                 let fileExtension = processedImage.extension
 
                 // Process the image data and file extension as needed
-                print("Processed image data size: \(Double(imageData.count) / (1024 * 1024)) MB")
-                print("File extension: \(fileExtension.rawValue) mimetype: image/\(fileExtension.rawValue) ")
+                debugPrint("Processed image data size: \(Double(imageData.count) / (1024 * 1024)) MB")
+                debugPrint("File extension: \(fileExtension.rawValue) mimetype: image/\(fileExtension.rawValue) ")
                 do {
                     let response = try await networkManager.saveImageInStorage(imageData, fileName: "football.\(fileExtension.rawValue)", mime: "\(fileExtension.rawValue)")
                     DispatchQueue.main.async { [self] in
@@ -108,11 +108,11 @@ class MoodViewModel: BaseViewModel {
 
             } else {
                 // Failed to process the image
-                print("Failed to convert image to data")
+                debugPrint("Failed to convert image to data")
             }
         } else {
             // Failed to load the image
-            print("Failed to load the image")
+            debugPrint("Failed to load the image")
         }
         return nil
     }
@@ -126,7 +126,7 @@ class MoodViewModel: BaseViewModel {
                 return image
             }
         } catch {
-            print("On get Image")
+            debugPrint("On get Image")
         }
         return nil
     }
@@ -140,7 +140,7 @@ class MoodViewModel: BaseViewModel {
                 return recording
             }
         } catch {
-            print("On get Image")
+            debugPrint("On get Image")
         }
         return nil
     }
@@ -154,7 +154,7 @@ class MoodViewModel: BaseViewModel {
         do {
             fileData = try Data(contentsOf: fileURL)
         } catch {
-            print("Error reading file data: \(error.localizedDescription)")
+            debugPrint("Error reading file data: \(error.localizedDescription)")
             handleAppError(error)
             return nil
         }
@@ -213,10 +213,10 @@ func saveResponseToJSON(response: String, fileName: String) {
         if let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first {
             let fileURL = documentsDirectory.appendingPathComponent(fileName)
             try data?.write(to: fileURL)
-            print("Response saved to file: \(fileURL.absoluteString)")
+            debugPrint("Response saved to file: \(fileURL.absoluteString)")
         }
     } catch {
-        print("Error saving response to JSON file: \(error.localizedDescription)")
+        debugPrint("Error saving response to JSON file: \(error.localizedDescription)")
     }
 }
 
@@ -227,14 +227,14 @@ enum FileExtension: String {
 
 func processImage(image: UIImage, maxSizeInMB: Double) -> (data: Data, extension: FileExtension)? {
     guard let imageData = image.pngData() else {
-        print("Failed to convert image to data")
+        debugPrint("Failed to convert image to data")
         return nil
     }
 
     let fileSize = Double(imageData.count) / (1024 * 1024) // Convert to MB
 
     guard fileSize > maxSizeInMB else {
-        print("Image size is within the limit")
+        debugPrint("Image size is within the limit")
         return (data: imageData, extension: .png)
     }
 
@@ -242,11 +242,11 @@ func processImage(image: UIImage, maxSizeInMB: Double) -> (data: Data, extension
     let scale: CGFloat = CGFloat(maxSizeInMB / fileSize)
     guard let resizedImage = image.resized(to: CGSize(width: image.size.width * scale, height: image.size.height * scale)),
           let resizedImageData = resizedImage.jpegData(compressionQuality: 0.8) else {
-        print("Failed to resize image")
+        debugPrint("Failed to resize image")
         return nil
     }
 
-    print("Image was scaled down to fit the size limit")
+    debugPrint("Image was scaled down to fit the size limit")
     return (data: resizedImageData, extension: .jpeg)
 }
 
@@ -270,22 +270,22 @@ extension UIImage {
 //            } catch let error as DecodingError {
 //                switch error {
 //                case .typeMismatch(let key, let value):
-//                    print("\n---> typeMismatch key: \(key)  value: \(value)")
+//                    debugPrint("\n---> typeMismatch key: \(key)  value: \(value)")
 //                case .valueNotFound(let key, let value):
-//                    print("\n---> valueNotFound key: \(key)  value: \(value)")
+//                    debugPrint("\n---> valueNotFound key: \(key)  value: \(value)")
 //                case .keyNotFound(let key, let value):
-//                    print("\n---> keyNotFound key: \(key)  value: \(value)")
+//                    debugPrint("\n---> keyNotFound key: \(key)  value: \(value)")
 //                case .dataCorrupted(let key):
-//                    print("\n---> dataCorrupted key: \(key)")
+//                    debugPrint("\n---> dataCorrupted key: \(key)")
 //                @unknown default:
-//                    print("\n---> default error: \(error.localizedDescription)")
+//                    debugPrint("\n---> default error: \(error.localizedDescription)")
 //                }
 //
 //                // Handle decoding error
 //                self.error = NetworkError.decodingError
 //                isLoading = false // Set isLoading to false in case of an error
 //            } catch {
-//                print("Decoding error: \(error)")
+//                debugPrint("Decoding error: \(error)")
 //                // Handle decoding error
 //                self.error = NetworkError.decodingError
 //                isLoading = false // Set isLoading to false in case of an error

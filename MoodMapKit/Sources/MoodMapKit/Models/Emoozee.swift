@@ -42,7 +42,7 @@ public class Emoozee: ObservableObject {
             moodData = try decoder.decode(MoodData.self, from: data)
         } catch {
             // Handle any errors here
-            print("Failed to load mood data:", error)
+            debugPrint("Failed to load mood data:", error)
         }
     }
 

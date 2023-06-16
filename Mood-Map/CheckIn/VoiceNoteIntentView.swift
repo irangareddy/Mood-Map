@@ -45,7 +45,7 @@ class MusicPlayer: NSObject, ObservableObject, AVAudioPlayerDelegate {
             isPlaying = true
             startTimer()
         } catch {
-            print("Failed to play music: \(error)")
+            debugPrint("Failed to play music: \(error)")
         }
     }
 

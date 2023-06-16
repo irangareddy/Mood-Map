@@ -115,7 +115,6 @@ struct MoodEntryDetailView: View {
                     if let voiceNote =  moodEntry.voiceNoteId {
                         let recording = await moodViewModel.getVoiceNote(of: voiceNote)
                         self.recording = recording
-                        debugPrint(recording)
                     }
 
                 }

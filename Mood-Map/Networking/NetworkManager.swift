@@ -138,9 +138,6 @@ class NetworkManager {
             let session = try await account.getSession(sessionId: "current") as AppwriteModels.Session
 
             if let (sessionId, userId) = getSessionInfo() {
-                // Use sessionId and userId variables here
-                print("Session ID: \(sessionId)")
-                print("User ID: \(userId)")
 
                 if sessionId != session.id || userId != session.userId {
                     // Wipe session information if sessionId and userId do not match the condition
@@ -149,7 +146,6 @@ class NetworkManager {
             }
             UserDefaults.standard.set(session.userId, for: .userId)
             UserDefaults.standard.set(session.id, for: .sessionId)
-            debugPrint("Created a new Session")
 
             return true
         } catch {
@@ -244,13 +240,13 @@ class NetworkManager {
                 documentId: documentId
             )
         } catch {
-            print("error from here \(dump(error))")
+            throw error
         }
     }
 
     // MARK: - Cloud Functions Executions
 
-    func executeCloudFuction(of id: String, payload: String) async {
+    func executeCloudFuction(of id: String, payload: String) async throws {
         do {
             let execution = try await functions.createExecution(
                 functionId: id,
@@ -259,7 +255,8 @@ class NetworkManager {
             )
             dump(execution)
         } catch {
-            print("error from cloud function \(id) \(dump(error))")
+            debugPrint("error from cloud function \(id) \(dump(error))")
+            throw error
         }
 
     }
@@ -279,21 +276,17 @@ class NetworkManager {
                 fileId: ID.unique(),
                 file: file,
                 onProgress: { progress in
-                    print("Upload Progress: \(progress) / \(progress)")
+                    debugPrint("Upload Progress: \(progress) / \(progress)")
                 }
             )
-            print("Image stored successfully!")
-            print("File ID: \(file.id)")
-            print("File URL: \(file.mimeType)")
-            print("File Details: \(dump(file))")
             return file
         } catch {
-            print("Error while uploading file: \(error)")
+            debugPrint("Error while uploading file: \(error)")
             throw error
         }
     }
 
-    func saveAudio(_ fileData: Data) async -> String? {
+    func saveAudio(_ fileData: Data) async throws -> String? {
         let id = ID.unique()
         let file = InputFile.fromData(
             fileData,
@@ -307,12 +300,13 @@ class NetworkManager {
                 fileId: id,
                 file: file,
                 onProgress: { progress in
-                    print("Upload Progress: \(progress) / \(progress)")
+                    debugPrint("Upload Progress: \(progress) / \(progress)")
                 }
             )
             return file.id
         } catch {
-            print("Error while uploading file: \(error)")
+            debugPrint("Error while uploading file: \(error)")
+            throw error
         }
         return nil
     }
@@ -322,7 +316,7 @@ class NetworkManager {
             let response = try await storage.listFiles(bucketId: "647751475c51d1e48b5d")
             dump(response)
         } catch {
-            print("Listing files in bucket")
+            debugPrint("Listing files in bucket")
         }
 
     }
@@ -337,7 +331,7 @@ class NetworkManager {
             return response
 
         } catch {
-            print("On networking \(fileId)")
+            debugPrint("On networking \(fileId)")
         }
         return nil
     }
@@ -352,7 +346,7 @@ class NetworkManager {
             return response
 
         } catch {
-            print("On networking \(fileId) \(error)")
+            debugPrint("On networking \(fileId) \(error)")
         }
         return nil
     }
@@ -386,7 +380,7 @@ func convertToJsonString(payload: Any) -> String? {
         let jsonString = String(data: jsonData, encoding: .utf8)
         return jsonString
     } catch {
-        print("Error serializing payload: \(error)")
+        debugPrint("Error serializing payload: \(error)")
         return nil
     }
 }

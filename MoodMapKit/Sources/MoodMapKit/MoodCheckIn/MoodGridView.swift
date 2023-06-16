@@ -184,7 +184,6 @@ public struct MoodGridView: View {
 
                 }
                 Button {
-                    print("Tapped")
                     presentationMode.wrappedValue.dismiss()
                 } label: {
                     Image(systemName: "xmark")
@@ -210,7 +209,6 @@ public struct MoodGridView: View {
                             }.padding(.leading, 8)
                             Spacer()
                             Button {
-                                print("Tapped")
                                 circleTappedAction()
                             } label: {
                                 Circle()

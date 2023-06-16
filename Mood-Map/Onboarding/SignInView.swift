@@ -119,7 +119,7 @@ struct SignInView: View {
         do {
             try await authVM.login(email: email.lowercased(), password: password)
         } catch {
-            debugPrint("From the login screen \(error)")
+            errorHandling.handle(error: error)
         }
     }
 
