@@ -490,18 +490,7 @@ struct FloatingButton: View {
     var body: some View {
         ZStack {
             HStack {
-                Button(action: action) {
-                    Text("Save")
-                        .font(.appCallout)
-                        .fontWeight(.bold)
-                        .foregroundColor(.white)
-                        .frame(width: 300, height: 60)
-                        .background(Color.red)
-                        .cornerRadius(30)
-                        .shadow(radius: 10)
-                        .padding()
-                }
-
+                LargeButton(title: "Save", action: action)
             }
         }
     }
