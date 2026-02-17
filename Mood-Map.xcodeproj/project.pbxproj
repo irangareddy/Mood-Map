@@ -18,6 +18,7 @@
 		1D199B602A356F31009F6EB1 /* microphone-recording.json in Resources */ = {isa = PBXBuildFile; fileRef = 1DC460F22A2B9D23004BF432 /* microphone-recording.json */; };
 		1D39F33C2A278D8C00C2AC90 /* PlaceholderData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D39F33B2A278D8C00C2AC90 /* PlaceholderData.swift */; };
 		1D39F33E2A278EEC00C2AC90 /* placeholder_data.json in Resources */ = {isa = PBXBuildFile; fileRef = 1D39F33D2A278EEC00C2AC90 /* placeholder_data.json */; };
+		1D4E67712F452E2400628983 /* VISION.md in Resources */ = {isa = PBXBuildFile; fileRef = 1D4E67702F452E2400628983 /* VISION.md */; };
 		1D5B94332A26096200CB7039 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D5B94322A26096200CB7039 /* SettingsView.swift */; };
 		1D600C0F2A357F8500084D15 /* speaker.json in Resources */ = {isa = PBXBuildFile; fileRef = 1D600C0E2A357F8500084D15 /* speaker.json */; };
 		1D600C132A35D46200084D15 /* NavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D600C122A35D46200084D15 /* NavigationController.swift */; };
@@ -151,6 +152,7 @@
 		1D0D1B462A2ECFBA0086BED8 /* ScatterPlotView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScatterPlotView.swift; sourceTree = "<group>"; };
 		1D39F33B2A278D8C00C2AC90 /* PlaceholderData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceholderData.swift; sourceTree = "<group>"; };
 		1D39F33D2A278EEC00C2AC90 /* placeholder_data.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = placeholder_data.json; sourceTree = "<group>"; };
+		1D4E67702F452E2400628983 /* VISION.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = VISION.md; sourceTree = "<group>"; };
 		1D55AE192A23C010008DEDB8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		1D5B94322A26096200CB7039 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		1D600C0E2A357F8500084D15 /* speaker.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = speaker.json; sourceTree = "<group>"; };
@@ -381,6 +383,7 @@
 				1DB7E26F2A3A0F8600EDEF22 /* MoodMapWidget */,
 				1D6206D92A232B140034C0A6 /* Products */,
 				1D55AE182A23C00B008DEDB8 /* Frameworks */,
+				1D4E67702F452E2400628983 /* VISION.md */,
 			);
 			sourceTree = "<group>";
 		};
@@ -677,6 +680,7 @@
 				1D600C192A360FD100084D15 /* camera.json in Resources */,
 				1D600C0F2A357F8500084D15 /* speaker.json in Resources */,
 				1D199B602A356F31009F6EB1 /* microphone-recording.json in Resources */,
+				1D4E67712F452E2400628983 /* VISION.md in Resources */,
 				1DC461032A2B9D23004BF432 /* chart.json in Resources */,
 				1D6206E42A232B150034C0A6 /* Preview Assets.xcassets in Resources */,
 				1DC461022A2B9D23004BF432 /* spa-flower.json in Resources */,
